@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.7750550c0319f5de56d916b91e642bf72a5bd09ee50b201dc2ed9db69d6177a8.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">4ym3n - Rev/gateway</title>
+<meta property="og:title" content=4ym3n&#32;-&#32;Rev/gateway />
+<meta name="twitter:title" content=4ym3n&#32;-&#32;Rev/gateway />
+<meta itemprop="name" content=4ym3n&#32;-&#32;Rev/gateway />
+<meta name="application-name" content=4ym3n&#32;-&#32;Rev/gateway />
+<meta property="og:site_name" content="" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="//localhost:1313/posts/apocalypse-htb/gateway/" />
+<link rel="canonical" href="//localhost:1313/posts/apocalypse-htb/gateway/" itemprop="url" />
+<meta name="url" content="//localhost:1313/posts/apocalypse-htb/gateway/" />
+<meta name="twitter:url" content="//localhost:1313/posts/apocalypse-htb/gateway/" />
+<meta property="og:url" content="//localhost:1313/posts/apocalypse-htb/gateway/" />
+
+
+<meta property="og:updated_time" content="2025-06-17T19:41:23&#43;01:00" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='//localhost:1313/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@ayme1n_dr" />
+    <meta name="twitter:creator" content="@ayme1n_dr" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.147.8">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.1c6f56a6497e1d68469eb2a7efcf2b145601a94408f411014a7af5ffc3a73522.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5A5A5A;
+        --link-color: #268BD2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #FFF;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #EEE;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9D9D9D;
+        --link-color: #268BD2;
+        --date-color: #9A9A9A;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #FFF;
+        --code-background-color: #515151;
+        --code-block-color: #FFF;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="//localhost:1313/">
+                <img src="/images/test.jpeg" alt="brand image">
+            </a>
+        
+        
+            <a href="//localhost:1313/">
+                <h1>4ym3n</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    I'm Aymen, a CTF player and reverse engineering enthusiast. I explore low-level systems, break binaries, and build secure applications.
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                        <li class="sub-heading">
+                            Recent
+                        </li>
+                        
+                            <li class="bullet">
+                                <a href="//localhost:1313/posts/tamu2025/brainrot/">brainrot</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="//localhost:1313/posts/tamu2025/otp/">otp</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="//localhost:1313/posts/tamu2025/xorox/">xorox</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="//localhost:1313/posts/smileyctf2025/dna/">Dna</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="//localhost:1313/posts/apocalypse-htb/gateway/">Rev/gateway</a>
+                            </li>
+                        
+                    
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/4ym3nn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+    <a target="_blank" class="social" title="LinkedIn" href="https://www.linkedin.com/in/aymen-drid-36bba4243/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 448 512">
+            <path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5c0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7c-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5c67.2 0 79.7 44.3 79.7 101.9V416z"/>
+        </svg>
+    </a>
+
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/ayme1n_dr">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+    <a target="_blank" class="social" title="Discord" href="https://discord.com/users/1235993289933455481">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+    <a target="_blank" class="social" title="Telegram" href="https://t.me/Aymen_dr1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19c-.14.75-.42 1-.68 1.03c-.58.05-1.02-.38-1.58-.75c-.88-.58-1.38-.94-2.23-1.5c-.99-.65-.35-1.01.22-1.59c.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02c-.09.02-1.49.95-4.22 2.79c-.4.27-.76.41-1.08.4c-.36-.01-1.04-.2-1.55-.37c-.63-.2-1.12-.31-1.08-.66c.02-.18.27-.36.74-.55c2.92-1.27 4.86-2.11 5.83-2.51c2.78-1.16 3.35-1.36 3.73-1.36c.08 0 .27.02.39.12c.1.08.13.19.14.27c-.01.06.01.24 0 .38z"/>
+        </svg>
+    </a>
+
+
+
+
+    <a target="_blank" class="social" title="RSS Feed" href="/posts/index.xml">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 1280.000000 1280.000000">
+            <g transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)" fill="currentColor">
+                <path d="M2295 11929 c-284 -12 -642 -45 -707 -65 -17 -5 -18 -63 -18 -1039 0 -569 4 -1036 8 -1039 5 -3 74 6 153 19 510 86 1168 95 1789 25 1348 -153 2602 -677 3670 -1531 385 -308 820 -744 1126 -1129 842 -1060 1362 -2313 1514 -3650 70 -621 61 -1279 -25 -1789 -13 -79 -22 -148 -19 -153 3 -4 471 -8 1039 -8 l1035 0 5 23 c51 225 85 942 67 1419 -23 605 -77 1044 -198 1617 -294 1400 -927 2734 -1823 3846 -1043 1295 -2364 2259 -3909 2854 -1158 447 -2451 656 -3707 600z"/>
+                <path d="M2255 7845 c-269 -25 -620 -81 -667 -106 -17 -9 -18 -55 -18 -899 0 -706 3 -890 13 -890 6 0 66 18 132 41 130 44 288 79 467 105 154 21 577 30 749 15 1207 -107 2267 -823 2814 -1902 166 -327 268 -637 330 -1001 38 -227 48 -384 42 -662 -8 -348 -44 -590 -126 -831 -23 -66 -41 -126 -41 -132 0 -10 184 -13 890 -13 844 0 890 1 899 18 27 50 88 452 110 725 14 162 14 624 1 782 -59 703 -233 1323 -545 1945 -481 956 -1313 1788 -2270 2268 -620 310 -1239 483 -1940 542 -165 14 -669 10 -840 -5z"/>
+                <path d="M2519 3815 c-391 -66 -725 -336 -868 -703 -79 -201 -96 -462 -45 -677 83 -344 338 -641 666 -774 116 -47 205 -69 330 -80 412 -39 811 153 1040 500 193 292 240 648 128 981 -135 403 -492 699 -914 757 -100 14 -241 12 -337 -4z"/>
+            </g>
+        </svg>
+    </a>
+
+
+    <a target="_blank" class="social" title="Email" href="mailto:aymendridforwork@gmail.com">
+       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 485.211 485.211">
+            <path fill="currentColor" d="M301.393,241.631L464.866,424.56H20.332l163.474-182.928l58.801,51.443L301.393,241.631z M462.174,60.651H23.027 l219.579,192.142L462.174,60.651z M324.225,221.67l160.986,180.151V80.792L324.225,221.67z M0,80.792v321.029L160.972,221.64 L0,80.792z"/>
+       </svg>
+    </a>
+
+
+
+
+        <p class="footnote">
+powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a target="_blank" href="https://github.com/lukeorth/poison">poison</a>
+    <br>
+    &copy; 2025 . All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="//localhost:1313/posts/apocalypse-htb/gateway/">Rev/gateway</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-06-17T19:41:23&#43;0100" class="post-date">
+        June 17, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>8 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+  <h1 id="first-challenge-gateway">FIRST CHALLENGE: Gateway</h1>
+<h2 id="challenge-description">Challenge Description</h2>
+<p>Malakar has ensnared you with a dark spell, banishing you to the depths of the Nether world. Escape hinges on recalling the ancient enchantments of your forefathers. Wield their arcane power to shatter the Aether gateways and reclaim your freedom. Only the correct incantation—32 bytes of mystical precision—will unlock the path back to the mortal realm. Can you decipher the spell and blast through the barriers of this infernal trap?</p>
+<p><img src="./challengepic.png" alt="Challenge Image"></p>
+<p><strong>Author:</strong> 4ymen<br>
+<strong>Flag:</strong> <code>HTB{r3tf@r_t0_tH3_h3@V3n5g@t3!!}</code></p>
+<hr>
+<h2 id="challenge-difficulty">Challenge Difficulty</h2>
+<p><strong>Difficulty:</strong> Hard</p>
+<hr>
+<h2 id="step-1-analyzing-the-entry-point-0x8049d18">Step 1: Analyzing the Entry Point (<code>0x8049d18</code>)</h2>
+<p>First, I ran the binary in <code>gdb</code> and set a breakpoint on the <code>write</code> syscall to track the code after the input prompt. This allowed me to dynamically determine the <code>read</code> syscall.</p>
+<p>We started by examining the assembly at <code>0x8049d18</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>d18: <span style="color:#a6e22e">popfd</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>d19: <span style="color:#a6e22e">popad</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>d1a: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp-0x1a4</span>]         <span style="color:#75715e"># Load length or counter
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>d20: <span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">ebp-0x1c0</span>], <span style="color:#66d9ef">eax</span>         <span style="color:#75715e"># Store at ebp-0x1c0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>d26: <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">dword</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1c0</span>], <span style="color:#ae81ff">0x21</span>  <span style="color:#75715e"># Check if length == 33
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>d2d: <span style="color:#a6e22e">jnz</span> <span style="color:#ae81ff">0x8049f34</span>                <span style="color:#75715e"># If not 33, fail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>d33: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp-0x1c0</span>]         <span style="color:#75715e"># eax = 33
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>d39: <span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">eax</span>, <span style="color:#ae81ff">0x1</span>                 <span style="color:#75715e"># eax = 32
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>d3c: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">byte</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#66d9ef">eax-0x9d</span>], <span style="color:#ae81ff">0</span>  <span style="color:#75715e"># Null-terminate at ebp-0x9c+32
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>d44: <span style="color:#a6e22e">sub</span> <span style="color:#66d9ef">dword</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1c0</span>], <span style="color:#ae81ff">0x1</span>  <span style="color:#75715e"># Length = 32
+</span></span></span></code></pre></div><h3 id="observations">Observations</h3>
+<ul>
+<li>The code checks if a value at <code>$ebp-0x1a4</code> (likely input length) equals <code>0x21</code> (33 decimal). If not, it jumps to <code>0x8049f34</code> (failure path).</li>
+<li>It then subtracts 1 to get 32, null-terminates the input at <code>$ebp-0x9c + 32</code>, and updates <code>$ebp-0x1c0</code> to 32.</li>
+</ul>
+<h3 id="insights">Insights</h3>
+<ul>
+<li>The input is 33 bytes (including a newline from stdin), but only 32 bytes are processed—suggesting a 32-byte flag plus <code>\n</code>.</li>
+</ul>
+<p>We hypothesized <code>$ebp-0x9c</code> holds the input buffer, as it’s manipulated here. To confirm, we’d need to see where <code>$ebp-0x1a4</code> gets set (likely from an earlier <code>read</code> or <code>gets</code>), but this gave us a starting point.</p>
+<hr>
+<h2 id="step-2-identifying-the-hashing-loop">Step 2: Identifying the Hashing Loop</h2>
+<p>Next, we spotted a loop-like structure further down:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>e0f: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">dword</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1c8</span>], <span style="color:#ae81ff">0x0</span>  <span style="color:#75715e"># j = 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e19: <span style="color:#a6e22e">jmp</span> <span style="color:#ae81ff">0x8049e9a</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>e1b: <span style="color:#a6e22e">lea</span> <span style="color:#66d9ef">edx</span>, [<span style="color:#66d9ef">ebp-0x9c</span>]          <span style="color:#75715e"># Input buffer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e21: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp-0x1c8</span>]         <span style="color:#75715e"># j
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e27: <span style="color:#a6e22e">add</span> <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">edx</span>                 <span style="color:#75715e"># &amp;input[j]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e29: <span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">ebp-0x1bc</span>], <span style="color:#66d9ef">eax</span>         <span style="color:#75715e"># Param: pointer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e2f: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">dword</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1b8</span>], <span style="color:#ae81ff">0x1</span>  <span style="color:#75715e"># Length = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e76: <span style="color:#a6e22e">call</span> <span style="color:#ae81ff">0x804996d</span>               <span style="color:#75715e"># Hash single byte
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e93: <span style="color:#a6e22e">addl</span> <span style="color:#66d9ef">$0x1</span>, [<span style="color:#66d9ef">ebp-0x1c8</span>]       <span style="color:#75715e"># j++
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e9a: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp-0x1c8</span>]         <span style="color:#75715e"># j
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ea0: <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp-0x1c0</span>]         <span style="color:#75715e"># j &lt; 32
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ea6: <span style="color:#a6e22e">jl</span> <span style="color:#ae81ff">0x8049e1b</span>                 <span style="color:#75715e"># Loop if j &lt; 32
+</span></span></span></code></pre></div><h3 id="observations-1">Observations</h3>
+<ul>
+<li><code>$ebp-0x1c8</code> is a counter (<code>j</code>) initialized to 0, looping until it reaches <code>$ebp-0x1c0</code> (32).</li>
+<li>For each iteration:
+<ul>
+<li>It loads a byte from <code>$ebp-0x9c + j</code> (<code>input[j]</code>).</li>
+<li>Passes a pointer to it (<code>$ebp-0x1bc</code>) and length 1 (<code>$ebp-0x1b8</code>) to <code>0x804996d</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="insights-1">Insights</h3>
+<ul>
+<li>This is the hashing loop! Each of the 32 input bytes is hashed individually via <code>0x804996d</code>. The result likely builds an array of hashes.</li>
+</ul>
+<p>We noted <code>0x804996d</code> calls <code>0x804a151</code> (the core hash function), but first, we needed to see where these hashes go.</p>
+<hr>
+<h2 id="step-3-tracking-hash-storage">Step 3: Tracking Hash Storage</h2>
+<p>After the hash call:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>e80: <span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">ebp-0x1a4</span>], <span style="color:#66d9ef">edx</span>         <span style="color:#75715e"># Hash result
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e86: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp-0x1c8</span>]         <span style="color:#75715e"># j
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e8c: <span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">ebp</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#66d9ef">eax</span>*<span style="color:#ae81ff">4</span>-<span style="color:#ae81ff">0x19c</span>], <span style="color:#66d9ef">edx</span>   <span style="color:#75715e"># Store at ebp-0x19c + j*4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>e93: <span style="color:#a6e22e">addl</span> <span style="color:#66d9ef">$0x1</span>, [<span style="color:#66d9ef">ebp-0x1c8</span>]       <span style="color:#75715e"># j++
+</span></span></span></code></pre></div><h3 id="observations-2">Observations</h3>
+<ul>
+<li>The hash result in <code>edx</code> is stored at <code>$ebp-0x19c + j*4</code>. With <code>j</code> from 0 to 31, this fills a 32-word (128-byte) array starting at <code>$ebp-0x19c</code>.</li>
+</ul>
+<h3 id="insights-2">Insights</h3>
+<ul>
+<li><code>$ebp-0x19c</code> holds the computed hashes of our input, one 32-bit hash per byte.</li>
+</ul>
+<p>To confirm, we’d expect 32 iterations, matching the 32-byte flag length.</p>
+<hr>
+<h2 id="step-4-finding-the-comparison">Step 4: Finding the Comparison</h2>
+<p>The next critical section was the comparison logic at <code>0x8049eac</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-asm" data-lang="asm"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>eac: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">byte</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1cd</span>], <span style="color:#ae81ff">0x1</span>  <span style="color:#75715e"># Success flag = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>eb3: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">dword</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1c4</span>], <span style="color:#ae81ff">0x0</span>  <span style="color:#75715e"># i = 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ebf: <span style="color:#a6e22e">movzx</span> <span style="color:#66d9ef">ecx</span>, <span style="color:#66d9ef">byte</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1cd</span>]  <span style="color:#75715e"># Flag
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ec6: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp-0x1c4</span>]         <span style="color:#75715e"># i
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ecc: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">edx</span>, [<span style="color:#66d9ef">ebp</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#66d9ef">eax</span>*<span style="color:#ae81ff">4</span>-<span style="color:#ae81ff">0x19c</span>]  <span style="color:#75715e"># Computed hash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ed9: <span style="color:#a6e22e">mov</span> <span style="color:#66d9ef">eax</span>, [<span style="color:#66d9ef">ebp</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#66d9ef">eax</span>*<span style="color:#ae81ff">4</span>-<span style="color:#ae81ff">0x11c</span>]  <span style="color:#75715e"># Expected hash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ee0: <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">edx</span>, <span style="color:#66d9ef">eax</span>                 <span style="color:#75715e"># Compare
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ee2: <span style="color:#a6e22e">setz</span> <span style="color:#66d9ef">al</span>                      <span style="color:#75715e"># 1 if equal
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ee8: <span style="color:#a6e22e">and</span> <span style="color:#66d9ef">eax</span>, <span style="color:#66d9ef">ecx</span>                 <span style="color:#75715e"># flag &amp;= equal
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>eef: <span style="color:#a6e22e">mov</span> [<span style="color:#66d9ef">ebp-0x1cd</span>], <span style="color:#66d9ef">al</span>          <span style="color:#75715e"># Update flag
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>ef5: <span style="color:#a6e22e">add</span> <span style="color:#66d9ef">dword</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1c4</span>], <span style="color:#ae81ff">0x1</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>efc: <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">dword</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1c4</span>], <span style="color:#ae81ff">0x1f</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>f03: <span style="color:#a6e22e">jle</span> <span style="color:#ae81ff">0x8049ebf</span>                <span style="color:#75715e"># i &lt;= 31
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>f05: <span style="color:#a6e22e">cmp</span> <span style="color:#66d9ef">byte</span> <span style="color:#66d9ef">ptr</span> [<span style="color:#66d9ef">ebp-0x1cd</span>], <span style="color:#ae81ff">0x0</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">08049</span>f0c: <span style="color:#a6e22e">jz</span> <span style="color:#ae81ff">0x8049f37</span>                 <span style="color:#75715e"># If flag = 0, fail
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">08049</span>f18: <span style="color:#a6e22e">call</span> <span style="color:#66d9ef">puts</span>                    <span style="color:#75715e"># &#34;ENCHANTMENT CORRECT...&#34;
+</span></span></span></code></pre></div><h3 id="observations-3">Observations</h3>
+<ul>
+<li>Initializes a flag (<code>$ebp-0x1cd</code>) to 1 and counter <code>i</code> (<code>$ebp-0x1c4</code>) to 0.</li>
+<li>Loops 32 times (<code>i</code> from 0 to 31):
+<ul>
+<li>Loads a computed hash from <code>$ebp-0x19c + i*4</code> into <code>edx</code>.</li>
+<li>Loads an expected hash from <code>$ebp-0x11c + i*4</code> into <code>eax</code>.</li>
+<li>Compares them, updating the flag to 0 if any mismatch occurs.</li>
+</ul>
+</li>
+<li>If the flag is 0 at <code>0x8049f05</code>, jumps to failure (<code>0x8049f37</code>); otherwise, prints success.</li>
+</ul>
+<h3 id="insights-3">Insights</h3>
+<ul>
+<li><code>$ebp-0x19c</code> is our input’s computed hashes, and <code>$ebp-0x11c</code> is the expected hashed password. Both are 32-word arrays (128 bytes), matching the 32-byte flag.</li>
+</ul>
+<hr>
+<h2 id="step-5-putting-it-together">Step 5: Putting It Together</h2>
+<p>By this point, we’d traced the flow:</p>
+<ol>
+<li><strong>Input:</strong> Read into <code>$ebp-0x9c</code>, 33 bytes, processed as 32 after null-termination.</li>
+<li><strong>Hashing:</strong> Each byte hashed via <code>0x804996d</code> (<code>0x804a151</code>), stored at <code>$ebp-0x19c[j]</code>.</li>
+<li><strong>Comparison:</strong> <code>$ebp-0x19c</code> (computed) vs <code>$ebp-0x11c</code> (expected), 32 hashes each.</li>
+</ol>
+<h3 id="key-discovery">Key Discovery</h3>
+<ul>
+<li><code>$ebp-0x19c</code>: Our input’s hashed values.</li>
+<li><code>$ebp-0x11c</code>: The target hashed password we need to match.</li>
+</ul>
+<p>We confirmed this dynamically in GDB:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gdb -q ./gateway
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> break *0x8049f05
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> run &lt; &lt;<span style="color:#f92672">(</span>printf <span style="color:#e6db74">&#34;HTB{AAAAAAAAAAAAAAAAAAAAAAAAAAAA\n&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> x/32xw $ebp-0x19c  <span style="color:#75715e"># Computed hashes</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> x/32xw $ebp-0x11c  <span style="color:#75715e"># Expected hashes</span>
+</span></span></code></pre></div><p>This showed <code>$ebp-0x19c</code> differing from <code>$ebp-0x11c</code>, with <code>$ebp-0x1cd = 0</code>, proving the mismatch. The expected hashes at <code>$ebp-0x11c</code> became our target to reverse.</p>
+<hr>
+<h2 id="next-steps-cracking-the-hash">Next Steps: Cracking the Hash</h2>
+<h3 id="step-6-building-a-hash-map">Step 6: Building a Hash Map</h3>
+<p>Since the hash function is deterministic, I sent every printable character as input (repeated 32 times to match the required length) and captured the hashed values. This allowed me to build a hash map of characters to their corresponding hash values.</p>
+<p>Here is the hash map I generated: <a href="./hash_map_chars.json">hash_map_chars.json</a>.</p>
+<h3 id="step-7-observing-character-swapping">Step 7: Observing Character Swapping</h3>
+<p>Upon analyzing the results, I discovered that the hash function swaps characters before hashing them. For example, the input <code>&quot;ghHr3f35V_t3_nB@t}Hr@!T3tt!_{0&quot;</code> produced unexpected hash values due to this swapping mechanism. This made it clear that a simple hash map wouldn&rsquo;t suffice.</p>
+<h3 id="step-8-dynamic-analysis-with-a-script">Step 8: Dynamic Analysis with a Script</h3>
+<p>To address this, I wrote a script to dynamically analyze the hashing process. The script sends input to the binary, examines the hashed values at <code>$ebp-0x19c</code>, and modifies one character at a time while keeping the others fixed. By observing which hash value changes, I could map each character to its transformed hash.</p>
+<p>Here is the script I used: <a href="./solver.py">solver.py</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pexpect
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> re
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> traceback
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_gdb_interaction</span>(binary_path, password):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Spawn GDB process with verbose output</span>
+</span></span><span style="display:flex;"><span>        gdb <span style="color:#f92672">=</span> pexpect<span style="color:#f92672">.</span>spawn(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;gdb </span><span style="color:#e6db74">{</span>binary_path<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>, logfile<span style="color:#f92672">=</span>sys<span style="color:#f92672">.</span>stdout)
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Set breakpoint</span>
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;break *0x08049f05&#39;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Run the program</span>
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;run&#39;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Wait for program prompts or events</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>            index <span style="color:#f92672">=</span> gdb<span style="color:#f92672">.</span>expect([
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;Breakpoint 1, &#39;</span>, 
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;Recall the ✨ enchantments ✨ of your forefathers: &#39;</span>, 
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;Program received signal&#39;</span>, 
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;No such file or directory&#39;</span>,
+</span></span><span style="display:flex;"><span>                pexpect<span style="color:#f92672">.</span>TIMEOUT, 
+</span></span><span style="display:flex;"><span>                pexpect<span style="color:#f92672">.</span>EOF
+</span></span><span style="display:flex;"><span>            ])
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[DEBUG] Breakpoint hit with password: </span><span style="color:#e6db74">{</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> index <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[DEBUG] Sending password: </span><span style="color:#e6db74">{</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>                gdb<span style="color:#f92672">.</span>sendline(password)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">elif</span> index <span style="color:#f92672">in</span> [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]:
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[DEBUG] Unexpected event. Index: </span><span style="color:#e6db74">{</span>index<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>                gdb<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>expect_exact(<span style="color:#e6db74">&#34;(gdb)&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Examine memory location</span>
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;x/32xw $ebp-0x19c&#39;</span>)
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>expect_exact(<span style="color:#e6db74">&#34;(gdb)&#34;</span>)
+</span></span><span style="display:flex;"><span>        memory_output <span style="color:#f92672">=</span> gdb<span style="color:#f92672">.</span>before
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;x/32xw $ebp-0x11c&#39;</span>)
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>expect_exact(<span style="color:#e6db74">&#34;(gdb)&#34;</span>)
+</span></span><span style="display:flex;"><span>        flag_output <span style="color:#f92672">=</span> gdb<span style="color:#f92672">.</span>before
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Quit GDB</span>
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;quit&#39;</span>)
+</span></span><span style="display:flex;"><span>        gdb<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> parse_memory_output(memory_output),parse_memory_output(flag_output)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;[DEBUG] Unexpected error:&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(traceback<span style="color:#f92672">.</span>format_exc())
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parse_memory_output</span>(output):
+</span></span><span style="display:flex;"><span>    memory_values <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> output<span style="color:#f92672">.</span>splitlines():
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;:\s*(.*)&#39;</span>, line)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">match</span>:
+</span></span><span style="display:flex;"><span>            values <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span><span style="color:#f92672">.</span>group(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>split()
+</span></span><span style="display:flex;"><span>            memory_values<span style="color:#f92672">.</span>extend(values)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> memory_values
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">map_character_transformations</span>(binary_path):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Initial password with all &#39;A&#39;s</span>
+</span></span><span style="display:flex;"><span>    base_password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;HTB{&#39;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;A&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">27</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;}&#39;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Dictionary to store character transformations</span>
+</span></span><span style="display:flex;"><span>    transformation_map <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Iterate through each position to map</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> pos <span style="color:#f92672">in</span> range(len(base_password)):  <span style="color:#75715e"># Skip &#39;HTB{&#39; and &#39;}&#39;</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">[DEBUG] Mapping transformations for position </span><span style="color:#e6db74">{</span>pos<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Prepare passwords with A and B at the current position</span>
+</span></span><span style="display:flex;"><span>        a_password <span style="color:#f92672">=</span> list(base_password)
+</span></span><span style="display:flex;"><span>        b_password <span style="color:#f92672">=</span> list(base_password)
+</span></span><span style="display:flex;"><span>        a_password[pos] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;A&#39;</span>
+</span></span><span style="display:flex;"><span>        b_password[pos] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;B&#39;</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Convert to strings</span>
+</span></span><span style="display:flex;"><span>        a_password_str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(a_password)
+</span></span><span style="display:flex;"><span>        b_password_str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(b_password)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Get memory values for A and B</span>
+</span></span><span style="display:flex;"><span>        a_memory,flag_output1 <span style="color:#f92672">=</span> run_gdb_interaction(binary_path, a_password_str)
+</span></span><span style="display:flex;"><span>        b_memory,flag_output2 <span style="color:#f92672">=</span> run_gdb_interaction(binary_path, b_password_str)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> a_memory <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">or</span> b_memory <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[ERROR] Failed to get memory for position </span><span style="color:#e6db74">{</span>pos<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>        j<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span>  range(len(a_memory)):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> a_memory[i]<span style="color:#f92672">!=</span>b_memory[i]:
+</span></span><span style="display:flex;"><span>                j<span style="color:#f92672">=</span>i;
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Find indices where memory differs</span>
+</span></span><span style="display:flex;"><span>        different_indices <span style="color:#f92672">=</span> j;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Store transformation details</span>
+</span></span><span style="display:flex;"><span>        transformation_map[pos] <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;changed_indices&#39;</span>: different_indices,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;a_values&#39;</span>: a_memory[j] ,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;b_values&#39;</span>: b_memory[j],
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;you_have_to_match&#39;</span>:flag_output1[j],
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;you_have_to_match2&#39;</span>:flag_output2[j],
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> transformation_map
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    binary_path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./gateway&#34;</span>  <span style="color:#75715e"># Replace with actual binary path</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Map character transformations</span>
+</span></span><span style="display:flex;"><span>    transformation_map <span style="color:#f92672">=</span> map_character_transformations(binary_path)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Write the transformation map to a JSON file</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;transformation_map.json&#39;</span>, <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> json_file:
+</span></span><span style="display:flex;"><span>        json<span style="color:#f92672">.</span>dump(transformation_map, json_file, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Print summary</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">[SUMMARY] Transformation Map:&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> pos, details <span style="color:#f92672">in</span> transformation_map<span style="color:#f92672">.</span>items():
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Position </span><span style="color:#e6db74">{</span>pos<span style="color:#e6db74">}</span><span style="color:#e6db74">:&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  Changed Indices: </span><span style="color:#e6db74">{</span>details[<span style="color:#e6db74">&#39;changed_indices&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  A Values: </span><span style="color:#e6db74">{</span>details[<span style="color:#e6db74">&#39;a_values&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;  B Values: </span><span style="color:#e6db74">{</span>details[<span style="color:#e6db74">&#39;b_values&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><h3 id="step-9-generating-a-transformation-map">Step 9: Generating a Transformation Map</h3>
+<p>Using the script, I built a transformation map that accounts for the character swapping and hashing behavior. The resulting transformation map is available here: <a href="rev/gateway/transformation_map.json">transformation_map.json</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;0&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;changed_indices&#34;</span>: <span style="color:#ae81ff">20</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;a_values&#34;</span>: <span style="color:#e6db74">&#34;0x1ba09040&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;b_values&#34;</span>: <span style="color:#e6db74">&#34;0xb0476f74&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match&#34;</span>: <span style="color:#e6db74">&#34;0x4c6f6e28&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match2&#34;</span>: <span style="color:#e6db74">&#34;0x4c6f6e28&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">..........,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;28&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;changed_indices&#34;</span>: <span style="color:#ae81ff">11</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;a_values&#34;</span>: <span style="color:#e6db74">&#34;0x1ba09040&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;b_values&#34;</span>: <span style="color:#e6db74">&#34;0xb0476f74&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match&#34;</span>: <span style="color:#e6db74">&#34;0x3cd56ab6&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match2&#34;</span>: <span style="color:#e6db74">&#34;0x3cd56ab6&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;29&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;changed_indices&#34;</span>: <span style="color:#ae81ff">23</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;a_values&#34;</span>: <span style="color:#e6db74">&#34;0x1ba09040&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;b_values&#34;</span>: <span style="color:#e6db74">&#34;0xb0476f74&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match&#34;</span>: <span style="color:#e6db74">&#34;0x9d14f94b&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match2&#34;</span>: <span style="color:#e6db74">&#34;0x9d14f94b&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;30&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;changed_indices&#34;</span>: <span style="color:#ae81ff">28</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;a_values&#34;</span>: <span style="color:#e6db74">&#34;0x1ba09040&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;b_values&#34;</span>: <span style="color:#e6db74">&#34;0xb0476f74&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match&#34;</span>: <span style="color:#e6db74">&#34;0x9d14f94b&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match2&#34;</span>: <span style="color:#e6db74">&#34;0x9d14f94b&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;31&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;changed_indices&#34;</span>: <span style="color:#ae81ff">19</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;a_values&#34;</span>: <span style="color:#e6db74">&#34;0x1ba09040&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;b_values&#34;</span>: <span style="color:#e6db74">&#34;0xb0476f74&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match&#34;</span>: <span style="color:#e6db74">&#34;0xe864d8ce&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;you_have_to_match2&#34;</span>: <span style="color:#e6db74">&#34;0xe864d8ce&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="step-10-reversing-the-hash">Step 10: Reversing the Hash</h3>
+<p>Finally, I wrote a script to reverse the hash using the transformation map. This script reconstructs the original input that matches the expected hash values.</p>
+<p>Here is the script for reversing the hash: <a href="./flagprinter.py">flagprinter.py</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>flag<span style="color:#f92672">=</span>[]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">32</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> chars<span style="color:#f92672">.</span>items():
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> value <span style="color:#f92672">==</span> matched[str(i)][<span style="color:#e6db74">&#34;you_have_to_match&#34;</span>]:
+</span></span><span style="display:flex;"><span>            print(key)
+</span></span><span style="display:flex;"><span>            flag<span style="color:#f92672">.</span>append(key)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(flag))
+</span></span></code></pre></div><hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>By combining dynamic analysis and problem-solving, I successfully reversed the hash and retrieved the flag. The process involved understanding the binary&rsquo;s behavior, building a hash map, accounting for character transformations, and finally reversing the hash to obtain the solution. GG!</p>
+
+  
+  <hr>
+<div class="footer">
+    
+	    
+            <a class="previous-post" href="//localhost:1313/posts/apocalypse-htb/imagepro/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Rev/imagepro</a>
+        
+	    
+            <div class="next-post">
+                <a href="//localhost:1313/posts/smileyctf2025/dna/?ref=footer"><span style="font-weight:bold;">Next »</span><br>Dna</a>
+            </div>
+        
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+    <div class="article-toc ">
+    <div class="toc-wrapper">
+      <h4 id="contents"></h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#challenge-description">Challenge Description</a></li>
+    <li><a href="#challenge-difficulty">Challenge Difficulty</a></li>
+    <li><a href="#step-1-analyzing-the-entry-point-0x8049d18">Step 1: Analyzing the Entry Point (<code>0x8049d18</code>)</a>
+      <ul>
+        <li><a href="#observations">Observations</a></li>
+        <li><a href="#insights">Insights</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-2-identifying-the-hashing-loop">Step 2: Identifying the Hashing Loop</a>
+      <ul>
+        <li><a href="#observations-1">Observations</a></li>
+        <li><a href="#insights-1">Insights</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-3-tracking-hash-storage">Step 3: Tracking Hash Storage</a>
+      <ul>
+        <li><a href="#observations-2">Observations</a></li>
+        <li><a href="#insights-2">Insights</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-4-finding-the-comparison">Step 4: Finding the Comparison</a>
+      <ul>
+        <li><a href="#observations-3">Observations</a></li>
+        <li><a href="#insights-3">Insights</a></li>
+      </ul>
+    </li>
+    <li><a href="#step-5-putting-it-together">Step 5: Putting It Together</a>
+      <ul>
+        <li><a href="#key-discovery">Key Discovery</a></li>
+      </ul>
+    </li>
+    <li><a href="#next-steps-cracking-the-hash">Next Steps: Cracking the Hash</a>
+      <ul>
+        <li><a href="#step-6-building-a-hash-map">Step 6: Building a Hash Map</a></li>
+        <li><a href="#step-7-observing-character-swapping">Step 7: Observing Character Swapping</a></li>
+        <li><a href="#step-8-dynamic-analysis-with-a-script">Step 8: Dynamic Analysis with a Script</a></li>
+        <li><a href="#step-9-generating-a-transformation-map">Step 9: Generating a Transformation Map</a></li>
+        <li><a href="#step-10-reversing-the-hash">Step 10: Reversing the Hash</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+  
+
+        </div>
+    </body>
+</html>
