@@ -1396,7 +1396,7 @@ Prints "CORRECT!" - ASCII values `[67, 79, 82, 82, 69, 67, 84, 33]`
 
 ## Solving a System of Linear Equations
 
-### Problem Formulation
+### Step 1: Problem Formulation
 
 We are given a system of equations of the form:
 $$\sum_{j=0}^{48} \text{flag}[j] \cdot C_j[i] = m[i] \quad \text{for } i = 0, 1, \dots, 48$$
@@ -1409,8 +1409,9 @@ Where:
 - $\mathbf{f}$ is a column vector of length 49 representing the flag values: $[\text{flag}[0], \text{flag}[1], \dots, \text{flag}[48]]^T$
 - $\mathbf{m}$ is the column vector of resulting values: $[m[0], m[1], \dots, m[48]]^T$
 
-### Solution Methodology
-![image](https://github.com/user-attachments/assets/8fbc1765-397b-4f81-aff6-9067d309f8f2)
+### Step 2: Solution Methodology
+![image](https://github.com/user-attachments/assets/5477087e-e46f-4c2f-94f0-c252b8798356)
+
 
 **to solve the System**:
    we now need to solve:
