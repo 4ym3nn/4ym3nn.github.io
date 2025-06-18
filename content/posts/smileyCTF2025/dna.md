@@ -467,7 +467,7 @@ Since `unlucky.pop(0)` consumes elements sequentially, we need to:
 
 ### Decompiled Python Code from `unlucky` Bytecode
 
-### unlucky[0]
+#### unlucky[0]
 **Python Bytecode:**
 ```python
     15           0 BUILD_MAP                0
