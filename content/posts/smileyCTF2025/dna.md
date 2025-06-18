@@ -5,9 +5,9 @@ title = 'Dna'
 hideToc = false
 +++
 # smileyCTF2025 :
-## rev/DNA
+# rev/DNA
 ![image](https://github.com/user-attachments/assets/c0970c1c-7c7f-4e40-8804-b37e48199c73)
-## Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}
+# Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}
 # Description
 deoxy ribo nucleic acid deoxy meaning without oxygen ribo meaning the 5-carbon sugar backbone nucleic meaning of the nucleus acid meaning proton donor
 
@@ -59,7 +59,7 @@ class CPU:
 This makes up the structure of our CPU, but then how will it execute instructions? Normally, challenge developers write their program in a symbolic language and then convert it to the virtual CPUs assembly code. This assembled code is what we refer to as the bytecode. It’s just an array of numbers like the opcodes of your actual CPU.
 
 This bytecode is then read and passed to a Fetch, Decode, Execute (FeDeX) loop. This loop does what it’s name is. It fetches the current instruction from bytecode, decodes what it means (useful part) and then executes it! This is very much similar to what an actual CPU does but this decoding part makes up the extra steps that our virtual CPU has to take.
-## The FeDeX Loop
+### The FeDeX Loop
 
 In normal CPU, there is a register called the program counter (instruction pointer in Intel CPUs). This register contains an absolute address or an offset from a base address that directly or indirectly points to the next instruction that needs to be executed. So, the fetch part just needs to keep track of this program counter. To fetch the next instruction, the program will do
 
@@ -76,7 +76,7 @@ while pc < len(code):
 ```
 this is where the interesting part comes : In all normal, not crazy VMs you’ll find a FeDeX loop like this one. This function is what we need to find if it’s a VM challenge. Generally it’s easy to find because of the code structure here! When you’ll see this code in a graph like format, you’ll notice that almost all similar VMs (with a FeDeX loop) will have similar structure. Let’s try that in this crackme.
 
-### Starting with the Challenge
+## Starting with the Challenge
 
 To decompile the .pyc file back into Python source code, I used pylingual.io.
 and this was the result :
