@@ -1509,5 +1509,5 @@ The solution yields the following flag values:
 **ASCII representation**: `we_ought_to_start_storing_our_data_as_dna_instead`
 
 The direct matrix solution method successfully recovered the flag, demonstrating that the system was well-conditioned and had a unique solution.
-## Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}
+**Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}**
 
