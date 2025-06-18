@@ -7,7 +7,7 @@ hideToc = false
 # smileyCTF2025 :
 # rev/DNA
 ![image](https://github.com/user-attachments/assets/c0970c1c-7c7f-4e40-8804-b37e48199c73)
-# Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}
+
 # Description
 deoxy ribo nucleic acid deoxy meaning without oxygen ribo meaning the 5-carbon sugar backbone nucleic meaning of the nucleus acid meaning proton donor
 
@@ -1509,4 +1509,5 @@ The solution yields the following flag values:
 **ASCII representation**: `we_ought_to_start_storing_our_data_as_dna_instead`
 
 The direct matrix solution method successfully recovered the flag, demonstrating that the system was well-conditioned and had a unique solution.
+## Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}
 
