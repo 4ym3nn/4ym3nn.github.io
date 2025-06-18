@@ -1410,8 +1410,7 @@ Where:
 - $\mathbf{m}$ is the column vector of resulting values: $[m[0], m[1], \dots, m[48]]^T$
 
 ## Solution Methodology
-$$
-\underbrace{
+$$\underbrace{
 \begin{bmatrix}
 C_0[0] & C_1[0] & \cdots & C_{48}[0] \\
 C_0[1] & C_1[1] & \cdots & C_{48}[1] \\
@@ -1436,8 +1435,7 @@ m[1] \\
 \vdots \\
 m[48]
 \end{bmatrix}
-}_{\mathbf{m}}
-$$
+}_{\mathbf{m}}$$
 
 **to solve the System**:
    we now need to solve:
