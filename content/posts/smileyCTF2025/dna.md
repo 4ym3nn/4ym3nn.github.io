@@ -719,7 +719,6 @@ def unlucky3(nm_in):
         return new_nm
 ```
 
-[nmExctractor](./nmExctrator.py)
 
 ```python
 print("Initial nm:", nm)
@@ -732,6 +731,7 @@ print("After unlucky2, nm =", nm)
 nm = unlucky3(nm)
 print("After unlucky3, nm =", nm)
 ```
+After running the [script](./nmExctrator.py), you will get the following result:
 
 #### Output
 
