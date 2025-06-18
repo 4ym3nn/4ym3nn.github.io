@@ -6,8 +6,7 @@ hideToc = false
 +++
 # smileyCTF2025 :
 ## rev/DNA
-![image](./challenge.png)
-
+![image](https://github.com/user-attachments/assets/c0970c1c-7c7f-4e40-8804-b37e48199c73)
 ## Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}
 # Description
 deoxy ribo nucleic acid deoxy meaning without oxygen ribo meaning the 5-carbon sugar backbone nucleic meaning of the nucleus acid meaning proton donor
@@ -35,7 +34,7 @@ When it comes to a virtual CPU (machine), it may or may not have a move instruct
 
 Since a virtual machine is trying to emulate some new instruction set, it’ll need to have a CPU that will be able to decode those set of instructions and for that all virtual machines implement their own virtual CPU. How do we do that? Well, a CPU is just a bunch of registers and some helper units.
 
-![image](./abasiccomputer.gif)
+![image](./dna/abasiccomputer.gif)
 
 A virtual CPU is much similar to a physical CPU. It’ll have it’s own set of registers and cache and all. A simple implementation in code will look something like this
 ```python
@@ -82,7 +81,7 @@ this is where the interesting part comes : In all normal, not crazy VMs you’ll
 To decompile the .pyc file back into Python source code, I used pylingual.io.
 and this was the result :
 
-[main.py](./vm.py)
+[main.py](./dna/vm.py)
 
 ### Virtual Machine Overview
 ```python
@@ -1411,7 +1410,7 @@ Where:
 - $\mathbf{m}$ is the column vector of resulting values: $[m[0], m[1], \dots, m[48]]^T$
 
 ## Solution Methodology
-![image](./matrix.png)
+![image](./dna/matrix.png)
 
 **to solve the System**:
    we now need to solve:
