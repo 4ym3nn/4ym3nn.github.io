@@ -12,13 +12,13 @@ hideToc = false
 deoxy ribo nucleic acid deoxy meaning without oxygen ribo meaning the 5-carbon sugar backbone nucleic meaning of the nucleus acid meaning proton donor
 
 # Solution
+
 ## Initial Recon
 
 We start by looking at the challenge directory:
 ```bash
 ➜  dna ls
 main.cpython-310.pyc  vm.dna
-➜  dna 
 ```
 We can see that this is a virtual machine challenge, and the Python code has been compiled with Python 3.10 into a .pyc file ,Before diving into the challenge, let's take a moment to understand what a virtual machine (VM) is.
 
