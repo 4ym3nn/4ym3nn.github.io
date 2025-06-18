@@ -1439,7 +1439,7 @@ To ensure that the 49 equations are linearly independent, we verify the determin
 7.002684569518382e+123
 ```
 
-Since $$ \det(\mathbf{C}) \neq 0 $$, matrix $\mathbf{C}$ is invertible and the system can be solved directly.
+Since $$ \det(\mathbf{C}) \neq 0 $$, matrix $$\mathbf{C}$$ is invertible and the system can be solved directly.
 
 ### Implementation
 
