@@ -465,7 +465,7 @@ Since `unlucky.pop(0)` consumes elements sequentially, we need to:
 3. Repeat for all four bytecode snippets
 
 
-### Decompiled Python Code from `unlucky` Bytecode
+### Decompiled Python Code from unlucky Bytecode
 
 #### unlucky[0]
 **Python Bytecode:**
