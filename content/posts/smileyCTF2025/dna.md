@@ -79,8 +79,8 @@ this is where the interesting part comes : In all normal, not crazy VMs you’ll
 
 To decompile the .pyc file back into Python source code, I used pylingual.io.
 and this was the result :
-
-[main.py](./dna/vm.py)
+https://github.com/4ym3nn/4ym3nn.github.io/edit/main/content/posts/smileyCTF2025/dna.md
+[main.py](https://github.com/4ym3nn/4ym3nn.github.io/edit/main/content/posts/smileyCTF2025/dna/vm.py)
 
 ### Virtual Machine Overview
 ```python
