@@ -730,7 +730,7 @@ print("After unlucky2, nm =", nm)
 nm = unlucky3(nm)
 print("After unlucky3, nm =", nm)
 ```
-After running the [script](./nmExctrator.py), you will get the following result:
+After running the [script](https://github.com/4ym3nn/4ym3nn.github.io/edit/main/content/posts/smileyCTF2025/dna/nm.py), you will get the following result:
 
 #### Output
 
