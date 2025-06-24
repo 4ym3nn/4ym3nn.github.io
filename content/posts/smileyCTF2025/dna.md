@@ -1004,8 +1004,11 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-and this was the result ![asm.txt](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/smileyCTF2025/dna/asm.txt)
-the results instructions was good especially that we had exactly
+And here’s what we got in the end:
+![asm.txt](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/smileyCTF2025/dna/asm.txt)
+
+The resulting instructions were spot on — especially satisfying since they matched exactly what we were hoping for. There’s something truly rewarding about seeing assembly fall into place like pieces of a puzzle.
+
 4 call instructions 
 ```shell
 Total instructions: 9844
