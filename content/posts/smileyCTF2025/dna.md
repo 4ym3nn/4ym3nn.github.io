@@ -794,7 +794,7 @@ flag[33]=97
 #### Next Steps
 Using the above observations, I will proceed to write the assembler, ensuring that the dynamic changes to the `nm` mapping are accounted for at each step.
 
-python disassembler
+**python disassembler**
 
 ```python
 
@@ -1004,6 +1004,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+and this was the result ![asm.txt](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/smileyCTF2025/dna/asm.txt)
 the results instructions was good especially that we had exactly
 4 call instructions 
 ```shell
