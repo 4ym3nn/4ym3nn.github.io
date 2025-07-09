@@ -544,6 +544,3 @@ else:
 
 And yes, that is it:  
 `ffffffffffffd7d5556aa97d7ffffffffffffd57`
-```
-
-Let me know if you want any further structure (like table of contents, or splitting into sections), or if you want only the cleaned Markdown without code explanations!
