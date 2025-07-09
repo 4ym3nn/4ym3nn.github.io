@@ -1,24 +1,22 @@
-+++
-date = '2025-06-17T19:41:23+01:00'
-draft = false
-title = 'Dna'
-hideToc = false
-+++
+---
+layout: default
+---
 # smileyCTF2025 :
-# rev/DNA
-![image](https://github.com/user-attachments/assets/c0970c1c-7c7f-4e40-8804-b37e48199c73)
+## rev/DNA
+![image](https://github.com/user-attachments/assets/2a754db6-1251-435e-95e1-7e020437b0f0)
 
+## Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}
 # Description
 deoxy ribo nucleic acid deoxy meaning without oxygen ribo meaning the 5-carbon sugar backbone nucleic meaning of the nucleus acid meaning proton donor
 
 # Solution
-
 ## Initial Recon
 
 We start by looking at the challenge directory:
 ```bash
 ➜  dna ls
 main.cpython-310.pyc  vm.dna
+➜  dna 
 ```
 We can see that this is a virtual machine challenge, and the Python code has been compiled with Python 3.10 into a .pyc file ,Before diving into the challenge, let's take a moment to understand what a virtual machine (VM) is.
 
@@ -33,7 +31,8 @@ When it comes to a virtual CPU (machine), it may or may not have a move instruct
 ### How Do Virtual Machines Work?
 
 Since a virtual machine is trying to emulate some new instruction set, it’ll need to have a CPU that will be able to decode those set of instructions and for that all virtual machines implement their own virtual CPU. How do we do that? Well, a CPU is just a bunch of registers and some helper units.
-![image](https://github.com/user-attachments/assets/ae28ac13-03c2-4207-b116-f7e57035954e)
+
+![image](./abasiccomputer.gif)
 
 A virtual CPU is much similar to a physical CPU. It’ll have it’s own set of registers and cache and all. A simple implementation in code will look something like this
 ```python
@@ -75,12 +74,12 @@ while pc < len(code):
 ```
 this is where the interesting part comes : In all normal, not crazy VMs you’ll find a FeDeX loop like this one. This function is what we need to find if it’s a VM challenge. Generally it’s easy to find because of the code structure here! When you’ll see this code in a graph like format, you’ll notice that almost all similar VMs (with a FeDeX loop) will have similar structure. Let’s try that in this crackme.
 
-## Starting with the Challenge
+### Starting with the Challenge
 
 To decompile the .pyc file back into Python source code, I used pylingual.io.
 and this was the result :
 
-[main.py](https://github.com/4ym3nn/4ym3nn.github.io/edit/main/content/posts/smileyCTF2025/dna/vm.py)
+[main.py](./vm.py)
 
 ### Virtual Machine Overview
 ```python
@@ -115,7 +114,7 @@ The code defines two key data structures:
         
     m: A dictionary that serves as memory for the virtual machine.
 
-### DNA Code Representation
+#### DNA Code Representation
 
 The virtual machine reads a DNA-like string from a file, which consists only of the characters {A, T, G, C}. Here's an example:
 
@@ -139,7 +138,7 @@ Example:
 
 trans('AT') = (0 << 0) + (1 << 2) = 0 + 4 = 4
 ```
-### The unlucky List
+#### The unlucky List
 
 The `unlucky` list contains 4 elements, each being a long bytes object with repetitive patterns at the beginning (`ooo...`, `uuu...`, `iii...`, `aaa...`). Initially, it's unclear what these represent.
 
@@ -182,7 +181,7 @@ The key insight is the use of `marshal.loads()` on the decrypted bytes and its a
 
 This is a sophisticated obfuscation technique that hides the actual program logic until runtime. The `marshal.loads()` → `f.__code__` pattern clearly indicates we're dealing with compiled Python bytecode rather than just encrypted data. Each of the 4 elements likely contains a different stage of the program's execution, consumed sequentially via `unlucky.pop(0)`.
 
-### Input Validation and Setup
+#### Input Validation and Setup
 
 The program expects a DNA code file as an argument. It reads the file and prompts the user for a flag.
 ```python
@@ -194,7 +193,7 @@ if len(sys.argv) != 2:
 code = open(sys.argv[1]).read()
 flag = input('> ').encode()
 ```
-### Flag Validation
+#### Flag Validation
 
 The flag must meet strict format requirements:
 ```python
@@ -213,7 +212,7 @@ After validation, the wrapper format is stripped, leaving 49 bytes of core flag 
 
 flag = flag[6:-1]
 ```
-### Storing the Flag in VM Memory
+#### Storing the Flag in VM Memory
 
 Each byte of the flag is stored in the virtual memory dictionary m, starting at address 640:
 ```python
@@ -436,7 +435,7 @@ To find the valid key, we need to understand the memory layout:
 
 Since we need to find the valid key that should be at `m[666]`, we must brute force to find the correct character for `flag[32]`.
 
-#### Brute Force Key Recovery
+### Brute Force Key Recovery
 
 Since the key must be a valid ASCII character (0-255), we can brute force all possible keys:
 
@@ -456,7 +455,7 @@ for key in range(256):
 
 This means `flag[26]` should be 'o' for the first bytecode to decrypt properly.
 
-#### Systematic Approach
+## Systematic Approach
 
 Since `unlucky.pop(0)` consumes elements sequentially, we need to:
 1. Determine the correct key for `unlucky[0]` → `flag[26] = 'o'`
@@ -464,9 +463,9 @@ Since `unlucky.pop(0)` consumes elements sequentially, we need to:
 3. Repeat for all four bytecode snippets
 
 
-### Decompiled Python Code from unlucky Bytecode
+## Decompiled Python Code from `unlucky` Bytecode
 
-#### unlucky[0]
+### unlucky[0]
 **Python Bytecode:**
 ```python
     15           0 BUILD_MAP                0
@@ -519,7 +518,7 @@ def unlucky0():
 
 ---
 
-#### unlucky[1]
+### unlucky[1]
 **Python Bytecode:**
 ```python
     24           0 LOAD_CONST               1 ('AGCT')
@@ -597,7 +596,7 @@ def unlucky1(nm_in):
 ```
 ---
 
-#### unlucky[2]
+### unlucky[2]
 **Python Bytecode:**
 ```python
     35           0 LOAD_GLOBAL              0 (__import__)
@@ -660,7 +659,7 @@ def unlucky2(nm_in):
 
 ---
 
-#### unlucky[3]
+### unlucky[3]
 **Python Bytecode:**
 ```python
     58           0 LOAD_BUILD_CLASS
@@ -718,6 +717,7 @@ def unlucky3(nm_in):
         return new_nm
 ```
 
+[nmExctractor](./nmExctrator.py)
 
 ```python
 print("Initial nm:", nm)
@@ -730,9 +730,8 @@ print("After unlucky2, nm =", nm)
 nm = unlucky3(nm)
 print("After unlucky3, nm =", nm)
 ```
-After running the [script](https://github.com/4ym3nn/4ym3nn.github.io/edit/main/content/posts/smileyCTF2025/dna/nm.py), you will get the following result:
 
-#### Output
+## Output
 
 ```plaintext
 Initial nm: {'A': 0, 'T': 1, 'G': 2, 'C': 3}
@@ -742,7 +741,7 @@ After unlucky2, nm = {'A': 2, 'G': 1, 'C': 3, 'T': 0}
 After unlucky3, nm = {'A': 2, 'G': 1, 'C': 3, 'T': 0}
 ```
 
-#### Explanation
+## Explanation
 
 - **Initial nm**: The starting nucleotide map is `{'A': 0, 'T': 1, 'G': 2, 'C': 3}`.
 - **After unlucky0**: The nucleotide map is updated based on the first transformation function.
@@ -791,10 +790,10 @@ flag[27]=117
 flag[22]=105
 flag[33]=97
 ```
-#### Next Steps
+### Next Steps
 Using the above observations, I will proceed to write the assembler, ensuring that the dynamic changes to the `nm` mapping are accounted for at each step.
 
-**python disassembler**
+python disassembler
 
 ```python
 
@@ -1004,11 +1003,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-And here’s what we got in the end:
-[asm.txt](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/smileyCTF2025/dna/asm.txt)
-
-The resulting instructions were spot on — especially satisfying since they matched exactly what we were hoping for. There’s something truly rewarding about seeing assembly fall into place like pieces of a puzzle.
-
+the results instructions was good especially that we had exactly
 4 call instructions 
 ```shell
 Total instructions: 9844
@@ -1176,7 +1171,7 @@ print(len(equations), "equations found:")
 for eq_number, eq in equations:
     print(f"Equation stored at {eq_number}: {eq}")
 ```
-#### Coefficient Vectors (Cj)
+### Coefficient Vectors (Cj)
 The coefficient vectors (Cj) of length 49 for each j ranging from 0 to 48 were extracted. These coefficients are stored in memory starting at address `4096`, with each vector occupying 4 consecutive memory slots. Below is the result:
 
 #### Memory Layout for Coefficient Vectors
@@ -1306,7 +1301,7 @@ target_values = {
 ```
 
 
-### Verification Logic
+## Verification Logic
 
 There are **49 equality checks** that compare loaded values with pushed values. Each comparison pushes either 1 (if equal) or 0 (if not equal) onto the stack.
 
@@ -1333,9 +1328,9 @@ Otherwise, the sum will be less than 49 (incorrect flag).
 69158: JNE      TCCAACTTGT (69308) [nm: A=2,T=0,G=1,C=3]
 ```
 
-#### Output Messages
+## Output Messages
 
-#### If sum ≠ 49 (jumps to 69308):
+### If sum ≠ 49 (jumps to 69308):
 Prints "WRONG!" - ASCII values `[87, 82, 79, 78, 71, 33]`
 
 ```python
@@ -1344,7 +1339,7 @@ Prints "WRONG!" - ASCII values `[87, 82, 79, 78, 71, 33]`
 'WRONG!'
 ```
 
-#### If sum = 49:
+### If sum = 49:
 Prints "CORRECT!" - ASCII values `[67, 79, 82, 82, 69, 67, 84, 33]`
 
 ```python
@@ -1353,7 +1348,7 @@ Prints "CORRECT!" - ASCII values `[67, 79, 82, 82, 69, 67, 84, 33]`
 'CORRECT!'
 ```
 
-### Success Path Assembly
+## Success Path Assembly
 
 ```assembly
 69170: PUSH     CTTGTTTTTT (67) [nm: A=2,T=0,G=1,C=3]   # 'C'
@@ -1377,7 +1372,7 @@ Prints "CORRECT!" - ASCII values `[67, 79, 82, 82, 69, 67, 84, 33]`
 69296: JMP      ACGTCCTTGT (69406) [nm: A=2,T=0,G=1,C=3]
 ```
 
-### Failure Path Assembly
+## Failure Path Assembly
 
 ```assembly
 69308: PUSH     CGGGTTTTTT (87) [nm: A=2,T=0,G=1,C=3]   # 'W'
@@ -1397,9 +1392,9 @@ Prints "CORRECT!" - ASCII values `[67, 79, 82, 82, 69, 67, 84, 33]`
 69406: HALT [nm: A=2,T=0,G=1,C=3]
 ```
 
-## Solving a System of Linear Equations
+# Solving a System of Linear Equations
 
-### Step 1: Problem Formulation
+## Problem Formulation
 
 We are given a system of equations of the form:
 $$\sum_{j=0}^{48} \text{flag}[j] \cdot C_j[i] = m[i] \quad \text{for } i = 0, 1, \dots, 48$$
@@ -1412,9 +1407,8 @@ Where:
 - $\mathbf{f}$ is a column vector of length 49 representing the flag values: $[\text{flag}[0], \text{flag}[1], \dots, \text{flag}[48]]^T$
 - $\mathbf{m}$ is the column vector of resulting values: $[m[0], m[1], \dots, m[48]]^T$
 
-### Step 2: Solution Methodology
-![image](https://github.com/user-attachments/assets/5477087e-e46f-4c2f-94f0-c252b8798356)
-
+## Solution Methodology
+![image](https://github.com/user-attachments/assets/fc76c895-50c8-4fcd-b304-0bdd6641a286)
 
 **to solve the System**:
    we now need to solve:
@@ -1442,8 +1436,10 @@ To ensure that the 49 equations are linearly independent, we verify the determin
 >>> np.linalg.det(A)
 7.002684569518382e+123
 ```
-Since det(C) ≠ 0, matrix C is invertible and the system can be solved directly.
-### Implementation
+
+Since $\det(\mathbf{C}) \neq 0$, matrix $\mathbf{C}$ is invertible and the system can be solved directly.
+
+## Implementation
 
 The following Python script solves the system:
 
@@ -1477,7 +1473,7 @@ if 'residuals' in locals():
     print("Residual norm²:", residuals)
 ```
 
-### Results
+## Results
 
 The solution yields the following flag values:
 
@@ -1486,6 +1482,3 @@ The solution yields the following flag values:
 **ASCII representation**: `we_ought_to_start_storing_our_data_as_dna_instead`
 
 The direct matrix solution method successfully recovered the flag, demonstrating that the system was well-conditioned and had a unique solution.
-
-**Flag : .;,;.{we_ought_to_start_storing_our_data_as_dna_instead}**
-
