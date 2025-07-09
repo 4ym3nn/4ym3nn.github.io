@@ -334,6 +334,323 @@ okay so after that i saw this section
 .text:0000000000018AD3                 jmp     loc_596C2
 .text:0000000000018AD8 ; ---------------------------------------------------------------------------
 ```
-i wasn't unterasted in those functions too much `{_logwtmp,_nextup,_creal,...}` as i know the author mapped the got table  so i will look to the subroutines 
-starting by this `sub_17712`
- w
+i wasn't unterasted in those functions too much `{_logwtmp,_nextup,_creal,...}` as i know the author mapped the got table so in the chunk as im seeing that there is a lot of functions and solving that statically will be painful 
+quick analyzis demonstrates that 
+1-sub_17712 creates a 21×51 maze grid using a systematic wall placement algorithm
+and this is the script (link)[link]
+# Grid Union-Find Maze Generation Writeup
+
+## Overview
+
+The code analyzed implements a maze or grid generation algorithm using a disjoint-set (union-find) data structure to ensure all cells are connected without cycles. The logic ensures that the resulting structure has a unique path between any two points, forming a perfect maze.
+
+## Grid Dimensions
+
+The grid is represented as a 2D array with dimensions **21 rows × 51 columns**. It is initialized with alternating characters to form walls (`'#'`) and spaces (`' '`), depending on the parity of the row and column indices.
+
+```assembly
+for ( i = 1; i <= 49; ++i ) {
+  if ( (i & 1) != 0 && (BYTE12(v17) & 1) != 0 )
+    v5 = 32;
+  else
+    v5 = 35;
+  *(_BYTE *)(*((_QWORD *)&v14 + 1) + 51LL * SHIDWORD(v17) + i) = v5;
+```
+
+Here, `i` runs from 1 to 49 (columns), but `i` is offset by 1 to account for inner paths. Including the outer walls (`i = 0` and `i = 50`), this defines **51 columns**. `SHIDWORD(v17)` controls the row index, iterating from 0 to 20 (inclusive), confirming the **21 rows**.
+
+## Disjoint Set Union (Union-Find)
+
+The code uses a disjoint-set data structure to track connectivity between cells. Two main helper functions are used:
+
+### Find Operation (`sub_175FB`)
+
+```c
+if ( a1 == *(_DWORD *)(4LL * (int)a1 + a2) )
+    return a1;
+v3 = (unsigned int *)(4LL * (int)a1 + a2);
+*v3 = sub_175FB(*v3, a2);
+return *v3;
+```
+
+This implements path compression for the union-find structure.
+
+### Union Operation (`sub_17673`)
+
+```c
+v6 = sub_175FB(a1, a3);
+v5 = sub_175FB(a2, a3);
+if ( v6 != v5 )
+    *(_DWORD *)(a3 + 4LL * v5) = v6;
+```
+
+This merges two sets by updating the parent pointer.
+
+### Index Mapping
+
+Each space in the grid is mapped to a unique 1D index using:
+
+```c
+index = 25 * (row / 2) + (col / 2);
+```
+
+The use of `25` comes from half of the grid's size in the row dimension (since only every second row/column is a cell).
+
+## Maze Generation Logic
+
+### 1. Initialization
+
+* Loop through the grid.
+* Assign wall or space based on parity.
+* Store potential edge walls between walkable cells.
+
+```assembly
+if ( (i & 1) != 0 && (BYTE12(v17) & 1) != 0 )
+    v5 = 32; // space
+else
+    v5 = 35; // '#'
+*(_BYTE *)(... + 51LL * row + col) = v5;
+```
+
+```assembly
+if ((i & 1) == 0 && SHIDWORD(v17) % 2 == 1) {
+  v6 = DWORD2(v17)++;
+  v7 = (_DWORD *)(8LL * v6 + *(_QWORD *)fd);
+  *v7 = HIDWORD(v17);
+  v7[1] = i;
+}
+```
+
+### 2. Edge Processing
+
+Process each stored wall:
+
+* Compute indices of the adjacent cells.
+* If not connected, merge them and remove the wall.
+
+```c
+if ( (v25 & 1) != 0 ) {
+    v22 = 25 * ((v24 - 1) / 2) + v25 / 2;
+    v23 = 25 * ((v24 + 1) / 2) + v25 / 2;
+} else {
+    v22 = 25 * (v24 / 2) + (v25 - 1) / 2;
+    v23 = 25 * (v24 / 2) + (v25 + 1) / 2;
+}
+
+if (sub_175FB(v22, v27) != sub_175FB(v23, v27)) {
+    sub_17673(v22, v23, v27);
+    *(_BYTE *)(v15 + 51LL * v24 + v25) = 32;
+}
+```
+
+### 3. Finalization
+
+After merging all possible walls without forming cycles, the final grid represents a maze with only one path between any two open cells.
+
+```c
+for ( j = 0; j < 250; ++j )
+    *(_DWORD *)(v10 + 4LL * j) = j; // Disjoint-set parent array initialization
+```
+
+## Purpose
+
+This technique ensures the generated grid:
+
+* Has a path between any two walkable cells.
+* Does not contain cycles (perfect maze).
+
+This logic is commonly found in procedural maze generation techniques such as randomized Kruskal's algorithm.
+
+## Note
+
+Calls to functions like `_logwtmp`, `_nextup`, `_creal`, and others are ignored in this writeup as they appear to be irrelevant to the core logic, possibly added for obfuscation or to fill the call table.
+
+
+2-sub_17A5F then solves the maze using breadth-first search to find the shortest path
+and this is the (link)[link]
+and it do the following: 
+search_path: A pathfinding algorithm (like BFS or A*) that searches from a start node to a goal node (19, 49).
+
+insert_node / pop_node: Abstracted priority queue operations.
+
+Direction arrays (dx, dy) allow traversal in 4 cardinal directions.
+
+It reconstructs the path if the goal is reached and returns its length, otherwise -1.
+
+so it is a maze we have to find its size  , print it , find the start and end , solve it
+### maze size :
+
+to be true i stand at gdb for hours because those lines misunderstood me 
+```assembely
+.text:000000000001774E                 mov     [rbp-44h], 1        ; Start row = 1
+.text:000000000001775A loc_1775A:
+.text:000000000001775A                 mov     [rbp-40h], 1        ; Start column = 1
+.text:0000000000017836 loc_17836:
+.text:0000000000017836                 cmp     [rbp-40h], 31h      ; Column <= 49 (0x31)
+.text:000000000001783A                 jle     loc_17766
+.text:0000000000017840                 add     [rbp-44h], 1
+.text:0000000000017844 loc_17844:
+.text:0000000000017844                 cmp     [rbp-44h], 13h      ; Row <= 19 (0x13)
+.text:0000000000017848                 jle     loc_1775A
+```
+because this shows that the grid size is 49*19 so i was solving for that and wondring why this is wrong until i reanlyzis again
+    This loop fills columns 1 through 49 only.
+
+    It skips column 0 and 50.
+
+But the grid offset:
+
+*(_BYTE *)(grid + 51LL * row + i)
+
+means that each row is 51 bytes wide. That tells us something:
+The size of each row is computed like this:
+
+offset = 51 * row + i;
+
+If i goes from 0 to 50, then a total of 51 characters (columns) are written per row.
+
+So even if the loop fills only i = 1 to 49, we must assume:
+
+    i = 0 (leftmost) and i = 50 (rightmost) are handled elsewhere in the code ( set as walls '#').
+
+  so this confirms that the size is (51,21)
+
+### finding the maze in fresh state  and prints it 
+after by passing the first debug by patching and the second one (i patched it too for the first time but this was giving me the wrong puzzle ) so 
+for the first time to pass the second anti debugging i did patched the `gdb,lldb` bytes but this was giving me the wrong puzzle because those bytes was used to control the maze state so set the rip to jump the the ptrace check when it hits `gdb` string 
+
+and the best state for me was at input reading and guess what is read here ```_wordexp``` 
+```assebmely
+.text:0000000000018A6E                 mov     rdi, rax
+.text:0000000000018A71                 call    sub_17A5F
+.text:0000000000018A76                 mov     [rbp-6A48h], eax
+.text:0000000000018A7C                 mov     byte ptr [rbp-672Dh], 20h ; ' '
+.text:0000000000018A83                 mov     byte ptr [rbp-6365h], 20h ; ' '
+.text:0000000000018A8A                 call    _wordexp
+
+```
+so i printed the dumped the maze  here 
+set rax to zero `set $rax=0`
+```assembely
+   0x55555556c83a                  call   0x5555555673f0 <wprintf@plt>
+●→ 0x55555556c83f                  test   rax, rax
+   0x55555556c842                  je     0x55555556c858
+   0x55555556c844                  mov    esi, 0x3
+   0x55555556c849                  lea    rax, [rip+0x4b770]        # 0x5555555b7fc0
+   0x55555556c850                  mov    rdi, rax
+   0x55555556c853                  call   0x555555567890 <cimag@plt>
+───────────────────────────────────────────────────────────────────────────
+```
+so breaking here now `.text:0000000000018A8A                 call    _wordexp`
+and yes our puzzle is here 
+```gef➤  x/gx $rbp-0x6760
+0x7fffffff6e60:	0x2323232323232323
+```
+so i dumped it :
+and this was the result 
+```
+###################################################
+                          # #                 # # #
+# ##### ### # # # ####### # # # ####### # ### # # #
+#     # # # # # # #           # #     # #   #     #
+# ### ### # # # ########### # # # # # ########### #
+#   # #     # # # #   # # # # # # # #             #
+# # # # # # # ### # # # # # ##### # # ### ##### # #
+# # # # # # #       # # #   #   # # # #     #   # #
+# # ### # # # # ##### # ### # ########### ####### #
+# #   # # # # # #     #   # # # # # # # # # # # # #
+######################### # # # # # # # # # # # # #
+#                               #             # # #
+####### ############# ##### # # # ### # ### ### # #
+#             #         #   # # # #   #   #     # #
+# # # # # ############# ###########################
+# # # # # #                                       #
+# ### # # # # ### # # # # # # # # # # ### ### ### #
+#   # # # # #   # # # # # # # # # # #   #   # #   #
+# # ##### # # # # ##### # # # # # ### # # # # # # #
+# #     # # # # # #     # # # # #   # # # # # # #  
+###################################################
+```
+to find the starting point i did the following 
+```
+gef➤  p 0x7fffffff6e93-0x00007fffffff6e60
+$2 = 0x33 //51
+gef➤  p $rbp-0x6365
+$3 = (void *) 0x7fffffff725b
+gef➤  
+$4 = (void *) 0x7fffffff725b
+gef➤  p 0x7fffffff725b-0x7fffffff6e60
+$5 = 0x3fb //1019
+gef➤  
+```
+row = 51 // 51 = 1
+col = 51 % 51 = 0
+→ Coordinate: (1, 0)
+row = 1019 // 51 = 19
+col = 1019 % 51 = 50
+→ Coordinate: (19, 50)
+and we solve the puzzle for that (script.py)[link]
+```from collections import deque
+k=open("./f8.txt","rb").read()
+maze_text='\n'.join(k[i:i+51].decode('latin1') for i in range(0, len(k), 51))
+# Convert string to 2D grid
+maze = [list(row) for row in maze_text.splitlines()]
+H, W = len(maze), len(maze[0])
+def neighbors(r, c):
+    for dr, dc, d in [(-1, 0, 0b00), (1, 0, 0b01), (0, -1, 0b10), (0, 1, 0b11)]:
+        nr, nc = r + dr, c + dc
+        if 0 <= nr < H and 0 <= nc < W and maze[nr][nc] != '#':
+            yield (nr, nc), d
+
+def bfs(start, end):
+    queue = deque([(start, [])])
+    visited = set([start])
+    while queue:
+        (r, c), path = queue.popleft()
+        if (r, c) == end:
+            return path
+        for (nr, nc), direction in neighbors(r, c):
+            if (nr, nc) not in visited:
+                visited.add((nr, nc))
+                queue.append(((nr, nc), path + [direction]))
+    return None
+
+def path_to_hex(bits):
+    b = 0
+    out = []
+    for i, d in enumerate(bits):
+        b = (b << 2) | d
+        if (i+1) % 4 == 0:
+            out.append(f"{b:02x}")
+            b = 0
+    if len(bits) % 4 != 0:
+        b <<= (4 - len(bits) % 4) * 2
+        out.append(f"{b:02x}")
+    return ''.join(out)
+
+# ✅ Define start and end (row, col)
+start = (1, 0)
+end = (19,50 )
+
+path = bfs(start, end)
+if path:
+    print("Path in hex:", path_to_hex(path))
+else:
+    print("No path found")
+```
+and yes that is it `ffffffffffffd7d5556aa97d7ffffffffffffd57`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
