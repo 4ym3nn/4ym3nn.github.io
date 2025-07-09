@@ -5,9 +5,10 @@ draft = false
 title = 'Neon Deceit'
 +++
 
+# Neon Deceit
+
 ![image](https://github.com/user-attachments/assets/06eaaa2f-5e52-4112-9111-3fc2e4019e77)
 
-# Neon Deceit
 
 **15 solves | Reverse**
 
