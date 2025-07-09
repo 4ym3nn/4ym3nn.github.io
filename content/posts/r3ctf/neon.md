@@ -153,7 +153,7 @@ And yes, running with `neon_deceit ./neon_deceit 1 2 3 4 5 6` asks for key:
 
 ![image](https://github.com/user-attachments/assets/0c144177-16c9-48a3-8b47-a26e23717e75)
 
-Let's open the real main function ([main.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/master/content/posts/r3ctf/main.c)).
+Let's open the real main function ([main.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/master/content/posts/r3ctf/main_logic.c)).
 
 ---
 
@@ -328,7 +328,7 @@ I wasn't interested in those functions too much (`_logwtmp`, `_nextup`, `_creal`
 
 1. `sub_17712` creates a 21×51 maze grid using a systematic wall placement algorithm.
 
-   The script ([main.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/master/content/posts/r3ctf/grid_init.c)):
+   The script ([sub_17712.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/master/content/posts/r3ctf/grid_init.c)):
 
    ### Grid Union-Find Maze Generation Writeup
 
@@ -374,7 +374,7 @@ I wasn't interested in those functions too much (`_logwtmp`, `_nextup`, `_creal`
 
 2. `sub_17A5F` then solves the maze using breadth-first search to find the shortest path.
 
-   This is the ([main.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/master/content/posts/r3ctf/main.c))., and it does the following:
+   This is the ([sub)17a5f.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/master/content/posts/r3ctf/path_finder.c))., and it does the following:
 
    - `search_path`: A pathfinding algorithm (like BFS or A*) that searches from a start node to a goal node (19, 49).
    - `insert_node` / `pop_node`: Abstracted priority queue operations.
