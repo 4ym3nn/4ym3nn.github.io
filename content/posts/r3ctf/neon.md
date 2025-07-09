@@ -137,4 +137,64 @@ so we are storing the number of args `argc` in `rbp-4` compare it to 7 if equal 
 ```
 and yes running with `neon_deceit ./neon_deceit 1 2 3 4 5 6` asks for key 
 ![image](https://github.com/user-attachments/assets/0c144177-16c9-48a3-8b47-a26e23717e75)
-so let us go through analyzing 
+so let us go through analyzing ,i used `ltrace` to track dynamic libary calls and 
+```bash
+➜  neon_deceit ltrace ./neon_deceit 1 2 3 4 5 6
+strdup("hello world")                                                   = 0x555f21c802a0
+sleep(0)                                                                = 0
+ptrace(0, 0, 1, 0)                                                      = -1
+longjmp(0x555f16a74fc0, 2, 0, 0x7f5f044e1888 <no return ...>
+--- SIGSEGV (Segmentation fault) ---
++++ killed by SIGSEGV +++
+➜  neon_deceit
+```
+ptrace so antidebugging is present here now i should find where it is again with gdb `break ptrace  `
+and logging the backtrace 
+```
+────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x7ffff76e1830 → ptrace(request=PTRACE_TRACEME)
+[#1] 0x55555556c5ec → test rax, rax
+[#2] 0x5555555ad710 → jmp 0x5555555ad72b
+```
+so ```test rax,rax``` is checking if antidebugger is present analyzing the offset 
+![image](https://github.com/user-attachments/assets/18aab588-a4fb-4a04-98a4-49a28f4e0a5d)
+and yeah guess what `call    _vfwprintf` is `call ptrace `
+checking for debugger logic is here
+```
+call    _vfwprintf
+test    rax, rax
+jns     short loc_18605
+```
+so i patched the `jns` to `js` and focus that the exit is `cimg`
+```
+.text:00000000000185E7                 call    _vfwprintf
+.text:00000000000185EC                 test    rax, rax
+.text:00000000000185EF                 jns     short loc_18605
+.text:00000000000185F1                 mov     esi, (offset dword_0+2) ; modes
+.text:00000000000185F6                 lea     rax, dirp
+.text:00000000000185FD                 mov     rdi, rax
+.text:0000000000018600                 call    _cimag
+```
+running `ltrace` again :
+```
+➜  neon_deceit ltrace ./neon_deceit 1 2 3 4 5 6
+strdup("hello world")                                                                                                                              = 0x5630660542a0
+sleep(0)                                                                                                                                           = 0
+ptrace(0, 0, 1, 0)                                                                                                                                 = -1
+getppid()                                                                                                                                          = 19161
+snprintf("/proc/19161/comm", 4096, "/proc/%d/comm", 19161)                                                                                         = 16
+fopen("/proc/19161/comm", "r")                                                                                                                     = 0x5630660542c0
+fread(0x7ffc53f4a7f0, 1, 1023, 0x5630660542c0)                                                                                                     = 7
+fclose(0x5630660542c0)                                                                                                                             = 0
+strstr("ltrace\n", "gdb")                                                                                                                          = nil
+strstr("ltrace\n", "lldb")                                                                                                                         = nil
+strstr("ltrace\n", "ida")                                                                                                                          = nil
+strstr("ltrace\n", "strace")                                                                                                                       = nil
+strstr("ltrace\n", "ltrace")                                                                                                                       = "ltrace\n"
+longjmp(0x5630641e1fc0, 3, 0, 114 <no return ...>
+--- SIGSEGV (Segmentation fault) ---
++++ killed by SIGSEGV +++
+➜  neon_deceit 
+```
+another antidebugging check let us identify this part in code so it here 
+so 
