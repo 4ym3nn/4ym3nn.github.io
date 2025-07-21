@@ -419,4 +419,368 @@ password[7] == password[8]
 password[11] - eval(password[4]) == password[11]
 ```
 
+### `check_three` function :
+```python
+def check_four(password):
+    return check_ex(password, "Check4")
+```
+Calls check_ex with "Check4" as the function name
+Sets up callback system allowing Check4 DLL function to execute Python expressions
+let us look through the check4 function 
+```180001ae0    uint64_t Mod1::findC13Lines(
+180001ae0      int64_t arg1)
+
+180001b0e        void var_2c8
+180001b0e        int64_t rax_1 = __security_cookie ^ &var_2c8
+180001b1b        int32_t var_270
+180001b1b        __builtin_wcscpy(dest: &var_270, src: u"ord(PASSWORD[1])")
+180001b6f        int32_t var_248
+180001b6f        __builtin_wcscpy(dest: &var_248, src: u"ord(PASSWORD[2])")
+180001bac        int32_t var_220
+180001bac        __builtin_wcscpy(dest: &var_220, src: u"ord(PASSWORD[3])")
+180001be9        char rax_2 = (*arg1)(&var_270)
+180001bf2        char rax_3 = (*arg1)(&var_248)
+180001bfb        char rax_4 = (*arg1)(&var_220)
+180001c00        int32_t var_2a0 = 0x6293def8
+180001c0f        int32_t var_298
+180001c0f        __builtin_memcpy(dest: &var_298, src: "\xf2\x1e\x2a\xf4\x21\xef\xf7\x29\x1b\x8b\x96\x17\x78\x8b\x32\x90\x87\xb4\x58\xb5\xe1\xed\xb9\x48\x3e\xd9", n: 0x1a)
+180001c3d        int128_t s
+180001c3d        __builtin_memset(&s, c: 0, n: 0x1e)
+180001c57        int128_t s_1
+180001c57        __builtin_memset(s: &s_1, c: 0, n: 0x60)
+180001c86        uint64_t result
+180001c86        
+180001c86        if (j_sub_180002060(&var_298, 0x1a, &s, &data_180009000, 2, var_2a0) == 0)
+180001e83            result = 0
+180001c86        else
+180001c90            int32_t rax_6 = (*arg1)(&s)
+180001c95            data_180009004 = rax_2
+180001c9e            data_180009005 = rax_3
+180001cae            var_298 = 0x5ac1e9d0
+180001cb6            data_180009003 = (rax_6 s>> 3).b ^ 0x36
+180001cc6            data_180009006 = rax_4 ^ rax_2 ^ rax_3 ^ 0x10
+180001cce            int32_t var_294_1 = 0x31280c9e
+180001cdc            int32_t var_290
+180001cdc            __builtin_strncpy(dest: &var_290, src: "X$]h", n: 4)
+180001ce6            int32_t var_28c
+180001ce6            __builtin_memcpy(dest: &var_28c, src: "\x54\x8d\x6f\xe7\xf6\xdb\xd7\xe5\xc0\x4b\x28\x46\xe7\xa4\x7e\xcd\x07\xf8\xf4\x41", n: 0x14)
+180001d0e            void var_f8
+180001d0e            memset(dest: &var_f8, c: 0, count: 0xc0)
+180001d0e            
+180001d43            if (j_sub_180002060(&var_298, 0x20, &var_f8, &data_180009000, 8, 0x69fa99d) == 0)
+180001e83                result = 0
+180001d43            else
+180001d50                int16_t rax_8 = (*arg1)(&var_f8)
+180001d5e                int112_t var_1e8
+180001d5e                __builtin_wcscpy(dest: &var_1e8, src: u"11:13")
+180001d5e                
+180001d7d                if (((rax_6 & 0x64) ^ zx.d(rax_8)) != (*arg1)(&s))
+180001e83                    result = 0
+180001d7d                else
+180001d99                    int16_t var_de
+180001d99                    int16_t var_de_1 = var_de - 8
+180001da3                    int16_t var_dc_1 = var_de - 9
+180001dae                    int16_t var_da_1 = var_1e8:0xa.w
+180001db9                    int16_t var_d8_1 = var_1e8:0xc.w
+180001dc0                    int16_t rax_13 = (*arg1)(&var_f8)
+180001dc5                    int32_t var_2a0_2 = 0xa7d53695
+180001dd4                    var_298 = 0x5adde9d6
+180001de0                    int32_t var_294_2 = 0x31280c8e
+180001ded                    int32_t var_290_1
+180001ded                    __builtin_strncpy(dest: &var_290_1, src: "C$Yh", n: 4)
+180001dfa                    int32_t var_28c_1
+180001dfa                    __builtin_memcpy(dest: &var_28c_1, src: "\x5e\x8d\x67\xe7\x91\xdb\xa2\xe5\xa0\x4b\x31\x46\x90\xa4\x67\xcd\x6b\xf8\xeb\x41\x20\x94", n: 0x16)
+180001e02                    int128_t s_2
+180001e02                    __builtin_memset(s: &s_2, c: 0, n: 0x80)
+180001e02                    
+180001e6a                    if (j_sub_180002060(&var_298, 0x22, &s_2, &data_180009000, 8, var_2a0_2) == 0)
+180001e83                        result = 0
+180001e6a                    else
+180001e7a                        int32_t result_1
+180001e7a                        result_1.b = zx.d(rax_13) == (*arg1)(&s_2) - 7
+180001e7e                        result = zx.q(result_1)
+180001e7e        
+180001e8f        j___security_check_cookie(rax_1 ^ &var_2c8)
+180001eb4        return result
+```
+we can see that ```j_sub_180002060``` is called three times so what is it ? 
+it calls two functions :
+this 
+```c
+1800013f0    uint64_t sub_1800013f0(int64_t arg1, 
+1800013f0      int32_t arg2, void* arg3, 
+1800013f0      int32_t arg4)
+
+180001405        void var_138
+180001405        int64_t rax_1 = __security_cookie ^ &var_138
+180001410        int32_t zmm2[0x4] = data_180007930
+18000141a        uint32_t zmm3[0x4] = data_180007950
+180001422        void var_130
+180001422        void* rdx = &var_130
+18000142a        uint64_t i_3 = zx.q(arg4)
+18000142d        int32_t rcx = 8
+180001432        void* rbx = arg3
+180001432        
+1800014cc        do
+180001447            rdx += 0x10
+180001453            uint128_t zmm0 = _mm_add_epi32(_mm_shuffle_epi32(zx.o(rcx - 8), 0), zmm2)
+180001460            int32_t rax_4 = rcx + 4
+180001463            int32_t temp0_4[0x4] = _mm_add_epi32(_mm_shuffle_epi32(zx.o(rcx - 4), 0), zmm2)
+180001467            zmm0 = _mm_and_ps(zmm0, zmm3)
+18000146a            int32_t zmm1[0x4] = _mm_and_ps(temp0_4, zmm3)
+18000146d            zmm0 = _mm_packus_epi16(zmm0, zmm0)
+180001471            zmm1 = _mm_packus_epi16(zmm1, zmm1)
+180001479            *(rdx - 0x18) = _mm_packus_epi16(zmm0, zmm0).d
+180001482            *(rdx - 0x14) = _mm_packus_epi16(zmm1, zmm1)[0]
+180001487            zmm0 = zx.o(rcx)
+18000148b            rcx += 0x10
+180001493            zmm0 = _mm_add_epi32(_mm_shuffle_epi32(zmm0, 0), zmm2)
+18000149b            zmm1 = _mm_shuffle_epi32(zx.o(rax_4), 0)
+1800014a0            zmm0 = _mm_and_ps(zmm0, zmm3)
+1800014a3            int32_t temp0_15[0x4] = _mm_add_epi32(zmm1, zmm2)
+1800014a7            zmm0 = _mm_packus_epi16(zmm0, zmm0)
+1800014ab            zmm1 = _mm_and_ps(temp0_15, zmm3)
+1800014b2            *(rdx - 0x10) = _mm_packus_epi16(zmm0, zmm0).d
+1800014ba            zmm1 = _mm_packus_epi16(zmm1, zmm1)
+1800014c2            *(rdx - 0xc) = _mm_packus_epi16(zmm1, zmm1)[0]
+1800014cc        while (rcx - 8 u< 0x100)
+1800014cc        
+1800014d2        uint64_t r11 = 0
+1800014d5        void* rcx_1 = &var_138
+1800014d9        uint64_t rdi = 0
+180001514        uint64_t result
+180001514        
+180001514        for (int32_t i = 0; i u< 0x100; )
+1800014e0            char r9 = *rcx_1
+1800014e4            rcx_1 += 1
+1800014ed            uint64_t rdx_1 = zx.q(modu.dp.d(0:i, arg2))
+1800014ef            i += 1
+1800014fb            rdi = zx.q(*(rdx_1 + arg1) + rdi.b + r9)
+180001502            result = zx.q(*(&var_138 + rdi))
+180001506            *(rcx_1 - 1) = result.b
+180001509            *(&var_138 + rdi) = r9
+180001509        
+180001516        uint64_t r9_1 = 0
+180001519        uint64_t i_2 = i_3
+180001519        
+18000151f        if (i_3.d != 0)
+180001574            uint64_t i_1
+180001574            
+180001574            do
+180001534                r11 = zx.q((r11 + 1).b)
+180001540                rbx += 1
+180001544                char rdx_5 = *(&var_138 + r11)
+18000154d                r9_1 = zx.q(r9_1.b + rdx_5)
+180001556                *(&var_138 + r11) = *(&var_138 + r9_1)
+18000155a                *(&var_138 + r9_1) = rdx_5
+180001566                result = zx.q(*(&var_138 + r11) + rdx_5)
+18000156d                *(rbx - 1) ^= *(&var_138 + result)
+180001570                i_1 = i_2
+180001570                i_2 -= 1
+180001574            while (i_1 != 1)
+180001574        
+180001581        j___security_check_cookie(rax_1 ^ &var_138)
+180001593        return result
+
+```
+which is SIMD implemnatition of RC4
+and 
+```c
+180001630    int64_t sub_180001630(char* arg1, 
+180001630      int64_t arg2)
+
+180001638        int16_t* i = arg1
+180001638        
+18000163b        if (*arg1 != 0)
+180001643            while (i u< &arg1[arg2 << 1])
+180001645                i = &i[1]
+180001645                
+18000164d                if (*i == 0)
+18000164d                    break
+18000164d        
+180001658        return j_sub_180001600(arg1, ((i - arg1) s>> 1) * 2) __tailcall
+// and it is calling that
+```
+```c
+180001600    int64_t sub_180001600(char* arg1, 
+180001600      int64_t arg2)
+
+180001600        int32_t result = 0x1505
+180001600        
+180001608        if (arg2 != 0)
+180001622            int64_t i
+180001622            
+180001622            do
+180001610                int32_t r8_1 = sx.d(*arg1)
+180001614                arg1 = &arg1[1]
+18000161b                result = (result * 0x21) ^ r8_1
+18000161e                i = arg2
+18000161e                arg2 -= 1
+180001622            while (i != 1)
+180001622        
+180001624        return result
+
+```
+and this is the DJB2 hash function
+so this function  
+```j_sub_180002060(&var_298, 0x1a, &s, &data_180009000, 2, var_2a0)
+```
+is 
+```c
+180002060    int64_t _
+DecryptRC4andCheckHashH(int64_t data, int64_t dataLength, char* dataa, int64_t key, int32_t keyLength, int32_t expected_hash)
+
+180002081        memcpy(dest: dataa, src: data, count: dataLength.d)
+180002093        RC4(key, keyLength, dataa, dataLength.d)
+1800020b4        int32_t result
+1800020b4        result.b = hash_utf16_string(dataa, dataLength u>> 1) == expected_hash
+1800020bc        return result
+```
+which is simply 
+```c
+void rc4(uint8_t *key, int keylen, uint8_t *data, int len) {
+    uint8_t s[256];
+    int i, j = 0;
+    for (i = 0; i < 256; i++) s[i] = i;
+    for (i = 0; i < 256; i++) {
+        j = (j + s[i] + key[i % keylen]) % 256;
+        uint8_t tmp = s[i]; s[i] = s[j]; s[j] = tmp;
+    }
+    i = j = 0;
+    for (int x = 0; x < len; x++) {
+        i = (i + 1) % 256;
+        j = (j + s[i]) % 256;
+        uint8_t tmp = s[i]; s[i] = s[j]; s[j] = tmp;
+        data[x] ^= s[(s[i] + s[j]) % 256];
+    }
+}
+
+uint32_t hash_function(uint8_t *data, int len) {
+    uint32_t result = 0x1505;
+    for (int i = 0; i < len; i++) {
+        result = (result * 0x21) ^ data[i];
+    }
+    return result;
+}
+
+uint32_t hash_utf16_string(uint8_t *data, int len) {
+    int i;
+    for (i = 0; i + 1 < len; i += 2) {
+        if (data[i] == 0 && data[i + 1] == 0)
+            break;
+    }
+    return hash_function(data, i);
+}
+memcpy(data, ciphertext, DATA_LEN);
+rc4(key, 8, data, DATA_LEN);
+
+uint32_t h = hash_utf16_string(data, DATA_LEN);
+if (h == EXPECTED_HASH) {
+    return 1
+} else
+{
+return 0
+}
+```
+so it is three stages decryptions
+so for each stage we will get (key,key length, enc_data,length_enc_data)
+### first Decryption :
+```c
+180001c86        if (_DecryptRC4andCheckHash(&var_298, 0x1a, &s, &data_180009000, 2, 0x6293def8) == 0)
+```
+so the length of the key is 2 , the key is data_180009000 
+which we have 
+```
+data_180009001 = 0x6D ` and `data_180009000 = 0x7a `
+```
+
+```c
+int main() {
+    uint8_t ciphertext[DATA_LEN] = {
+        0xf2, 0x1e, 0x2a, 0xf4, 0x21, 0xef, 0xf7, 0x29, 0x1b, 0x8b,
+        0x96, 0x17, 0x78, 0x8b, 0x32, 0x90, 0x87, 0xb4, 0x58, 0xb5,
+        0xe1, 0xed, 0xb9, 0x48, 0x3e, 0xd9
+    };
+
+            uint8_t key[2] = {0x6d, 0x7a};
+            uint8_t data[DATA_LEN];
+            memcpy(data, ciphertext, DATA_LEN);
+            rc4(key, 2, data, DATA_LEN);
+            uint32_t h = hash_utf16_string(data, DATA_LEN);
+            if (h == 0x6293def8) {
+                printf("[+] Decrypted data: ");
+                for (int i = 0; i < DATA_LEN; i++) putchar(data[i]);
+                printf("\n");
+                return 0;
+            }
+    return 1;
+}
+```
+
+### second Decryption :
+```c
+180001c90            int32_t rax_3 = (*arg1)(&var_1f8)
+180001c95            data_180009004 = ordd1
+180001c9e            data_180009005 = ordd2
+180001cae            data = 0x5ac1e9d0
+180001cb6            data_180009003 = (rax_3 s>> 3).b ^ 0x36
+180001cc6            data_180009006 = ordd3 ^ ordd1 ^ ordd2 ^ 0x10
+180001cce            int32_t var_294_1 = 0x31280c9e
+180001cdc            int32_t var_290
+180001cdc            __builtin_strncpy(dest: &var_290, src: "X$]h", n: 4)
+180001ce6            int32_t var_28c
+180001ce6            __builtin_memcpy(dest: &var_28c, src: "\x54\x8d\x6f\xe7\xf6\xdb\xd7\xe5\xc0\x4b\x28\x46\xe7\xa4\x7e\xcd\x07\xf8\xf4\x41", n: 0x14)
+180001d0e            void dataa
+180001d0e            memset(dest: &dataa, c: 0, count: 0xc0)
+180001d0e            
+180001d43            if (_
+DecryptRC4andCheckHash(&data, dataLength: 0x20, &dataa, key: &data_180009000, keyLength: 8, expected_hash: 0x69fa99d) == 0)
+```
+the encrypted data is missed here so i back to disassembely to see the real value of &data 
+```assembely
+180001cae  c7442430d0e9c15a   mov     dword [rsp+0x30 {data}], 0x5ac1e9d0
+180001cb6  880d47730000       mov     byte [rel data_180009003], cl
+180001cbc  80f310             xor     bl, 0x10
+180001cbf  488d8dd0000000     lea     rcx, [rbp+0xd0 {dataa}]
+180001cc6  881d3a730000       mov     byte [rel data_180009006], bl
+180001ccc  33d2               xor     edx, edx  {0x0}
+180001cce  c74424349e0c2831   mov     dword [rsp+0x34 {var_294_1}], 0x31280c9e
+180001cd6  41b8c0000000       mov     r8d, 0xc0
+180001cdc  c744243858245d68   mov     dword [rsp+0x38], 0x685d2458
+180001ce4  8bf8               mov     edi, eax
+180001ce6  c744243c548d6fe7   mov     dword [rsp+0x3c], 0xe76f8d54  {0xe76f8d54}
+180001cee  c7442440f6dbd7e5   mov     dword [rsp+0x40 {var_288}], 0xe5d7dbf6  {0xe5d7dbf6}
+180001cf6  c7442444c04b2846   mov     dword [rsp+0x44 {var_284}], 0x46284bc0
+180001cfe  c7442448e7a47ecd   mov     dword [rsp+0x48 {var_280}], 0xcd7ea4e7  {0xcd7ea4e7}
+180001d06  c744244c07f8f441   mov     dword [rsp+0x4c {var_27c}], 0x41f4f807
+```
+&data pointer starts at  `rsp+0x30`
+it loads four bytes `mov     dword [rsp+0x30 {data}], 0x5ac1e9d0`
+then `mov     dword [rsp+0x34 {var_294_1}], 0x31280c9e` another four bytes
+then `mov     dword [rsp+0x3c], 0xe76f8d54  {0xe76f8d54}`
+then `mov     dword [rsp+0x3c], 0xe76f8d54  {0xe76f8d54}`
+...
+then `mov     dword [rsp+0x4c {var_27c}], 0x41f4f807`
+so encrypted data :
+```c
+uint8_t ciphertext[DATA_LEN] = {     0xd0,0xe9,0xc1,0x5a,0x9e,0x0c,0x28,0x31,0x58,0x24,0x5d,0x68,0x54,0x8d,0x6f,0xe7,0xf6,0xdb,0xd7,0xe5,0xc0,0x4b,0x28,0x46,0xe7,0xa4,0x7e,0xcd,0x07,0xf8,0xf4,0x41
+    };
+```
+key length is `8` 
+and the key :
+```
+data_180009000=0x7a
+data_180009001=0x6d
+data_180009002=0xcc
+data_180009003=unkown \\ brute force 1 byte 
+data_180009004=ord1
+data_180009005=ord2
+data_180009006=ordd3 ^ ordd1 ^ ordd2 ^ 0x10
+data_180009007=0xcc
+```
+
+
+
+
+
 
