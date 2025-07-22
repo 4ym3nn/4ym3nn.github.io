@@ -678,25 +678,60 @@ int main() {
 The decrypted data is interpreted as int(KEY[0:4]) — i.e., first 4 bytes as a little-endian integer.
 
 #### Stage Two
-
+If the check passes from stage one , it evaluates a function pointer arg1 with `int(KEY[0:4])`:
 ```c
-data_180009004 = ord1
-data_180009005 = ord2
-data_180009003 = (key0to4>> 3).b ^ 0x36 // key0to4 ==int(KEY[0:4]) 
-data_180009006 = ord3 ^ ord1 ^ ord2 ^ 0x10
+180001c90    int32_t rax_3 = (*arg1)(&ord9);  // eval(int(KEY[0:4]))
+180001c95    data_180009004 = ord1;
+180001c9e    data_180009005 = ord2;
+```
+Then it prepares decryption-related values:
+```c
+180001cae    var_298 = 0x5ac1e9d0;
+180001cb6    data_180009003 = (rax_3 >> 3) ^ 0x36;
+180001cc6    data_180009006 = ord3 ^ ord1 ^ ord2 ^ 0x10;
 ```
 
-The encrypted data (extracted from disassembly):
+Static values written to the stack:
 ```c
-uint8_t ciphertext[DATA_LEN] = {
-    0xd0,0xe9,0xc1,0x5a,0x9e,0x0c,0x28,0x31,0x58,0x24,0x5d,0x68,0x54,0x8d,
-    0x6f,0xe7,0xf6,0xdb,0xd7,0xe5,0xc0,0x4b,0x28,0x46,0xe7,0xa4,0x7e,0xcd,
-    0x07,0xf8,0xf4,0x41
+180001cce    int32_t var_294_1 = 0x31280c9e;
+180001cdc    __builtin_strncpy(&var_290, "X$]h", 4);
+180001ce6    __builtin_memcpy(&var_28c, 
+    "\x54\x8d\x6f\xe7\xf6\xdb\xd7\xe5\xc0\x4b\x28\x46"
+    "\xe7\xa4\x7e\xcd\x07\xf8\xf4\x41", 0x14);
+```
+
+The variable var_f8 is cleared with a memset, and then passed as the output buffer for decryption:
+```c
+180001d0e    memset(&var_f8, 0, 0xc0);  // clear buffer
+180001d43    if (_DecryptRC4andCheckHash(&var_298, 0x20, &var_f8, &data_180009000, 8, 0x69fa99d) == 0)
+```
+But from the **disassembly**, we realize the actual ciphertext is stored directly on the stack, starting at rsp+0x30, not in var_28c. The full encrypted payload is loaded as follows:
+```assembely
+mov dword [rsp+0x30], 0x5ac1e9d0
+mov dword [rsp+0x34], 0x31280c9e
+mov dword [rsp+0x38], 0x685d2458
+mov dword [rsp+0x3c], 0xe76f8d54
+mov dword [rsp+0x40], 0xe5d7dbf6
+mov dword [rsp+0x44], 0x46284bc0
+mov dword [rsp+0x48], 0xcd7ea4e7
+mov dword [rsp+0x4c], 0x41f4f807
+```
+Putting it all together, the encryped_data is:
+```c
+uint8_t ciphertext[32] = {
+    0xd0, 0xe9, 0xc1, 0x5a,
+    0x9e, 0x0c, 0x28, 0x31,
+    0x58, 0x24, 0x5d, 0x68,
+    0x54, 0x8d, 0x6f, 0xe7,
+    0xf6, 0xdb, 0xd7, 0xe5,
+    0xc0, 0x4b, 0x28, 0x46,
+    0xe7, 0xa4, 0x7e, 0xcd,
+    0x07, 0xf8, 0xf4, 0x41
 };
 ```
 
 Key length is 8, and the key:
-```
+```c
 data_180009000 = 0x7a
 data_180009001 = 0x6d
 data_180009002 = 0xcc
@@ -707,7 +742,7 @@ data_180009006 = ord3 ^ ord1 ^ ord2 ^ 0x10
 data_180009007 = 0xcc
 ```
 
-After brute forcing, I got:
+After brute forcing ord1,ord2,ord3, I got:
 ```c
 uint8_t key[8] = { 0x7a, 0x6d, 0xcc, 0x6f, 0x79, 0x64, 0x7f, 0xcc };
 ```
@@ -728,7 +763,7 @@ password[10] = unknown
 password[11] = in range '3' to '9'
 ```
 
-We could brute force the two bytes and get the flag, but I wanted to complete the challenge.
+We could brute force the two bytes at index 9,10 and get the flag, but I wanted to complete the challenge.
 
 #### Stage Three
 
