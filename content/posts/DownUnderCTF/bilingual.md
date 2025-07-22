@@ -387,10 +387,14 @@ I dumped the `v` value and passed unique characters as input to find the constra
 ```
 
 So I mapped them to positions and got:
+### Final Result:
 ```python
 password[8] + 2 == password[11]  
 password[7] == password[8]       
 password[11] - eval(password[4]) == password[11]
+48<ord(password[11])<57
+48<ord(password[7])<57
+48<ord(password[8])<57
 ```
 
 ## Check4 :
