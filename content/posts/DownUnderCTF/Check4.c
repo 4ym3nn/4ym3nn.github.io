@@ -55,7 +55,7 @@ int RC4decryptCheckHash(uint8_t *enc_data, int enc_len, uint8_t *key, uint8_t *d
     return 0;
 }
 
-uint64_t findC13Lines(int64_t arg1) {
+uint64_t Check4(int64_t arg1) {
     uint8_t data_180009000 = 0x7a;
     uint8_t data_180009001 = 0x6d;
     uint8_t data_180009002 = 0xcc;
