@@ -1,5 +1,5 @@
 +++
-date = '2025-07-22T19:41:23+01:00'
+date = '2025-07-21T19:41:23+01:00'
 draft = false
 title = 'bilingual'
 hideToc = false
