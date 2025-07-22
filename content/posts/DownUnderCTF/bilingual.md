@@ -436,30 +436,115 @@ password[11] - eval(password[4]) == password[11]
 def check_four(password):
     return check_ex(password, "Check4")
 ```
+Calls check_ex with "Check4" as the function name and sets up a callback system that allows the native Check4 function in the DLL to execute Python expressions.
 
-Calls `check_ex` with "Check4" as the function name and sets up a callback system allowing the `Check4` DLL function to execute Python expressions.
+The arg1 parameter passed to Check4 is a pointer to a callback table containing the function eval_int, defined as:
+```python
+def eval_int(v):
+    return int(eval(v))
+```
+This means any time the native code calls (*arg1)(value), it triggers a call to eval_int(value), effectively executing eval(value) in Python. For example, in the disassembly:
+```c
+__builtin_wcscpy(dest: &var_270, src: u"ord(PASSWORD[1])")
+...
+char rax_2 = (*arg1)(&var_270)
+```
+The string "ord(PASSWORD[1])" is passed to the callback, resulting in a call to eval("ord(PASSWORD[1])"), which returns the corresponding integer to the native code.
 
 Let's look at the `check4` function:
-here is the function ![Check4.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/Check4.c)
 
+here is the full function ![Check4.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/originalCheck4.c)
+
+after variables setup 
+```c
+180001c86        if (j_sub_180002060(&var_298, 0x1a, &s, &data_180009000, 2, var_2a0) == 0)
+180001e83            result = 0
+```
+```c
+180001d43            if (j_sub_180002060(&var_298, 0x20, &var_f8, &data_180009000, 8, 0x69fa99d) == 0)
+180001e83                result = 0
+```
+```c
+180001e6a                    if (j_sub_180002060(&var_298, 0x22, &s_2, &data_180009000, 8, var_2a0_2) == 0)
+180001e83                        result = 0
+```
 We can see that `j_sub_180002060` is called three times. What is it?
+```c
+180002060    int64_t sub_180002060(int64_t arg1, int64_t arg2, char* arg3, int64_t arg4, int32_t arg5, int32_t arg6)
 
+180002081        memcpy(dest: arg3, src: arg1, count: arg2.d)
+180002093        j_sub_1800013f0(arg4, arg5, arg3, arg2.d) // this function jumps to  sub_1800013f0 function
+1800020b4        int32_t result
+1800020b4        result.b = j_sub_180001630(arg3, arg2 u>> 1) == arg6
+1800020bc        return result
+```
 It calls two functions:
+1- ![sub_1800013f0](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/RC4.c) , which is a SIMD-optimized implementation of the RC4 encryption/decryption algorithm.
 
-1. **RC4 Implementation** - A SIMD implementation of RC4 encryption/decryption
-2. **DJB2 Hash Function** - For hash verification
+I cleaned and simplified it into a standard C version:
 
 ```c
-int64_t DecryptRC4andCheckHashH(int64_t data, int64_t dataLength, char* dataa, int64_t key, int32_t keyLength, int32_t expected_hash)
+void rc4(uint8_t *key, int keylen, uint8_t *data, int len) {
+    uint8_t s[256];
+    int i, j = 0;
+    for (i = 0; i < 256; i++) s[i] = i;
+    for (i = 0; i < 256; i++) {
+        j = (j + s[i] + key[i % keylen]) % 256;
+        uint8_t tmp = s[i]; s[i] = s[j]; s[j] = tmp;
+    }
+    i = j = 0;
+    for (int x = 0; x < len; x++) {
+        i = (i + 1) % 256;
+        j = (j + s[i]) % 256;
+        uint8_t tmp = s[i]; s[i] = s[j]; s[j] = tmp;
+        data[x] ^= s[(s[i] + s[j]) % 256];
+    }
+}
+```
+2- The second call is a hash check:
+```c
+int32_t result = (sub_180001630(arg3, arg2 >> 1) == arg6);
+```
+Which corresponds to the following logic:
+```c
+ result.b = hash_utf16_string(dataa, dataLength u>> 1) == expected_hash;
+```
+
+And here is the cleaned hash implementation:
+
+```c
+uint32_t hash_function(uint8_t *data, int len) {
+    uint32_t result = 0x1505;
+    for (int i = 0; i < len; i++) {
+        result = (result * 0x21) ^ data[i];
+    }
+    return result;
+}
+
+uint32_t hash_utf16_string(uint8_t *data, int len) {
+    int i;
+    for (i = 0; i + 1 < len; i += 2) {
+        if (data[i] == 0 && data[i + 1] == 0)
+            break;
+    }
+    return hash_function(data, i);
+}
+
+```
+This is essentially a DJB2 Hash Function adapted for UTF-16 encoded input, used for hash verification after decryption.
+
+Putting it all together, the original function j_sub_180002060 can be understood and renamed as: `DecryptRC4andCheckHash` 
+
+```c
+int64_t DecryptRC4andCheckHash(int64_t data, int64_t dataLength, char* dataa, int64_t key, int32_t keyLength, int32_t expected_hash)
 {
     memcpy(dest: dataa, src: data, count: dataLength.d);
-    RC4(key, keyLength, dataa, dataLength.d);
+    rc4(key, keyLength, dataa, dataLength.d);
     int32_t result;
     result.b = hash_utf16_string(dataa, dataLength u>> 1) == expected_hash;
     return result;
 }
 ```
-
 Which is essentially:
 ```c
 void rc4(uint8_t *key, int keylen, uint8_t *data, int len) {
@@ -506,18 +591,73 @@ if (h == EXPECTED_HASH) {
     return 0;
 }
 ```
+This function simply:
 
-There are three stages of decryption. For each stage, we get **(key, key_length, enc_data, length_enc_data)**.
+    Copies the encrypted data into a buffer.
+
+    Decrypts it using RC4 with a given key.
+
+    Computes a hash of the decrypted data and compares it to a known hash.
+
+The function Mod1::findC13Lines is invoked three times, and in each call, it performs a stage of decryption.
+
+To proceed through each stage successfully, we must recover the following for each:
+
+    key – the decryption key
+
+    key_length – the length of the key
+
+    enc_data – the encrypted data buffer
+
+    length_enc_data – the length of the encrypted data
+
+Each stage uses this data in a DecryptRC4andCheckHash(...) call to:
+
+    Decrypt the data using RC4,
+
+    And verify it using a DJB2-based hash function.
+
+If the hash check passes, additional logic is executed .
+Otherwise, the function exits early.
+
+So, in summary:
+
+     we must extract or reverse the correct **(key, key_length, enc_data, length_enc_data)** tuple for all three              stages to reach the function’s final logic.
 
 #### Stage One
+
+```c
+180001b1b  __builtin_wcscpy(dest: &var_270, src: u"ord(PASSWORD[1])");
+180001b6f  __builtin_wcscpy(dest: &var_248, src: u"ord(PASSWORD[2])");
+180001bac  __builtin_wcscpy(dest: &var_220, src: u"ord(PASSWORD[3])");
+
+180001be9  char ord1 = (*arg1)(&var_270);
+180001bf2  char ord2 = (*arg1)(&var_248);
+180001bfb  char ord3 = (*arg1)(&var_220);
+```
+In this stage, the function prepares the values needed for decryption:
+
+    It loads a hardcoded 26-byte encrypted buffer (enc_data) into var_298.
+
+    It sets the key pointer to &data_180009000 and key length to 2.
+
+    It initializes an empty buffer s to receive the decrypted output.
+
+    It sets the hash constant to 0x6293def8.
 
 ```c
 if (_DecryptRC4andCheckHash(&var_298, 0x1a, &s, &data_180009000, 2, 0x6293def8) == 0)
 ```
 
-The length of the key is 2, the key is `data_180009000`, which we have:
-- `data_180009001 = 0x6D`
-- `data_180009000 = 0x7a`
+We know the parameters:
+
+    Key: 2 bytes from data_180009000
+    → key = { 0x6d, 0x7a }
+
+    Encrypted data: 26 bytes stored in var_298
+
+    Expected hash: 0x6293def8
+Here’s the equivalent C implementation:
 
 ```c
 int main() {
@@ -541,13 +681,14 @@ int main() {
     return 1;
 }
 ```
+The decrypted data is interpreted as int(KEY[0:4]) — i.e., first 4 bytes as a little-endian integer.
 
 #### Stage Two
 
 ```c
 data_180009004 = ord1
 data_180009005 = ord2
-data_180009003 = (rax_3 s>> 3).b ^ 0x36
+data_180009003 = (key0to4>> 3).b ^ 0x36 // key0to4 ==int(KEY[0:4]) 
 data_180009006 = ord3 ^ ord1 ^ ord2 ^ 0x10
 ```
 
