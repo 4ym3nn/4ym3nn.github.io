@@ -473,7 +473,7 @@ We can see that `j_sub_180002060` is called three times. What is it?
 ```
 It calls two functions:
 
-1- ![sub_1800013f0](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/RC4.c) , which is a SIMD-optimized implementation of the RC4 encryption/decryption algorithm.
+1- [`sub_1800013f0`](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/RC4.c) , which is a SIMD-optimized implementation of the RC4 encryption/decryption algorithm.
 
 I cleaned and simplified it into a standard C version:
 
