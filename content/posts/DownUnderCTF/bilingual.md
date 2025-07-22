@@ -684,7 +684,7 @@ return 0
 ```
 so it is three stages decryptions
 so for each stage we will get (key,key length, enc_data,length_enc_data)
-### first Decryption :
+### Stage one :
 ```c
 180001c86        if (_DecryptRC4andCheckHash(&var_298, 0x1a, &s, &data_180009000, 2, 0x6293def8) == 0)
 ```
@@ -717,7 +717,7 @@ int main() {
 }
 ```
 result:
-### second Decryption :
+### Stage two :
 ```c
 180001c90            int32_t rax_3 = (*arg1)(&var_1f8)
 180001c95            data_180009004 = ordd1
@@ -755,8 +755,10 @@ the encrypted data is missed here so i back to disassembely to see the real valu
 180001d06  c744244c07f8f441   mov     dword [rsp+0x4c {var_27c}], 0x41f4f807
 ```
 &data pointer starts at  `rsp+0x30`
-it loads four bytes `mov     dword [rsp+0x30 {data}], 0x5ac1e9d0`
-then `mov     dword [rsp+0x34 {var_294_1}], 0x31280c9e` another four bytes
+it loads four bytes 
+`mov     dword [rsp+0x30 {data}], 0x5ac1e9d0`
+then `mov     dword [rsp+0x34 {var_294_1}], 0x31280c9e`
+another four bytes
 then `mov     dword [rsp+0x3c], 0xe76f8d54  {0xe76f8d54}`
 then `mov     dword [rsp+0x3c], 0xe76f8d54  {0xe76f8d54}`
 ...
@@ -788,8 +790,53 @@ after brute forccing  i get
 uint8_t key[8] = { 0x7a, 0x6d, 0xcc, 0x6f, 0x79 ,0x64 ,0x7f, 0xcc };
 
 ```
-result :
-### third Decryption :
+so we know 
+```python
+password[0]=0x48
+password[1]=0x79
+password[2]=0x64
+password[3]= 0x7f ^ 0x64 ^ 0x79 ^ 0x10 =0x72
+password[4]='0'
+password[5]='p'
+password[6]='h'
+password[7]= password[11]-2 #and in range  '1'....'9'
+password[8]=password[7]
+password[9]=unknown
+password[10]=unknown
+password[11]= in range '3' to '9' 
+```
+we can just brute force the two bytes and we will get the flag but i liked to complete the challenge
+```c
+180001d43            if (!RC4decryptCheckHash(&enc_data1, 0x20, &ord9, &data_180009000, 8, 0x69fa99d))
+180001e83                result = 0;
+180001d43            else
+180001d43            {
+180001d50                int16_t ordd9 = (*(uint64_t*)arg1)(&ord9);
+180001d5e                int112_t var_1e8;
+180001d5e                __builtin_wcscpy(&var_1e8, L"11:13");
+180001d5e                
+180001d7d                if (((key0to4 & 0x64) ^ (uint32_t)ordd9) != (*(uint64_t*)arg1)(&key0to4int))
+180001e83                    result = 0;
+```
+here it is doing this cmp `this code was misunderstood by binj` so looking again to the assembely 
+```assembely
+lea     rcx, [rbp+0xd0]      ; RCX = &ord9
+call    [rsi]                ; eax = eval(&ord9)
+mov     ebx, eax             ; store result in ebx (→ this is ordd9)
+```
+then
+```assembely
+lea     rcx, [rbp-0x30]      ; RCX = &key0to4int
+mov     dword [rbp-0x20], 0x310031     ; Unicode '1'
+mov     dword [rbp-0x1c], 0x31003a     ; Unicode ':', '1'
+mov     word  [rbp-0x18], r13w         ; Unicode '3'
+```
+here it is overwritting the `int(KEY[0:4])` it overwrites `0:4` with `11:13` so we know now that is comparing 
+```cmp     edi, eax             ; if ((key0to4 & 0x64) ^ ordd9) != eval("int(KEY[11:13])")```
+so solving this will give `ord9=( 6859 & 0x64 ) ^ 46` `ord9=110='n'`
+so one byte left again we can brute force it but let us complete the game 
+### Stage three :
+
 in the same way i exctracted the encrypted data :
 ```c
 ciphertext[DATA_LEN] = {
@@ -806,9 +853,26 @@ uint8_t key[8] = { 0x7a, 0x6d, 0xcc, 0x6f, 0x79 ,0x64 ,0x7f, 0xcc };
 ```
 this decrypted to
 `int(key[0:2])`
-
-
-
-
+in this part i dumped the last eval and i saw  `ord(PASSWORD[10])` instead of `ord(PASSWORD[9])`
+```180001e7a                        result_1 = (uint32_t)orddd9 == (*(uint64_t*)arg1)(&key02) - 7;```
+so finally `ord(PASSWORD[10]) == eval(int(KEY[0:2],16) - 7` IS `ord[PASSWORD[10]=97` 
+ans we have 7 passwords now 
+this is the full check4 [Check4.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/Check4.c)
+```
+Hydr0ph00na2
+Hydr0ph11na3
+Hydr0ph22na4
+Hydr0ph33na5
+Hydr0ph44na6
+Hydr0ph55na7
+Hydr0ph66na8
+Hydr0ph77na9
+```
+and this `Hydr0ph11na3` was the correct one :
+```bash
+PS E:\projects\bilingual> python new.py Hydr0ph11na3
+Correct! The flag is DUCTF{the_problem_with_dynamic_languages_is_you_cant_c_types}
+PS E:\projects\bilingual>
+```
 
 
