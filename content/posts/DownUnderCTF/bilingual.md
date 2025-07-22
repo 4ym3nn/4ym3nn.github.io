@@ -127,7 +127,7 @@ def get_helper():
     return HELPER
 ```
 
-This function performs three main operations:
+This function performs three **main operations**:
 
 ### Dynamic Extraction
 - Uses a global `HELPER` variable to ensure the library is only loaded once
@@ -143,7 +143,7 @@ If `hello.bin` doesn't exist, it:
 - Uses `ctypes.cdll.LoadLibrary()` to load the extracted binary as a shared library
 - Returns the loaded library object for calling its functions
 
-## Analysis of `check_one` Function
+## Check1 :
 
 ```python
 def check_one(password):
@@ -171,7 +171,7 @@ So, `password[0] = 'H'` (ASCII 0x48).
 
 It also sets `data_180009000 = 0x48 | 0x72` to `data_180009000 = 0x7a`.
 
-## Analysis of check_two Function
+## Check2 :
 
 ```python
 def check_two(password):
@@ -253,7 +253,7 @@ password[5] = 'p'
 password[6] = 'h'
 ```
 
-## Analysis of check_three Function
+## Check3 :
 
 ```python
 def check_three(password):
@@ -280,7 +280,7 @@ def check_ex(password, func):
     return helper[func](ctypes.byref(table))
 ```
 
-We notice three main operations:
+We notice three **main operations**:
 
 **1. Creates Callback System**
 - Defines a function pointer type that takes a string and returns an integer
@@ -393,7 +393,7 @@ password[7] == password[8]
 password[11] - eval(password[4]) == password[11]
 ```
 
-## Analysis of check_four Function
+## Check4 :
 
 ```python
 def check_four(password):
@@ -583,7 +583,7 @@ result_1 = (uint32_t)orddd9 == (*(uint64_t*)arg1)(&key02) - 7;
 ```
 
 So finally `ord(PASSWORD[10]) == eval(int(KEY[0:2], 16)) - 7` is `ord(PASSWORD[10]) = 97` ('a').
-And the cleaned version of the check3 function is:
+And the cleaned version of the Check4 function is:
 
 ```c
 #include <stdio.h>
