@@ -106,9 +106,9 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-What I noticed when running this on Linux is that it cannot run (non-ELF format), so I understand it is loading a DLL library to interact with via Python. This was clear in the `get_helper` function.
+When running this on Linux, I encountered an error due to an invalid ELF header. This suggests that hello.bin is not a native Linux binary, but rather a Windows DLL or some other non-ELF format. The script attempts to load it using ctypes.cdll.LoadLibrary, which confirms it's expecting a shared library (DLL) to call functions . This behavior is evident in the get_helper function.
 
-## Analysis of `get_helper` Function
+## Analysis of get_helper Function
 
 ```python
 def get_helper():
@@ -171,7 +171,7 @@ So, `password[0] = 'H'` (ASCII 0x48).
 
 It also sets `data_180009000 = 0x48 | 0x72` to `data_180009000 = 0x7a`.
 
-## Analysis of `check_two` Function
+## Analysis of check_two Function
 
 ```python
 def check_two(password):
@@ -253,7 +253,7 @@ password[5] = 'p'
 password[6] = 'h'
 ```
 
-## Analysis of `check_three` Function
+## Analysis of check_three Function
 
 ```python
 def check_three(password):
@@ -393,7 +393,7 @@ password[7] == password[8]
 password[11] - eval(password[4]) == password[11]
 ```
 
-## Analysis of `check_four` Function
+## Analysis of check_four Function
 
 ```python
 def check_four(password):
