@@ -7,7 +7,7 @@ hideToc = false
 
 # DownUnderCTF 2025: rev/bilingual
 
-![image](https://github.com/user-attachments/assets/d8c92777-2bf7-46e8-b897-b9142a57f601)
+![image](https://github.com/user-attachments/assets/59382842-e292-4ce3-883e-73180e9dbbed)
 
 ## Description
 
