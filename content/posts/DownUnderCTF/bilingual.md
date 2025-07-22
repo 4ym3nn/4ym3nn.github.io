@@ -144,6 +144,32 @@ If `hello.bin` doesn't exist, it:
 - Uses `ctypes.cdll.LoadLibrary()` to load the extracted binary as a shared library
 - Returns the loaded library object for calling its functions
 
+Once loaded, the program proceeds to validate the password using a sequence of checks: check_one, check_two, check_three, and check_four, starting with check_one
+
+```python
+def check_password(password):
+    global PASSWORD
+    PASSWORD = password
+    checks = [check_one, check_two, check_three, check_four]
+    result = True
+    for check in checks:
+        result = result and check(password)
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description="CTF Challenge")
+    parser.add_argument("password", help="Enter the password")
+    args = parser.parse_args()
+    if check_password(args.password):
+        flag = decrypt_flag(args.password)
+        print("Correct! The flag is DUCTF{%s}" % flag)
+        return 0
+    else:
+        print("That is not correct")
+        return 1
+```
+
 ## Check1 :
 
 ```python
@@ -167,6 +193,7 @@ int64_t Check1(char* arg1)
 ```
 
 It takes `char rdx = *(uint8_t*)arg1`, which interprets the first character of `arg1` (i.e., `arg1[0]`, which is `password[0]`) as an ASCII value and stores it in `rdx`. The function returns 1 (true) if `(rdx ^ 0x43) == 0x0b`, which implies `rdx == 0x0b ^ 0x43 = 0x48`, i.e., 'H'.
+### Deduced Password Characters
 
 So, `password[0] = 'H'` (ASCII 0x48).
 
@@ -237,7 +264,7 @@ Since `rbp == 0x74`, this becomes:
 But if `data_180009001` is a one-byte variable (e.g., char), only the least significant byte is stored:
 `data_180009001 = 0x6D`  // ASCII 'm'
 
-### Final Result
+### Deduced Password Characters
 
 To pass `check_two`, the password must satisfy:
 - `password[5] = 'p'`
@@ -248,6 +275,7 @@ So what we have so far is:
 - `data_180009001 = 0x6D`
 - `data_180009000 = 0x7a`
 
+### Deduced Password Characters
 ```python
 password[0] = 'H'
 password[5] = 'p'
@@ -388,18 +416,19 @@ I dumped the `v` value and passed unique characters as input to find the constra
 ```
 
 So I mapped them to positions and got:
-### Final Result:
+### Extracted Constraints:
+
 ```python
 password[8] + 2 == password[11]  
 password[7] == password[8]       
 password[11] - eval(password[4]) == password[11]
-48<ord(password[11])<57
+50<ord(password[11])<57
 48<ord(password[7])<57
 48<ord(password[8])<57
 ```
 
 ## Check4 :
-
+### Explanation    
 ```python
 def check_four(password):
     return check_ex(password, "Check4")
@@ -475,9 +504,9 @@ if (h == EXPECTED_HASH) {
 }
 ```
 
-There are three stages of decryption. For each stage, we get (key, key_length, enc_data, length_enc_data).
+There are three stages of decryption. For each stage, we get **(key, key_length, enc_data, length_enc_data)**.
 
-### Stage One
+#### Stage One
 
 ```c
 if (_DecryptRC4andCheckHash(&var_298, 0x1a, &s, &data_180009000, 2, 0x6293def8) == 0)
@@ -510,7 +539,7 @@ int main() {
 }
 ```
 
-### Stage Two
+#### Stage Two
 
 ```c
 data_180009004 = ord1
@@ -563,7 +592,7 @@ password[11] = in range '3' to '9'
 
 We could brute force the two bytes and get the flag, but I wanted to complete the challenge.
 
-### Stage Three
+#### Stage Three
 
 In the same way, I extracted the encrypted data:
 ```c
@@ -588,6 +617,22 @@ result_1 = (uint32_t)orddd9 == (*(uint64_t*)arg1)(&key02) - 7;
 ```
 
 So finally `ord(PASSWORD[10]) == eval(int(KEY[0:2], 16)) - 7` is `ord(PASSWORD[10]) = 97` ('a').
+### Deduced Password Characters
+```python
+password[0] = 0x48  # 'H'
+password[1] = 0x79  # 'y'
+password[2] = 0x64  # 'd'
+password[3] = 0x7f ^ 0x64 ^ 0x79 ^ 0x10 = 0x72  # 'r'
+password[4] = '0'
+password[5] = 'p'
+password[6] = 'h'
+password[7] = password[11] - 2  # and in range '1'...'9'
+password[8] = password[7]
+password[9] = 'n'
+password[10] = 'a'
+password[11] = in range '2' to '9'
+```
+
 And the cleaned version of the Check4 function is:
 
 ```c
