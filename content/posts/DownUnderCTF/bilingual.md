@@ -144,8 +144,6 @@ If `hello.bin` doesn't exist, it:
 - Uses `ctypes.cdll.LoadLibrary()` to load the extracted binary as a shared library
 - Returns the loaded library object for calling its functions
 
-Once loaded, the program proceeds to validate the password using a sequence of checks: check_one, check_two, check_three, and check_four, starting with check_one
-
 ```python
 def check_password(password):
     global PASSWORD
@@ -170,6 +168,10 @@ def main():
         return 1
 ```
 
+Once the library is loaded, the program begins validating the password through a series of checks check_one, check_two, check_three, and check_four starting with check_one.
+
+Let's walk through each check step by step.
+
 ## Check1 :
 
 ```python
@@ -193,6 +195,7 @@ int64_t Check1(char* arg1)
 ```
 
 It takes `char rdx = *(uint8_t*)arg1`, which interprets the first character of `arg1` (i.e., `arg1[0]`, which is `password[0]`) as an ASCII value and stores it in `rdx`. The function returns 1 (true) if `(rdx ^ 0x43) == 0x0b`, which implies `rdx == 0x0b ^ 0x43 = 0x48`, i.e., 'H'.
+
 ### Deduced Password Characters
 
 So, `password[0] = 'H'` (ASCII 0x48).
