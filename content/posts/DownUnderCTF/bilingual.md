@@ -616,7 +616,7 @@ Otherwise, the function exits early.
 
 So, in summary:
 
-     we must extract or reverse the correct **(key, key_length, enc_data, length_enc_data)** tuple for all three              stages to reach the function’s final logic.
+we must extract or reverse the correct **(key, key_length, enc_data, length_enc_data)** tuple for all three stages to reach the function’s final logic.
 
 #### Stage One
 
