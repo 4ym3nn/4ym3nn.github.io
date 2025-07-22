@@ -108,7 +108,8 @@ if __name__ == "__main__":
 
 When running this on Linux, I encountered an error due to an invalid ELF header. This suggests that hello.bin is not a native Linux binary, but rather a Windows DLL or some other non-ELF format. The script attempts to load it using ctypes.cdll.LoadLibrary, which confirms it's expecting a shared library (DLL) to call functions . This behavior is evident in the get_helper function.
 
-## Analysis of get_helper Function
+
+## The Role of get_helper in Library Loading
 
 ```python
 def get_helper():
