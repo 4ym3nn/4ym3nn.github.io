@@ -453,21 +453,14 @@ The string "ord(PASSWORD[1])" is passed to the callback, resulting in a call to 
 
 Let's look at the `check4` function:
 
-here is the full function ![Check4.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/originalCheck4.c)
+here is the full function [Check4.c](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/originalCheck4.c)
 
 after variables setup 
 ```c
 180001c86        if (j_sub_180002060(&var_298, 0x1a, &s, &data_180009000, 2, var_2a0) == 0)
 180001e83            result = 0
 ```
-```c
-180001d43            if (j_sub_180002060(&var_298, 0x20, &var_f8, &data_180009000, 8, 0x69fa99d) == 0)
-180001e83                result = 0
-```
-```c
-180001e6a                    if (j_sub_180002060(&var_298, 0x22, &s_2, &data_180009000, 8, var_2a0_2) == 0)
-180001e83                        result = 0
-```
+
 We can see that `j_sub_180002060` is called three times. What is it?
 ```c
 180002060    int64_t sub_180002060(int64_t arg1, int64_t arg2, char* arg3, int64_t arg4, int32_t arg5, int32_t arg6)
@@ -479,6 +472,7 @@ We can see that `j_sub_180002060` is called three times. What is it?
 1800020bc        return result
 ```
 It calls two functions:
+
 1- ![sub_1800013f0](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/RC4.c) , which is a SIMD-optimized implementation of the RC4 encryption/decryption algorithm.
 
 I cleaned and simplified it into a standard C version:
@@ -599,7 +593,7 @@ This function simply:
 
     Computes a hash of the decrypted data and compares it to a known hash.
 
-The function Mod1::findC13Lines is invoked three times, and in each call, it performs a stage of decryption.
+The function `DecryptRC4AndCheckHash` is invoked three times, and in each call, it performs a stage of decryption.
 
 To proceed through each stage successfully, we must recover the following for each:
 
