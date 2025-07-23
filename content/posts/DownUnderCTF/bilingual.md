@@ -618,7 +618,7 @@ So, in summary:
 
 we must extract or reverse the correct **(key, key_length, enc_data, length_enc_data)** tuple for all three stages to reach the function’s final logic.
 
-#### Stage One
+### Stage One
 
 ```c
   __builtin_wcscpy(dest: &var_270, src: u"ord(PASSWORD[1])");
@@ -677,7 +677,7 @@ int main() {
 ```
 The decrypted data is interpreted as int(KEY[0:4]) — i.e., first 4 bytes as a little-endian integer.
 
-#### Stage Two
+### Stage Two
 If the check passes from stage one , it evaluates a function pointer arg1 with `int(KEY[0:4])`:
 ```c
     int32_t rax_3 = (*arg1)(&ord9);  // eval(int(KEY[0:4]))
@@ -765,7 +765,7 @@ password[11] = in range '3' to '9'
 
 We could brute force the two bytes at index 9,10 and get the flag, but I wanted to complete the challenge.
 
-#### Stage Three
+### Stage Three
 
 In the same way, I extracted the encrypted data:
 ```c
