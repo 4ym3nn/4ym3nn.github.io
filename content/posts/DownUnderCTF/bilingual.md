@@ -1012,8 +1012,49 @@ Hydr0ph77na9
 
 And `Hydr0ph11na3` was the correct one:
 
+### Decrypting the flag :
+
+we can use a simple Python script to decrypt the RC4-encrypted base64 string:
+
+```python
+import base64
+import itertools
+import os
+
+FLAG = "jqsD0um75+TyJR3z0GbHwBQ+PLIdSJ+rojVscEL4IYkCOZ6+a5H1duhcq+Ub9Oa+ZWKuL703"
+flag_bytes = base64.b64decode(FLAG)
+
+def rc4(key, data):
+    S = list(range(256))
+    j = 0
+    key = [ord(c) for c in key]
+    for i in range(256):
+        j = (j + S[i] + key[i % len(key)]) % 256
+        S[i], S[j] = S[j], S[i]
+    i = j = 0
+    out = []
+    for byte in data:
+        i = (i + 1) % 256
+        j = (j + S[i]) % 256
+        S[i], S[j] = S[j], S[i]
+        out.append(byte ^ S[(S[i] + S[j]) % 256])
+    return bytes(out)
+print(rc4("Hydr0ph11na3",flag_bytes))
+```
+Output:
+```bash
+b'the_problem_with_dynamic_languages_is_you_cant_c_types'
+```
+or simply pass it into `bilingual.py`:
+
 ```bash
 PS E:\projects\bilingual> python new.py Hydr0ph11na3
 Correct! The flag is DUCTF{the_problem_with_dynamic_languages_is_you_cant_c_types}
 PS E:\projects\bilingual>
 ```
+
+Thanks to the **DownUnderCTF** organizers and challenge authors for this nice challenge.
+
+**Regards,FozzieBear (cybears)**
+
+
