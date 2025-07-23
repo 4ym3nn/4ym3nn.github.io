@@ -586,29 +586,29 @@ if (h == EXPECTED_HASH) {
 ```
 This function simply:
 
-    Copies the encrypted data into a buffer.
+   -Copies the encrypted data into a buffer.
 
-    Decrypts it using RC4 with a given key.
+   -Decrypts it using RC4 with a given key.
 
-    Computes a hash of the decrypted data and compares it to a known hash.
+   -Computes a hash of the decrypted data and compares it to a known hash.
 
 The function `DecryptRC4AndCheckHash` is invoked three times, and in each call, it performs a stage of decryption.
 
 To proceed through each stage successfully, we must recover the following for each:
 
-    key – the decryption key
+  -key – the decryption key
 
-    key_length – the length of the key
+  -key_length – the length of the key
 
-    enc_data – the encrypted data buffer
+  -enc_data – the encrypted data buffer
 
-    length_enc_data – the length of the encrypted data
+  -length_enc_data – the length of the encrypted data
 
 Each stage uses this data in a `DecryptRC4andCheckHash(...)` call to:
 
-    Decrypt the data using RC4,
+ -Decrypt the data using RC4,
 
-    And verify it using a DJB2-based hash function.
+ -And verify it using a DJB2-based hash function.
 
 If the hash check passes, additional logic is executed .
 Otherwise, the function exits early.
@@ -630,13 +630,13 @@ we must extract or reverse the correct **(key, key_length, enc_data, length_enc_
 ```
 In this stage, the function prepares the values needed for decryption:
 
-    It loads a hardcoded 26-byte encrypted buffer (enc_data) into var_298.
+ -It loads a hardcoded 26-byte encrypted buffer (enc_data) into var_298.
 
-    It sets the key pointer to &data_180009000 and key length to 2.
+ -It sets the key pointer to &data_180009000 and key length to 2.
 
-    It initializes an empty buffer s to receive the decrypted output.
+ -It initializes an empty buffer s to receive the decrypted output.
 
-    It sets the hash constant to 0x6293def8.
+ -It sets the hash constant to 0x6293def8.
 
 ```c
 if (_DecryptRC4andCheckHash(&var_298, 0x1a, &s, &data_180009000, 2, 0x6293def8) == 0)
@@ -644,12 +644,12 @@ if (_DecryptRC4andCheckHash(&var_298, 0x1a, &s, &data_180009000, 2, 0x6293def8) 
 
 We know the parameters:
 
-    Key: 2 bytes from data_180009000
-    → key = { 0x6d, 0x7a }
+ -Key: 2 bytes from data_180009000
+ -→ key = { 0x6d, 0x7a }
 
-    Encrypted data: 26 bytes stored in var_298
+ -Encrypted data: 26 bytes stored in var_298
 
-    Expected hash: 0x6293def8
+ -Expected hash: 0x6293def8
 Here’s the equivalent C implementation:
 
 ```c
@@ -778,6 +778,7 @@ password[9] = unknown
 password[10] = unknown
 password[11] = in range '3' to '9'
 ```
+
 While brute-forcing the two bytes at indices 9 and 10 could have revealed the flag, I chose to fully analyze and complete the challenge for a deeper understanding
 
 After decryption, we observe that the decrypted data is interpreted as `ord(PASSWORD[9])`.
@@ -811,8 +812,10 @@ mov     dword [rbp-0x20], 0x310031     ; Unicode '1'
 mov     dword [rbp-0x1c], 0x31003a     ; Unicode ':', '1'
 mov     word  [rbp-0x18], r13w         ; Unicode '3'
 ```
-This shows that the code overwrites the `0:4` from `int(KEY[0:4])`  buffer with the wide string "11:13", meaning it's evaluating int(KEY[11:13]).
+This shows that the code overwrites the `0:4` from `int(KEY[0:4])`  buffer with the wide string "11:13", meaning it's evaluating `int(KEY[11:13])`.
+
 The comparison performed is:
+
 ```c
 if (((key0to4 & 0x64) ^ ordd9) != eval("int(KEY[11:13])"))
 ```
