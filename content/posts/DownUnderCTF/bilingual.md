@@ -628,11 +628,11 @@ if (h == EXPECTED_HASH) {
 ```
 This function simply:
 
-   -Copies the encrypted data into a buffer.
+   - Copies the encrypted data into a buffer.
 
-   -Decrypts it using RC4 with a given key.
+   - Decrypts it using RC4 with a given key.
 
-   -Computes a hash of the decrypted data and compares it to a known hash.
+   - Computes a hash of the decrypted data and compares it to a known hash.
 
 The function `DecryptRC4AndCheckHash` is invoked three times, and in each call, it performs a stage of decryption.
 
@@ -723,7 +723,7 @@ The decrypted data is interpreted as `int(KEY[0:4])` — that is, the first 4 by
 
 ### Stage Two
 
-If the check passes from stage one , it evaluates a function pointer arg1 with `int(KEY[0:4])`:
+If the check passes from stage one , it evaluates `(*arg1)(&ord9)` which is `eval(int(KEY[0:4]))`:
 ```c
     int32_t rax_3 = (*arg1)(&ord9);  // eval(int(KEY[0:4]))
     data_180009004 = ord1;
@@ -750,7 +750,7 @@ The variable var_f8 is cleared with a memset, and then passed as the output buff
     memset(&var_f8, 0, 0xc0);  // clear buffer
     if (_DecryptRC4andCheckHash(&var_298, 0x20, &var_f8, &data_180009000, 8, 0x69fa99d) == 0)
 ```
-But from the **disassembly**, we realize the actual ciphertext is stored directly on the stack, starting at rsp+0x30, not in var_28c. The full encrypted payload is loaded as follows:
+But from the **disassembly**, we realize the actual ciphertext is stored directly on the stack, starting at rsp+0x30, and `var_2..`  was parts from the  `0x20` bytes . The full encrypted payload is loaded as follows:
 ```assembly
 mov dword [rsp+0x30], 0x5ac1e9d0
 mov dword [rsp+0x34], 0x31280c9e
@@ -788,7 +788,7 @@ data_180009005 = ord2
 data_180009006 = ord3 ^ ord1 ^ ord2 ^ 0x10
 data_180009007 = 0xcc
 ```
-We're brute-forcing the three unknown printable bytes: `ord1`, `ord2`, and `ord3`.
+We'll brute-force the three unknown printable bytes: `ord1`, `ord2`, and `ord3`.
 
 - `ord1`, `ord2`, and `ord3` are constrained to **printable ASCII** (`0x20` to `0x7E`)
 - This gives us **95 options per byte**, like:
