@@ -1015,7 +1015,7 @@ Hydr0ph77na9
 
 And `Hydr0ph11na3` was the correct one:
 
-### Decrypting the flag :
+### Decrypting the flag 
 
 we can use a simple Python script to decrypt the RC4-encrypted base64 string:
 
