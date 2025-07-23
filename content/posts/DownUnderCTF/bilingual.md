@@ -457,20 +457,20 @@ here is the full function [Check4.c](https://github.com/4ym3nn/4ym3nn.github.io/
 
 after variables setup 
 ```c
-180001c86        if (j_sub_180002060(&var_298, 0x1a, &s, &data_180009000, 2, var_2a0) == 0)
-180001e83            result = 0
+if (j_sub_180002060(&var_298, 0x1a, &s, &data_180009000, 2, var_2a0) == 0)
+    result = 0
 ```
 
 We can see that `j_sub_180002060` is called three times. What is it?
 ```c
-180002060    int64_t sub_180002060(int64_t arg1, int64_t arg2, char* arg3, int64_t arg4, int32_t arg5, int32_t arg6)
-
-180002081        memcpy(dest: arg3, src: arg1, count: arg2.d)
-180002093        j_sub_1800013f0(arg4, arg5, arg3, arg2.d) // this function jumps to  sub_1800013f0 function
-1800020b4        int32_t result
-1800020b4        result.b = j_sub_180001630(arg3, arg2 u>> 1) == arg6
-1800020bc        return result
+int64_t sub_180002060(int64_t arg1, int64_t arg2, char* arg3, int64_t arg4, int32_t arg5, int32_t arg6)
+    memcpy(dest: arg3, src: arg1, count: arg2.d)
+    j_sub_1800013f0(arg4, arg5, arg3, arg2.d) // this function jumps to  sub_1800013f0 function
+    int32_t result
+    result.b = j_sub_180001630(arg3, arg2 u>> 1) == arg6
+    return result
 ```
+
 It calls two functions:
 
 1- [`sub_1800013f0`](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/RC4.c) , which is a SIMD-optimized implementation of the RC4 encryption/decryption algorithm.
@@ -621,13 +621,13 @@ we must extract or reverse the correct **(key, key_length, enc_data, length_enc_
 #### Stage One
 
 ```c
-180001b1b  __builtin_wcscpy(dest: &var_270, src: u"ord(PASSWORD[1])");
-180001b6f  __builtin_wcscpy(dest: &var_248, src: u"ord(PASSWORD[2])");
-180001bac  __builtin_wcscpy(dest: &var_220, src: u"ord(PASSWORD[3])");
+  __builtin_wcscpy(dest: &var_270, src: u"ord(PASSWORD[1])");
+  __builtin_wcscpy(dest: &var_248, src: u"ord(PASSWORD[2])");
+  __builtin_wcscpy(dest: &var_220, src: u"ord(PASSWORD[3])");
 
-180001be9  char ord1 = (*arg1)(&var_270);
-180001bf2  char ord2 = (*arg1)(&var_248);
-180001bfb  char ord3 = (*arg1)(&var_220);
+  char ord1 = (*arg1)(&var_270);
+  char ord2 = (*arg1)(&var_248);
+  char ord3 = (*arg1)(&var_220);
 ```
 In this stage, the function prepares the values needed for decryption:
 
@@ -680,33 +680,33 @@ The decrypted data is interpreted as int(KEY[0:4]) — i.e., first 4 bytes as a 
 #### Stage Two
 If the check passes from stage one , it evaluates a function pointer arg1 with `int(KEY[0:4])`:
 ```c
-180001c90    int32_t rax_3 = (*arg1)(&ord9);  // eval(int(KEY[0:4]))
-180001c95    data_180009004 = ord1;
-180001c9e    data_180009005 = ord2;
+    int32_t rax_3 = (*arg1)(&ord9);  // eval(int(KEY[0:4]))
+    data_180009004 = ord1;
+    data_180009005 = ord2;
 ```
 Then it prepares decryption-related values:
 ```c
-180001cae    var_298 = 0x5ac1e9d0;
-180001cb6    data_180009003 = (rax_3 >> 3) ^ 0x36;
-180001cc6    data_180009006 = ord3 ^ ord1 ^ ord2 ^ 0x10;
+    var_298 = 0x5ac1e9d0;
+    data_180009003 = (rax_3 >> 3) ^ 0x36;
+    data_180009006 = ord3 ^ ord1 ^ ord2 ^ 0x10;
 ```
 
 Static values written to the stack:
 ```c
-180001cce    int32_t var_294_1 = 0x31280c9e;
-180001cdc    __builtin_strncpy(&var_290, "X$]h", 4);
-180001ce6    __builtin_memcpy(&var_28c, 
+    int32_t var_294_1 = 0x31280c9e;
+    __builtin_strncpy(&var_290, "X$]h", 4);
+    __builtin_memcpy(&var_28c, 
     "\x54\x8d\x6f\xe7\xf6\xdb\xd7\xe5\xc0\x4b\x28\x46"
     "\xe7\xa4\x7e\xcd\x07\xf8\xf4\x41", 0x14);
 ```
 
 The variable var_f8 is cleared with a memset, and then passed as the output buffer for decryption:
 ```c
-180001d0e    memset(&var_f8, 0, 0xc0);  // clear buffer
-180001d43    if (_DecryptRC4andCheckHash(&var_298, 0x20, &var_f8, &data_180009000, 8, 0x69fa99d) == 0)
+    memset(&var_f8, 0, 0xc0);  // clear buffer
+    if (_DecryptRC4andCheckHash(&var_298, 0x20, &var_f8, &data_180009000, 8, 0x69fa99d) == 0)
 ```
 But from the **disassembly**, we realize the actual ciphertext is stored directly on the stack, starting at rsp+0x30, not in var_28c. The full encrypted payload is loaded as follows:
-```assembely
+```assembly
 mov dword [rsp+0x30], 0x5ac1e9d0
 mov dword [rsp+0x34], 0x31280c9e
 mov dword [rsp+0x38], 0x685d2458
@@ -792,18 +792,18 @@ result_1 = (uint32_t)orddd9 == (*(uint64_t*)arg1)(&key02) - 7;
 So finally `ord(PASSWORD[10]) == eval(int(KEY[0:2], 16)) - 7` is `ord(PASSWORD[10]) = 97` ('a').
 ### Deduced Password Characters
 ```python
-password[0] = 0x48  # 'H'
-password[1] = 0x79  # 'y'
-password[2] = 0x64  # 'd'
-password[3] = 0x7f ^ 0x64 ^ 0x79 ^ 0x10 = 0x72  # 'r'
-password[4] = '0'
-password[5] = 'p'
-password[6] = 'h'
-password[7] = password[11] - 2  # and in range '1'...'9'
-password[8] = password[7]
-password[9] = 'n'
-password[10] = 'a'
-password[11] = in range '2' to '9'
+password[0]  = 0x48;  // 'H'
+password[1]  = 0x79;  // 'y'
+password[2]  = 0x64;  // 'd'
+password[3]  = 0x7f ^ 0x64 ^ 0x79 ^ 0x10;  // = 0x72 → 'r'
+password[4]  = 0x30;  // '0'
+password[5]  = 0x70;  // 'p'
+password[6]  = 0x68;  // 'h'
+password[7]  = password[11] - 2;  // '1' to '7'
+password[8]  = password[7];       // same as password[7]
+password[9]  = 0x6e;  // 'n'
+password[10] = 0x61;  // 'a'
+password[11] = 0x32 to 0x39;  // '2' to '9'
 ```
 
 And the cleaned version of the Check4 function is:
