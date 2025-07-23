@@ -9,16 +9,16 @@ hideToc = false
 
 ![image](https://github.com/user-attachments/assets/59382842-e292-4ce3-883e-73180e9dbbed)
 
-## Description
+## Challenge Description
 
-Two languages are better than one!
+> Two languages are better than one!
+> 
+> Regards,
+> FozzieBear (cybears)
 
-Regards,
-FozzieBear (cybears)
+## Approach & Solution
 
-## Solution
-
-We are given this script:
+We are given this script [bilingual.py](https://github.com/4ym3nn/4ym3nn.github.io/blob/main/content/posts/DownUnderCTF/bilingual.py):
 
 ```python
 DATA = "eNrtfQt8k0XW96RNei8p0mBBxIDBFhAoTXUrpZp........."
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-When running this on Linux, I encountered an error due to an invalid ELF header. This suggests that hello.bin is not a native Linux binary, but rather a Windows DLL or some other non-ELF format. The script attempts to load it using ctypes.cdll.LoadLibrary, which confirms it's expecting a shared library (DLL) to call functions . This behavior is evident in the get_helper function.
+When running this on Linux, I encountered an error due to an invalid ELF header. This suggests that hello.bin is not a native Linux binary, but rather a Windows DLL or some other non-ELF format. The script attempts to load it using ctypes.cdll.LoadLibrary, which confirms it's expecting a shared library (DLL) to call functions . This behavior is evident in the **get_helper** function.
 
 
 ## The Role of get_helper in Library Loading
