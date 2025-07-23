@@ -267,7 +267,7 @@ Since `rbp == 0x74`, this becomes:
 But if `data_180009001` is a one-byte variable (e.g., char), only the least significant byte is stored:
 `data_180009001 = 0x6D`  // ASCII 'm'
 
-### Deduced Password Characters
+### Results
 
 To pass `check_two`, the password must satisfy:
 - `password[5] = 'p'`
@@ -674,9 +674,10 @@ int main() {
     return 1;
 }
 ```
-The decrypted data is interpreted as `int(KEY[0:4])` — i.e., first 4 bytes as a little-endian integer.
-#### Results:
-**decrypted data:** `int(KEY[0:4])`
+The decrypted data is interpreted as `int(KEY[0:4])` — that is, the first 4 bytes of the key, treated as a **little-endian** integer.
+
+#### Result:
+**Decrypted value:** interpreted as `int(KEY[0:4])`
 
 ### Stage Two
 
@@ -779,9 +780,10 @@ password[11] = in range '3' to '9'
 ```
 While brute-forcing the two bytes at indices 9 and 10 could have revealed the flag, I chose to fully analyze and complete the challenge for a deeper understanding
 
-#### Results:
-**decrypted data:** `ord(PASSWORD[9])`
-after the decryption we see this chunk of code :
+After decryption, we observe that the decrypted data is interpreted as `ord(PASSWORD[9])`.
+
+Then, the following logic is executed:
+
 ```c
     if (!RC4decryptCheckHash(&enc_data1, 0x20, &ord9, &data_180009000, 8, 0x69fa99d))
         result = 0;
@@ -794,7 +796,9 @@ after the decryption we see this chunk of code :
     if (((key0to4 & 0x64) ^ (uint32_t)ordd9) != (*(uint64_t*)arg1)(&key0to4int))
             result = 0;
 ```
+
 This part of the code was initially misunderstood during static analysis, so we took another look at the assembly:
+
 ```assembly
 lea     rcx, [rbp+0xd0]      ; RCX = &ord9
 call    [rsi]                ; eax = eval(&ord9)
