@@ -172,10 +172,12 @@ Once the library is loaded, the program begins validating the password through a
 
 The decryption function uses the RC4 algorithm, implemented as follows:
 
-## Decrypt
+## Decrypt :
 ```c
 int Decrypt(uint8_t *key, int keylen, uint8_t *data, int len) {
-    void rc4(uint8_t *key, int keylen, uint8_t *data, int len) {
+   // RC4 is implemented using AVX SIMD instructions in the original code.
+   // We will discuss how we recovered this implementation later, as it will be important for subsequent analysis.
+
         uint8_t s[256];
         int i, j = 0;
 
