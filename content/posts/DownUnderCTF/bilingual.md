@@ -168,7 +168,47 @@ def main():
         return 1
 ```
 
-Once the library is loaded, the program begins validating the password through a series of checks check_one, check_two, check_three, and check_four starting with check_one.
+Once the library is loaded, the program begins validating the password through a sequence of checks: `check_one`, `check_two`, `check_three`, and `check_four`. If all these checks pass, the program proceeds to call the `Decrypt` function from the shared DLL.
+
+The decryption function uses the RC4 algorithm, implemented as follows:
+
+## Decrypt
+```c
+int Decrypt(uint8_t *key, int keylen, uint8_t *data, int len) {
+    void rc4(uint8_t *key, int keylen, uint8_t *data, int len) {
+        uint8_t s[256];
+        int i, j = 0;
+
+        for (i = 0; i < 256; i++)
+            s[i] = i;
+
+        for (i = 0; i < 256; i++) {
+            j = (j + s[i] + key[i % keylen]) % 256;
+            uint8_t tmp = s[i];
+            s[i] = s[j];
+            s[j] = tmp;
+        }
+
+        i = j = 0;
+        for (int x = 0; x < len; x++) {
+            i = (i + 1) % 256;
+            j = (j + s[i]) % 256;
+            uint8_t tmp = s[i];
+            s[i] = s[j];
+            s[j] = tmp;
+            data[x] ^= s[(s[i] + s[j]) % 256];
+        }
+    }
+}
+```
+
+The `Decrypt` function is invoked as:
+
+```c
+result = get_helper().Decrypt(key, len(key) - 1, buffer, len(buffer));
+```
+
+This means that decryption is impossible without first recovering the correct key, making the validation checks critical for obtaining the final flag.
 
 Let's walk through each check step by step.
 
