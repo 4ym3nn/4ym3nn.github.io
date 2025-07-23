@@ -604,7 +604,7 @@ To proceed through each stage successfully, we must recover the following for ea
 
     length_enc_data – the length of the encrypted data
 
-Each stage uses this data in a DecryptRC4andCheckHash(...) call to:
+Each stage uses this data in a `DecryptRC4andCheckHash(...)` call to:
 
     Decrypt the data using RC4,
 
@@ -674,8 +674,9 @@ int main() {
     return 1;
 }
 ```
-The decrypted data is interpreted as int(KEY[0:4]) — i.e., first 4 bytes as a little-endian integer.
-
+The decrypted data is interpreted as `int(KEY[0:4])` — i.e., first 4 bytes as a little-endian integer.
+#### Results:
+**decrypted data:** `int(KEY[0:4])`
 ### Stage Two
 If the check passes from stage one , it evaluates a function pointer arg1 with `int(KEY[0:4])`:
 ```c
@@ -761,12 +762,57 @@ password[9] = unknown
 password[10] = unknown
 password[11] = in range '3' to '9'
 ```
+While brute-forcing the two bytes at indices 9 and 10 could have revealed the flag, I chose to fully analyze and complete the challenge for a deeper understanding
 
-We could brute force the two bytes at index 9,10 and get the flag, but I wanted to complete the challenge.
+#### Results:
+**decrypted data:** `ord(PASSWORD[9])`
+after the decryption we see this chunk of code :
+```c
+    if (!RC4decryptCheckHash(&enc_data1, 0x20, &ord9, &data_180009000, 8, 0x69fa99d))
+        result = 0;
+    else
+    {
+        int16_t ordd9 = (*(uint64_t*)arg1)(&ord9);  // result of eval(ord(PASSWORD[9]))
+        int112_t var_1e8;
+        __builtin_wcscpy(&var_1e8, L"11:13");       // Unicode string "11:13"
+    
+    if (((key0to4 & 0x64) ^ (uint32_t)ordd9) != (*(uint64_t*)arg1)(&key0to4int))
+            result = 0;
+```
+This part of the code was initially misunderstood during static analysis, so we took another look at the assembly:
+```assembly
+lea     rcx, [rbp+0xd0]      ; RCX = &ord9
+call    [rsi]                ; eax = eval(&ord9)
+mov     ebx, eax             ; store result in ebx → this is ordd9
+```
+then:
+```assembly
+lea     rcx, [rbp-0x30]      ; RCX = &key0to4int
+mov     dword [rbp-0x20], 0x310031     ; Unicode '1'
+mov     dword [rbp-0x1c], 0x31003a     ; Unicode ':', '1'
+mov     word  [rbp-0x18], r13w         ; Unicode '3'
+```
+This shows that the code overwrites the `0:4` from `int(KEY[0:4])`  buffer with the wide string "11:13", meaning it's evaluating int(KEY[11:13]).
+The comparison performed is:
+```c
+if (((key0to4 & 0x64) ^ ordd9) != eval("int(KEY[11:13])"))
+```
+Solving the equation:
+```python
+ordd9 = (6859 & 0x64) ^ 46 = 110
+```
+
+Which gives:
+```
+ord9 = 0x6e  // 'n' PASSWORD[9]='n'
+```
+
+Only one byte is left now. We could brute-force it, but let’s stay true to the spirit of the challenge and finish it analytically.
 
 ### Stage Three
 
 In the same way, I extracted the encrypted data:
+
 ```c
 ciphertext[DATA_LEN] = {
     0xd6,0xe9,0xdd,0x5a,0x8e,0x0c,0x28,0x31,0x43,0x24,0x59,0x68,0x5e,0x8d,
