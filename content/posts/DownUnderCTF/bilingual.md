@@ -677,7 +677,9 @@ int main() {
 The decrypted data is interpreted as `int(KEY[0:4])` — i.e., first 4 bytes as a little-endian integer.
 #### Results:
 **decrypted data:** `int(KEY[0:4])`
+
 ### Stage Two
+
 If the check passes from stage one , it evaluates a function pointer arg1 with `int(KEY[0:4])`:
 ```c
     int32_t rax_3 = (*arg1)(&ord9);  // eval(int(KEY[0:4]))
@@ -716,7 +718,9 @@ mov dword [rsp+0x44], 0x46284bc0
 mov dword [rsp+0x48], 0xcd7ea4e7
 mov dword [rsp+0x4c], 0x41f4f807
 ```
+
 Putting it all together, the encryped_data is:
+
 ```c
 uint8_t ciphertext[32] = {
     0xd0, 0xe9, 0xc1, 0x5a,
@@ -729,8 +733,8 @@ uint8_t ciphertext[32] = {
     0x07, 0xf8, 0xf4, 0x41
 };
 ```
+The RC4 key has a length of 8 bytes. It is constructed as follows:
 
-Key length is 8, and the key:
 ```c
 data_180009000 = 0x7a
 data_180009001 = 0x6d
@@ -741,8 +745,19 @@ data_180009005 = ord2
 data_180009006 = ord3 ^ ord1 ^ ord2 ^ 0x10
 data_180009007 = 0xcc
 ```
+We're brute-forcing the three unknown printable bytes: `ord1`, `ord2`, and `ord3`.
 
-After brute forcing ord1,ord2,ord3, I got:
+- `ord1`, `ord2`, and `ord3` are constrained to **printable ASCII** (`0x20` to `0x7E`)
+- This gives us **95 options per byte**, like:
+  - `ord1 = 0x20 .. 0x7E`
+  - `ord2 = 0x20 .. 0x7E`
+  - `ord3 = 0x20 .. 0x7E`
+
+- Total combinations:  
+  **95 × 95 × 95 = 857,375**
+
+Small enough to brute-force efficiently.
+and this is the result :
 ```c
 uint8_t key[8] = { 0x7a, 0x6d, 0xcc, 0x6f, 0x79, 0x64, 0x7f, 0xcc };
 ```
