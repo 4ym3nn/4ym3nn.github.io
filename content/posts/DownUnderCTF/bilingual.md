@@ -196,7 +196,7 @@ int64_t Check1(char* arg1)
 
 It takes `char rdx = *(uint8_t*)arg1`, which interprets the first character of `arg1` (i.e., `arg1[0]`, which is `password[0]`) as an ASCII value and stores it in `rdx`. The function returns 1 (true) if `(rdx ^ 0x43) == 0x0b`, which implies `rdx == 0x0b ^ 0x43 = 0x48`, i.e., 'H'.
 
-### Deduced Password Characters
+### Results
 
 So, `password[0] = 'H'` (ASCII 0x48).
 
@@ -278,7 +278,6 @@ So what we have so far is:
 - `data_180009001 = 0x6D`
 - `data_180009000 = 0x7a`
 
-### Deduced Password Characters
 ```python
 password[0] = 'H'
 password[5] = 'p'
@@ -419,7 +418,7 @@ I dumped the `v` value and passed unique characters as input to find the constra
 ```
 
 So I mapped them to positions and got:
-### Extracted Constraints:
+### Extracted Constraints
 
 ```python
 password[8] + 2 == password[11]  
@@ -431,7 +430,7 @@ password[11] - eval(password[4]) == password[11]
 ```
 
 ## Check4 :
-### Explanation    
+### Overview    
 ```python
 def check_four(password):
     return check_ex(password, "Check4")
