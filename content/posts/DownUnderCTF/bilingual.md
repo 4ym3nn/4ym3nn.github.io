@@ -596,19 +596,19 @@ The function `DecryptRC4AndCheckHash` is invoked three times, and in each call, 
 
 To proceed through each stage successfully, we must recover the following for each:
 
-  -key – the decryption key
+  - key – the decryption key
 
-  -key_length – the length of the key
+  - key_length – the length of the key
 
-  -enc_data – the encrypted data buffer
+  - enc_data – the encrypted data buffer
 
-  -length_enc_data – the length of the encrypted data
+  - length_enc_data – the length of the encrypted data
 
 Each stage uses this data in a `DecryptRC4andCheckHash(...)` call to:
 
- -Decrypt the data using RC4,
+ - Decrypt the data using RC4,
 
- -And verify it using a DJB2-based hash function.
+ - And verify it using a DJB2-based hash function.
 
 If the hash check passes, additional logic is executed .
 Otherwise, the function exits early.
@@ -630,13 +630,13 @@ we must extract or reverse the correct **(key, key_length, enc_data, length_enc_
 ```
 In this stage, the function prepares the values needed for decryption:
 
- -It loads a hardcoded 26-byte encrypted buffer (enc_data) into var_298.
+ - It loads a hardcoded 26-byte encrypted buffer (enc_data) into `var_298`.
 
- -It sets the key pointer to &data_180009000 and key length to 2.
+ - It sets the key pointer to `&data_180009000` and key length to 2.
 
- -It initializes an empty buffer s to receive the decrypted output.
+ - It initializes an empty buffer s to receive the decrypted output.
 
- -It sets the hash constant to 0x6293def8.
+ - It sets the hash constant to `0x6293def8`.
 
 ```c
 if (_DecryptRC4andCheckHash(&var_298, 0x1a, &s, &data_180009000, 2, 0x6293def8) == 0)
@@ -644,12 +644,12 @@ if (_DecryptRC4andCheckHash(&var_298, 0x1a, &s, &data_180009000, 2, 0x6293def8) 
 
 We know the parameters:
 
- -Key: 2 bytes from data_180009000
- -→ key = { 0x6d, 0x7a }
+ - Key: 2 bytes from `data_180009000`
+ - `key = { 0x6d, 0x7a }`
 
- -Encrypted data: 26 bytes stored in var_298
+ - Encrypted data: 26 bytes stored in `var_298`
 
- -Expected hash: 0x6293def8
+ - Expected hash: `0x6293def8`
 Here’s the equivalent C implementation:
 
 ```c
