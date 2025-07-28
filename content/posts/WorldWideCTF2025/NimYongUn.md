@@ -8,15 +8,16 @@ hideToc = false
 # WorldWideCTF 2025: rev/Nim Yong Un 
 
 ## Challenge Description
- > Our agents captured some North Korean military software. Your task: find the correct launch code!
+
+> Our agents captured some North Korean military software. Your task: find the correct launch code!
 
 ## Approach & Solution
 
 ## What We're Dealing With
 
-I got my hands on this Windows PE binary that was asking for a 42-character flag. Right off the bat, I could tell this wasn't going to be your typical reverse engineering challenge when I threw some random input at it and watched it crash immediately.
+I got my hands on this Windows PE binary that was asking for a 42-character flag. Right off the bat, I could tell this wasn't going to be your typical reverse engineering challenge when I threw some random input at it.
 
-The binary had that distinct smell of being compiled from Nim - you know, all those weird function names like `nsuRepeatChar` and the garbage collector patterns. But what really caught my attention was how it was processing input character by character with some kind of hashing mechanism.
+The binary had that distinct smell of being compiled from Nim – you know, all those weird function names like `nsuRepeatChar` and the garbage collector patterns. But what really caught my attention was the way string handling and memory management looked, which is pretty unique to Nim.
 
 ## Digging Into the Meat
 
@@ -29,21 +30,21 @@ while ( 2 )
 {
     // Grab character at current position
     v7 = (unsigned int)*(char *)(*((_QWORD *)&flag__chal_u498 + 1) + v6 + 8);
-    
+
     // This is where things get interesting
     nsuRepeatChar(&si128, v7, 69);
-    
+
     // Then it does some MD5 magic
     md5Sum__chal_u47(&si128, &iv__chal_u508, &digest__chal_u672);
-    
+
     // And updates something for the next round
     iv__chal_u508 = (__int128)_mm_load_si128((const __m128i *)&digest__chal_u672);
 }
 ```
 
-The first thing that jumped out was that `nsuRepeatChar` function. After some digging, I figured out it takes whatever character you feed it and repeats it exactly 69 times. So if you give it 'A', you get "AAAAAAAAAA..." 69 times over.
+The first thing that jumped out was that `nsuRepeatChar` function. After some digging, I figured out it takes whatever character you feed it and repeats it exactly 69 times. So if you give it 'A', you get a buffer of 69 'A's.
 
-But here's where it gets spicy - look at that MD5 function call. It's not your standard MD5. It takes three parameters, and that second one? That's a custom initialization vector that gets updated after every single character.
+But here's where it gets spicy – look at that MD5 function call. It's not your standard MD5. It takes three parameters, and that second one? That's a custom initialization vector that gets updated after every character.
 
 ## The Chain Reaction
 
@@ -53,19 +54,21 @@ This is where I realized what I was really up against. The binary starts with a 
 1032547698BADCFEEFCDAB8967452301h
 ```
 
-Which is just the standard MD5 magic constants (0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476) arranged in little-endian format.
+Which is just the standard MD5 magic constants (`0x67452301`, `0xEFCDAB89`, `0x98BADCFE`, `0x10325476`) arranged in little-endian format.
 
 But after processing the first character, it takes the resulting hash and uses THAT as the IV for the second character. And so on. So you get:
 
-- Position 0: MD5("wwwww..." × 69, standard_IV) → hash0
-- Position 1: MD5("second_char" × 69, hash0) → hash1  
-- Position 2: MD5("third_char" × 69, hash1) → hash2
+ > Position 0: MD5("wwwww..." × 69, standard_IV) → hash0
+> 
+ > Position 1: MD5("second_char" × 69, hash0) → hash1
+> 
+ > Position 2: MD5("third_char" × 69, hash1) → hash2
 
 Each position depends on getting every previous position exactly right. Screw up position 5, and positions 6 through 41 are all wrong no matter what.
 
 ## Confirming My Suspicions
 
-I had a hunch that position 0 might be 'w' (call it intuition or lucky guessing), so I tested my theory by sending the same character to all 42 positions. Sure enough, each position spit out a completely different hash even though the input character was identical. That confirmed the chaining was working exactly as I suspected.
+I had a hunch that position 0 might be 'w' (call it intuition or lucky guessing), so I tested my theory by sending the same character to all 42 positions. Sure enough, each position spit out a completely different hash, but the pattern matched my expectations.
 
 ## Wrestling with the MD5 Beast
 
@@ -98,7 +101,7 @@ This was legit MD5, just with the ability to swap out the initialization vector.
 
 ## Building My Weapon
 
-I knew I had to implement my own MD5 with custom IV support to match what the binary was doing. No way around it - I had to build the whole thing from scratch:
+I knew I had to implement my own MD5 with custom IV support to match what the binary was doing. No way around it – I had to build the whole thing from scratch:
 
 ```python
 class CustomMD5:
@@ -113,7 +116,7 @@ class CustomMD5:
                 self.h = iv[:]
 ```
 
-I implemented all 64 rounds, the proper bit rotations, the magic constants - everything. Then I built a solver that would brute force each position sequentially:
+I implemented all 64 rounds, the proper bit rotations, the magic constants – everything. Then I built a solver that would brute force each position sequentially:
 
 ```python
 def solve_position(target_hash, current_iv, charset=None):
@@ -164,29 +167,23 @@ for i in range(len(targets)):
 
 Position 0 came back as 'w' just like I suspected. Position 1 was 'w' again. Then 'f', then '{'. I was getting somewhere.
 
-The solver chugged through all 42 positions, taking a few seconds per character as it brute forced through the possible character set. Each successful position gave me the hash I needed to unlock the next one.
+The solver chugged through all 42 positions, taking a few seconds per character as it brute forced through the possible character set. Each successful position gave me the hash I needed to unlock the next.
 
 ## The Moment of Truth
 
-
 ```python
-
 import hashlib
 import struct
 import string
 
 class CustomMD5:
-    
-    
     _S = [7, 12, 17, 22] * 4 + [5, 9, 14, 20] * 4 + [4, 11, 16, 23] * 4 + [6, 10, 15, 21] * 4
     _K = [int(abs(2**32 * __import__('math').sin(i + 1))) for i in range(64)]
     
     def __init__(self, iv=None):
         if iv is None:
-            
             self.h = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476]
         else:
-            
             if isinstance(iv, bytes) and len(iv) == 16:
                 self.h = list(struct.unpack('<4I', iv))
             elif isinstance(iv, list) and len(iv) == 4:
@@ -201,13 +198,8 @@ class CustomMD5:
         return (b + self._left_rotate((a + x + k) & 0xffffffff, s)) & 0xffffffff
     
     def _process_chunk(self, chunk):
-        
         w = list(struct.unpack('<16I', chunk))
-        
-        
         a, b, c, d = self.h
-        
-        
         for i in range(64):
             if 0 <= i <= 15:
                 f = (b & c) | (~b & d)
@@ -221,11 +213,8 @@ class CustomMD5:
             elif 48 <= i <= 63:
                 f = c ^ (b | ~d)
                 g = (7 * i) % 16
-            
             f = (f + a + self._K[i] + w[g]) & 0xffffffff
             a, b, c, d = d, (b + self._left_rotate(f, self._S[i])) & 0xffffffff, b, c
-        
-        
         self.h[0] = (self.h[0] + a) & 0xffffffff
         self.h[1] = (self.h[1] + b) & 0xffffffff
         self.h[2] = (self.h[2] + c) & 0xffffffff
@@ -234,23 +223,14 @@ class CustomMD5:
     def update(self, data):
         if isinstance(data, str):
             data = data.encode('utf-8')
-        
-        
         msg = data + b'\x80'
-        
-        
         while len(msg) % 64 != 56:
             msg += b'\x00'
-        
-        
         msg += struct.pack('<Q', len(data) * 8)
-        
-        
         for i in range(0, len(msg), 64):
             self._process_chunk(msg[i:i + 64])
     
     def digest(self):
-        
         return struct.pack('<4I', *self.h)
     
     def hexdigest(self):
@@ -258,26 +238,18 @@ class CustomMD5:
 
 def solve_position(target_hash, current_iv, charset=None):
     if charset is None:
-        
         charset = string.ascii_letters + string.digits + "_{}-!@#$%^&*()+=[]{}|\\:;\"'<>,.?/~`"
-    
     for char in charset:
-        
         repeated_char = char * 69
-        
-        
         md5_hasher = CustomMD5(current_iv)
         md5_hasher.update(repeated_char)
         result_hash = md5_hasher.digest()
         result_hex = result_hash.hex()
-        
         if result_hex == target_hash:
             return char, result_hash
-    
     return None, None
 
 def main():
-    
     targets = [
         "a1ef290e2636bf553f39817628b6ca49",
         "ff7df97d4ab395232ff5a6c9f11c8ca1", 
@@ -322,16 +294,10 @@ def main():
         "3fcdf9ba55298b59a503b31dd0ecf1cd",
         "0c5676da1b08700f848c8faf2bd4b8be"
     ]
-    
-    
     current_iv = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476]
-    
     flag = ""
-    
     print("Starting MD5 chain solver...")
     print(f"Initial IV: {[hex(x) for x in current_iv]}")
-    
-    
     print("\nTesting position 0 with known 'w'...")
     repeated_w = 'w' * 69
     test_hasher = CustomMD5(current_iv)
@@ -340,41 +306,29 @@ def main():
     print(f"'w' * 69 with standard IV: {test_result}")
     print(f"Target for position 0:      {targets[0]}")
     print(f"Match: {test_result == targets[0]}")
-    
     if test_result == targets[0]:
         print("✓ IV handling is correct!")
     else:
         print("✗ IV handling needs adjustment. Let's try different approaches...")
-        
-        
         iv_bytes = struct.pack('<4I', *current_iv)
         test_hasher2 = CustomMD5(iv_bytes)
         test_hasher2.update(repeated_w)
         test_result2 = test_hasher2.hexdigest()
         print(f"With IV as bytes: {test_result2}")
-        
-        
         standard_hash = hashlib.md5(repeated_w.encode()).hexdigest()
         print(f"Standard MD5: {standard_hash}")
-        
-        
         return
-    
-    
     for i in range(len(targets)):
         print(f"\nSolving position {i}...")
         char, hash_result = solve_position(targets[i], current_iv)
-        
         if char is not None:
             print(f"✓ Position {i}: '{char}' -> {hash_result.hex()}")
             flag += char
-            
             current_iv = list(struct.unpack('<4I', hash_result))
         else:
             print(f"✗ Position {i}: No solution found!")
             print(f"Current IV: {[hex(x) for x in current_iv]}")
             break
-    
     print(f"\nFinal flag: {flag}")
     print(f"Length: {len(flag)}")
 
@@ -387,4 +341,8 @@ my solver spit out:
 ```
 wwf{missile_launched_sucessfully_3a34f233}
 ```
+
 42 characters exactly. I fed this back to the original binary and... success! No crash, no error message. The binary accepted the flag and completed successfully.
+
+
+Let me know if you need further style tweaks or want to convert this for another markdown flavor!
