@@ -99,7 +99,7 @@ v33 = (7 * (_BYTE)v32) & 0xF;        // g = (7*i) mod 16
 
 This was legit MD5, just with the ability to swap out the initialization vector.
 
-## Building My Weapon
+## Crafting the Exploit
 
 I knew I had to implement my own MD5 with custom IV support to match what the binary was doing. No way around it – I had to build the whole thing from scratch:
 
