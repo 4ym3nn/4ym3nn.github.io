@@ -563,8 +563,12 @@ Java.perform(function () {
 Spawned `com.em07robot.chall`. Resuming main thread!                    
 [Android Emulator 5554::com.em07robot.chall ]-> [*] performSecurityChecks() called - bypassing security checks
 [+] Hooked performSecurityChecks
-[+] NativeBridge.getFlag() called! Flag = wwf{wh3n_th3_m1nd_1s_fr33_th3_b@rri3rs_0f_th3_syst3m_1nt0_s1l3nc3}
+[+] NativeBridge.getFlag() called! Flag = wwf{wh3n_th3_m1nd_1s_fr33_th3_b@rri3rs_0f_th3_syst3m_crumbl3_1nt0_s1l3nc3}
 ```
+
+### Flag
+`wwf{wh3n_th3_m1nd_1s_fr33_th3_b@rri3rs_0f_th3_syst3m_crumbl3_1nt0_s1l3nc3}`
+
 
 Thanks to the author for such a great challenge, and a big thank you to all the authors involved!
 
