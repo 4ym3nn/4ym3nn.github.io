@@ -51,7 +51,7 @@ The CRTP exam is a **24-hour practical challenge** followed by another **48 hour
 ## Is it worth it?
 
 **Absolutely.**
-If you want to transition from standard network pentesting to Active Directory exploitation and Red Teaming, the CRTP is the best entry-point. Unlike other certifications that rely on outdated kernel exploits, CRTP forces you to understand AD architecture, authentication protocols (Kerberos, NTLM), and misconfigurations.
+If you want to transition from standard network pentesting to Active Directory exploitation and Red Teaming, the CRTP is the best entry-point. Unlike other certifications that rely on outdated exploits, CRTP forces you to understand AD architecture, authentication protocols (Kerberos, NTLM), and misconfigurations.
 - **Difficulty**: 5/10 (Beginner-friendly but requires solid methodology. If you do not master the concepts covered in the lab, you won't pass easily. You must understand how the attacks and tools work under the hood, as you will need to debug them yourself: make sure to learn that along the way.)
 - **Quality**: 10/10
 - **Overall Rating**: 5/5
@@ -71,5 +71,13 @@ Having a reliable cheat sheet is crucial for the 24-hour exam. I compiled all th
 **[CRTP Practical Exam Cheatsheet](/feedbacks/crtp-cheatsheet/)**
 
 Here are some additional tips for the exam:
-- **Enumerate thoroughly**: Do not rush. Spend time understanding the Active Directory structure. Enumeration is key; I highly recommend spending most of your time enumerating, as it allows you to build a mental graph of the attack path.
+- **Enumerate thoroughly**: Do not rush. Spend time understanding the Active Directory structure. Enumeration is key; I highly recommend spending most of your time enumerating, as it will help you build a mental graph of the attack path.
 - **Take screenshots as you go**: Your exam report must document every command, so make sure to take detailed screenshots along the way.
+- **Learn how Windows Defender works**: Understanding Defender's behavior is essential, which naturally leads to the next point.
+- **Master evasion techniques**: Evasion is crucial for modern Active Directory environments where defensive controls are active.
+- **Take breaks when facing workstation issues**: If you get stuck on a specific workstation, take a short rest and approach it again with a fresh perspective.
+- **Ask yourself three key questions when stuck**:
+  * *Need a hint?* -> Document everything you have tried so far.
+  * *Trying for the 20th time?* -> What would you see if you took a break and came back to this with a fresh mindset?
+  * *Stuck for four hours?* -> You have just ruled out four hours' worth of things that will not waste your time later.
+
