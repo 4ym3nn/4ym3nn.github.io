@@ -16,7 +16,7 @@ pluralizelisttitles = false   # removes the automatically appended "s" on sideba
     dark_mode = true                      # optional - defaults to false
     # favicon = "favicon.png"             # path to favicon (defaults to favicon.png)
 
-    front_page_content = ["posts","ctfs"] # Equivalent to the default value, add page bundle names to include them on the front page.
+    front_page_content = ["ctfs", "feedbacks", "machines"] # Equivalent to the default value, add page bundle names to include them on the front page.
 
     # MENU PLACEHOLDER
     # Menu dict keys:
@@ -25,9 +25,9 @@ pluralizelisttitles = false   # removes the automatically appended "s" on sideba
         # HasChildren:  If the directory's files should be listed.  Default is true.
         # Limit:        If the files should be listed, how many should be shown.
     menu = [
-	    {Name = "Posts", URL = "/posts/", Pre = "Recent", HasChildren = true, Limit = 5},
-	    {Name = "Posts", URL = "/posts/smileyCTF2025", Pre = "Recent", HasChildren = true, Limit = 5},
-
+        {Name = "CTFs", URL = "/ctfs/", Pre = "Challenges", HasChildren = true, Limit = 5},
+        {Name = "Feedbacks", URL = "/feedbacks/", Pre = "Reviews", HasChildren = true, Limit = 5},
+        {Name = "Machines", URL = "/machines/", Pre = "Writeups", HasChildren = true, Limit = 5},
     ]
 
     # Links to your socials.  Comment or delete any you don't need/use. 
