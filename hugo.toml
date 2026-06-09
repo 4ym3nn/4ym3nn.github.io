@@ -98,3 +98,9 @@ pluralizelisttitles = false   # removes the automatically appended "s" on sideba
     series = 'series'
     tags = 'tags'
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+
