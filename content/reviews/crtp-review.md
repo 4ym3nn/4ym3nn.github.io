@@ -1,12 +1,12 @@
 +++
 date = '2026-06-09T17:40:00+01:00'
 draft = false
-title = 'Certified Red Team Professional (CRTP) - Review & Feedback'
+title = 'Certified Red Team Professional (CRTP) - Review'
 hideToc = false
 tags = ['Active Directory', 'Red Teaming', 'CRTP', 'Review', 'Certification']
 +++
 
-# Certified Red Team Professional (CRTP) Review & Feedback
+# Certified Red Team Professional (CRTP) Review
 
 I am proud to share that I have successfully passed the Certified Red Team Professional (CRTP) exam!
 
@@ -63,14 +63,14 @@ If you want to transition from standard network pentesting to Active Directory e
 ## Notes
 
 During my preparation, I took extensive notes summarizing the course concepts, Active Directory architecture, and attack vectors. You can read my full course summary here:
-**[CRTP Course Summary Notes](/feedbacks/crtp-summary/)**
+**[CRTP Course Summary Notes](/reviews/crtp-summary/)**
 
 ---
 
 ## Tips
 
 Having a reliable cheat sheet is crucial for the 24-hour exam. I compiled all the essential PowerView, Rubeus, and Mimikatz commands used throughout the course:
-**[CRTP Practical Exam Cheatsheet](/feedbacks/crtp-cheatsheet/)**
+**[CRTP Practical Exam Cheatsheet](/reviews/crtp-cheatsheet/)**
 
 Here are some additional tips for the exam:
 - **Enumerate thoroughly**: Do not rush. Spend time understanding the Active Directory structure. Enumeration is key; I highly recommend spending most of your time enumerating, as it will help you build a mental graph of the attack path.

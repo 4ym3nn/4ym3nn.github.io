@@ -16,7 +16,7 @@ pluralizelisttitles = false   # removes the automatically appended "s" on sideba
     dark_mode = true                      # optional - defaults to false
     # favicon = "favicon.png"             # path to favicon (defaults to favicon.png)
 
-    front_page_content = ["ctfs", "feedbacks", "machines"] # Equivalent to the default value, add page bundle names to include them on the front page.
+    front_page_content = ["ctfs", "reviews", "machines"] # Equivalent to the default value, add page bundle names to include them on the front page.
 
     # MENU PLACEHOLDER
     # Menu dict keys:
@@ -26,7 +26,7 @@ pluralizelisttitles = false   # removes the automatically appended "s" on sideba
         # Limit:        If the files should be listed, how many should be shown.
     menu = [
         {Name = "CTFs", URL = "/ctfs/", Pre = "Challenges", HasChildren = true, Limit = 5},
-        {Name = "Feedbacks", URL = "/feedbacks/", Pre = "Reviews", HasChildren = true, Limit = 5},
+        {Name = "Reviews", URL = "/reviews/", Pre = "Certifications", HasChildren = true, Limit = 5},
         {Name = "Machines", URL = "/machines/", Pre = "Writeups", HasChildren = true, Limit = 5},
     ]
 
