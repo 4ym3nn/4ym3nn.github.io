@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://4ym3nn.github.io/"
 languageCode = "en-us"
 theme = "poison"
 [pagination]
