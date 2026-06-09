@@ -1,6 +1,6 @@
 +++
 date = '2026-06-09T17:35:00+01:00'
-draft = true
+draft = false
 title = 'Certified Red Team Professional (CRTP) - Course Summary Notes'
 hideToc = false
 tags = ['Active Directory', 'Red Teaming', 'CRTP', 'Notes', 'Certification']
