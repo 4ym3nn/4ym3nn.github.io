@@ -10,7 +10,9 @@ tags = ['Active Directory', 'Red Teaming', 'CRTP', 'Review', 'Certification']
 
 I won the CRTP certificate voucher in the **WorldWideCTF** competition with my team **TroJeun**. Since no one else on the team was interested in it, I decided to take it—and it was the best decision I've made, as it introduced me to the massive world of Red Teaming! A huge thanks to my teammates and the WorldWideCTF staff for this amazing prize.
 
-![Certified Red Team Professional (CRTP)](/images/crtp-certificate.png)
+<p align="center">
+  <img src="/images/crtp-certificate.png" alt="Certified Red Team Professional (CRTP)" />
+</p>
 
 ---
 
