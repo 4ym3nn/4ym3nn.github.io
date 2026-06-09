@@ -37,6 +37,8 @@ The labs are exceptionally stable and guide you step-by-step through:
 4. Domain persistence (Golden/Silver/Diamond tickets, Skeleton Key, DCSync, AdminSDHolder).
 5. Forest trust abuse.
 
+What I liked most about this course, and what truly makes Altered Security's CRTP stand out from other certifications on the market, is its strong focus on **operational security (Opsec)**. You learn how to avoid making noise on the network and execute attacks stealthily. This emphasis on realistic, quiet execution is what makes it unique.
+
 ---
 
 ## Exam (CRTP)
