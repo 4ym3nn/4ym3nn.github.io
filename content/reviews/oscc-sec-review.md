@@ -127,7 +127,7 @@ The hard part is not reciting those sentences. It is recognizing which boundary 
 
 ### My Offline Notes
 
-I built a local offline reference system from my SEC-100 material on my Omarchy Linux host, rooted at `/home/aymen/oscc-sec100`. I wanted one place I could search without repeatedly going back through the course website while preparing.
+I built a local offline reference system from my SEC-100 material on my Omarchy Linux host. I wanted one place I could search without repeatedly going back through the course website while preparing.
 
 It ended up being much more complete than I expected: 40 modules, 182 lesson pages, 166 video transcripts, 385 exercises, 735 source-derived pages preserved, and 373 localized images. I checked it for completeness and ended with zero missing course content and zero broken local links or images.
 
