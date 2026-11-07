@@ -16,6 +16,7 @@
   <meta name="twitter:card" content="summary">
   <link rel="canonical" href="{{ .Permalink }}">
   <link rel="icon" href="{{ "images/test.jpeg" | relURL }}" type="image/jpeg">
+  <link rel="preload" href="{{ "fonts/ibm-plex-mono-latin-500.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
   <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} RSS" href="{{ "index.xml" | relURL }}">
   {{ $css := slice (resources.Get "css/fonts.css") (resources.Get "css/lib/katex.css") (resources.Get "css/tabs.css") (resources.Get "css/syntax.css") (resources.Get "css/site.css") | resources.Concat "css/site-bundle.css" | minify | fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
