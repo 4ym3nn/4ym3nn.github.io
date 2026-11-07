@@ -1,0 +1,13 @@
+{{ define "main" }}
+<header class="page-header"><p class="eyebrow">Find something useful</p><h1>Search the blog.</h1><p>Look up a challenge, a topic, or a command across every article.</p></header>
+<section class="search-panel" data-search data-index="{{ "index.json" | relURL }}">
+  <form class="search-form" action="{{ "search/" | relURL }}" role="search">
+    <label for="search-query">Search articles</label>
+    <div class="search-input-row"><input id="search-query" name="q" type="search" placeholder="Try Kerberos, CRTP, or a CTF challenge…" autocomplete="off"><button type="submit">Search</button></div>
+    <label for="search-section">Category</label><select id="search-section" name="section"><option value="">All categories</option value="ctfs">CTF writeups</option><option value="research">Research</option><option value="reviews">Reviews & notes</option></select>
+  </form>
+  <p class="search-status" role="status" aria-live="polite">Loading articles…</p>
+  <div class="post-grid search-results"></div>
+  <noscript><p>Search needs JavaScript. You can browse <a href="/ctfs/">CTF writeups</a>, <a href="/research/">Research</a>, or <a href="/reviews/">Reviews & notes</a> instead.</p></noscript>
+</section>
+{{ end }}

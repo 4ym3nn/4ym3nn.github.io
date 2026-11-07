@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="{{ .Site.LanguageCode }}" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='light'?'light':'dark'}catch(e){}</script>
+  <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ .Site.Title }}</title>
+  {{ $description := .Description | default .Site.Params.description }}
+  <meta name="description" content="{{ $description }}">
+  <meta name="color-scheme" content="dark light">
+  <meta property="og:title" content="{{ .Title | default .Site.Title }}">
+  <meta property="og:description" content="{{ $description }}">
+  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:site_name" content="{{ .Site.Title }}">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="icon" href="{{ "images/test.jpeg" | relURL }}" type="image/jpeg">
+  <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} RSS" href="{{ "index.xml" | relURL }}">
+  {{ $css := slice (resources.Get "css/fonts.css") (resources.Get "css/lib/katex.css") (resources.Get "css/tabs.css") (resources.Get "css/syntax.css") (resources.Get "css/site.css") | resources.Concat "css/site-bundle.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+  {{ $scripts := slice (resources.Get "js/site.js") }}
+  {{ if and .IsPage (in .Site.Params.front_page_content .Type) }}
+    {{ $scripts = $scripts | append (resources.Get "js/tabs.js") (resources.Get "js/lib/katex.js") (resources.Get "js/lib/auto-render.js") (resources.Get "js/katex.js") }}
+  {{ end }}
+  {{ $js := $scripts | resources.Concat (printf "js/%s-bundle.js" (cond (and .IsPage (in .Site.Params.front_page_content .Type)) "article" "site")) | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {{ partial "site-navigation.html" . }}
+  <div class="site-content">
+    <main id="main" tabindex="-1">{{ block "main" . }}{{ end }}</main>
+    <footer class="site-footer"><span>© {{ now.Year }} Aymen Drid</span><a href="{{ "index.xml" | relURL }}">RSS feed</a><a href="#main">Back to top ↑</a></footer>
+  </div>
+</body>
+</html>

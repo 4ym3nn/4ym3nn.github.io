@@ -1,0 +1,10 @@
+{{- $excerpt := .Description -}}
+{{- if not $excerpt -}}
+  {{- range findRE `(?s)<p(?:\s[^>]*)?>.*?</p>` .Content -}}
+    {{- $paragraph := . | plainify | htmlUnescape -}}
+    {{- if and (not $excerpt) (ge (len $paragraph) 45) -}}
+      {{- $excerpt = $paragraph -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (($excerpt | default (.Summary | plainify | htmlUnescape)) | truncate 180) -}}

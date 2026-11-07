@@ -2,6 +2,7 @@
 date = '2026-06-09T17:36:00+01:00'
 draft = false
 title = 'Certified Red Team Professional (CRTP) - Practical Exam Cheatsheet'
+description = 'A practical command reference for the CRTP exam, covering BloodHound collection, domain enumeration, Kerberos, and session preparation.'
 hideToc = false
 tags = ['Active Directory', 'Red Teaming', 'CRTP', 'Cheatsheet', 'Commands']
 +++

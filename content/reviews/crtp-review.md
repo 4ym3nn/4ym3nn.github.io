@@ -2,6 +2,7 @@
 date = '2026-06-09T17:40:00+01:00'
 draft = false
 title = 'Certified Red Team Professional (CRTP) - Review'
+description = 'My CRTP course and exam experience: learning Active Directory from scratch, preparing for the practical exam, and the lessons that helped.'
 hideToc = false
 tags = ['Active Directory', 'Red Teaming', 'CRTP', 'Review', 'Certification']
 +++

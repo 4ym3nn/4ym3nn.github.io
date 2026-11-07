@@ -1,0 +1,33 @@
+{{ define "main" }}
+<article class="article-layout">
+  <header class="article-header">
+    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ .Site.Home.RelPermalink }}">Home</a><span aria-hidden="true">/</span><a href="{{ .FirstSection.RelPermalink }}">{{ .FirstSection.Title }}</a></nav>
+    <h1>{{ .Title }}</h1>
+    <div class="article-meta"><span>Aymen Drid</span><span aria-hidden="true">·</span><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time><span aria-hidden="true">·</span><span>{{ .ReadingTime }} min read</span></div>
+    {{ with .Params.tags }}<ul class="article-tags" aria-label="Topics">{{ range . }}<li><a href="{{ "tags/" | relURL }}{{ . | urlize }}/">{{ . }}</a></li>{{ end }}</ul>{{ end }}
+  </header>
+  {{ if and (not .Params.hideToc) (not .Site.Params.hideToc) (gt (len .Fragments.Headings) 0) }}
+  <aside class="article-outline"><details class="toc-disclosure"><summary>On this page</summary>{{ .TableOfContents }}</details></aside>
+  {{ end }}
+  {{/* Remove only a repeated opening title; preserve chapter headings in exported notes. */}}
+  {{ $body := .Content }}
+  {{ range first 1 (findRE `(?s)^\s*<h1[^>]*>.*?</h1>\s*` $body) }}
+    {{ $headingKey := replaceRE `[^a-z0-9]` "" (lower (plainify .)) }}
+    {{ $titleKey := replaceRE `[^a-z0-9]` "" (lower $.Title) }}
+    {{ if and $headingKey $titleKey (or (in $headingKey $titleKey) (in $titleKey $headingKey)) }}
+      {{ $body = replaceRE `(?s)^\s*<h1[^>]*>.*?</h1>\s*` "" $body }}
+    {{ end }}
+  {{ end }}
+  {{ $body = replaceRE `<h1([ >])` "<h2${1}" $body }}
+  {{ $body = replaceRE `</h1>` "</h2>" $body }}
+  <div class="article-body">{{ $body | safeHTML }}</div>
+  <footer class="article-footer">
+    <p class="eyebrow">Keep exploring</p>
+    <nav class="adjacent-posts" aria-label="More articles">
+      {{ with .PrevInSection }}<a href="{{ .RelPermalink }}"><span>← Previous article</span>{{ .Title }}</a>{{ end }}
+      {{ with .NextInSection }}<a href="{{ .RelPermalink }}"><span>Next article →</span>{{ .Title }}</a>{{ end }}
+    </nav>
+    <a class="archive-link" href="{{ .FirstSection.RelPermalink }}">Browse {{ .FirstSection.Title }} →</a>
+  </footer>
+</article>
+{{ end }}

@@ -1,0 +1,21 @@
+<header class="site-sidebar">
+  <div class="brand-row">
+    <a class="brand-link" href="{{ .Site.Home.RelPermalink }}" aria-label="4ym3n — home"><img src="{{ .Site.Params.brand_image }}" alt="" width="52" height="52"><span>4ym3n<span class="brand-caption">Aymen Drid</span></span></a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="site-menu" hidden>Menu <span aria-hidden="true">☰</span></button>
+  </div>
+  <div id="site-menu" class="site-menu">
+    <p class="sidebar-intro">CTF player. Reverse engineer.<br>Always figuring things out.</p>
+    <nav aria-label="Main navigation" class="primary-nav">
+      {{ $current := . }}
+      {{ range slice (dict "name" "All posts" "url" "/" "section" "home") (dict "name" "CTF writeups" "url" "/ctfs/" "section" "ctfs") (dict "name" "Research" "url" "/research/" "section" "research") (dict "name" "Reviews & notes" "url" "/reviews/" "section" "reviews") (dict "name" "Search" "url" "/search/" "section" "search") }}
+      {{ $active := or (and $current.IsHome (eq .section "home")) (eq $current.Section .section) (eq $current.Type .section) }}
+      <a href="{{ .url | relURL }}" {{ if $active }}aria-current="page"{{ end }}><span>{{ .name }}</span>{{ if eq .section "search" }}<span aria-hidden="true">⌕</span>{{ end }}</a>
+      {{ end }}
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="theme-toggle" type="button" aria-label="Switch to light theme"><span aria-hidden="true">◐</span> <span class="theme-label">Light theme</span></button>
+      <nav class="social-links" aria-label="Find me online"><a href="{{ .Site.Params.github_url }}">GitHub ↗</a><a href="{{ .Site.Params.linkedin_url }}">LinkedIn ↗</a><a href="{{ .Site.Params.email_url }}">Email ↗</a><a href="{{ .Site.Params.x_url }}">X ↗</a><a href="{{ .Site.Params.telegram_url }}">Telegram ↗</a><a href="{{ .Site.Params.discord_url }}">Discord ↗</a></nav>
+      <p class="sidebar-note">Reverse engineering · Active Directory · Security</p>
+    </div>
+  </div>
+</header>

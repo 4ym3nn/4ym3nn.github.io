@@ -1,0 +1,13 @@
+{{ define "main" }}
+<header class="page-header home-header">
+  <p class="eyebrow">4ym3n / field notes</p>
+  <h1>Security research<br>& field notes.</h1>
+  <p>Reverse engineering, Active Directory, and lessons from breaking things. Written as I learn.</p>
+  <a class="search-prompt" href="{{ "search/" | relURL }}"><span aria-hidden="true">⌕</span> Search writeups, topics, and commands <span aria-hidden="true">→</span></a>
+</header>
+{{ partial "section-tabs.html" . }}
+{{ $posts := where (where .Site.RegularPages "Type" "in" .Site.Params.front_page_content) "Title" "ne" "" }}
+<div class="listing-heading"><h2>Latest posts</h2><span>{{ len $posts }} articles</span></div>
+<div class="post-grid">{{ range (.Paginate $posts.ByDate.Reverse).Pages }}{{ partial "post-card.html" . }}{{ end }}</div>
+{{ partial "site-pagination.html" . }}
+{{ end }}

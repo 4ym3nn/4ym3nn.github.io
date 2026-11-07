@@ -1,0 +1,6 @@
+<article class="post-card">
+  <div class="card-meta"><a class="section-label" href="{{ .FirstSection.RelPermalink }}">{{ if eq .Section "ctfs" }}CTF writeup{{ else if eq .Section "reviews" }}Reviews & notes{{ else }}{{ .FirstSection.Title }}{{ end }}</a><span>{{ .ReadingTime }} min read</span></div>
+  <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+  <p class="card-excerpt">{{ partial "article-excerpt.html" . }}</p>
+  <div class="card-bottom"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time><a class="read-link" href="{{ .RelPermalink }}" aria-label="Read {{ .Title }}">Read article <span aria-hidden="true">↗</span></a></div>
+</article>

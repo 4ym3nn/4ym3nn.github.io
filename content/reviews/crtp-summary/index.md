@@ -2,6 +2,7 @@
 date = '2026-06-09T17:35:00+01:00'
 draft = false
 title = 'Certified Red Team Professional (CRTP) - Course Summary Notes'
+description = 'Study notes covering PowerShell, Active Directory enumeration, Kerberos, credential access, and the techniques covered in the CRTP course.'
 hideToc = false
 tags = ['Active Directory', 'Red Teaming', 'CRTP', 'Notes', 'Certification']
 +++

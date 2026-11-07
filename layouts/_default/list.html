@@ -1,0 +1,16 @@
+{{ define "main" }}
+<header class="page-header">
+  <p class="eyebrow">The archive</p>
+  <h1>{{ if eq .Section "reviews" }}Reviews & notes{{ else if eq .Section "ctfs" }}CTF writeups{{ else }}{{ .Title }}{{ end }}</h1>
+  <p>{{ if .Description }}{{ .Description }}{{ else if eq .Section "ctfs" }}Challenge writeups, reversing walkthroughs, and the reasoning behind each solve.{{ else if eq .Section "reviews" }}Certification experiences, practical cheatsheets, and study notes.{{ else }}Explore articles in {{ .Title }}.{{ end }}</p>
+</header>
+{{ if eq .Kind "taxonomy" }}
+<div class="topic-list">{{ range .Data.Terms.ByCount }}<a href="{{ .Page.RelPermalink }}">{{ .Page.Title }} <span>{{ .Count }}</span></a>{{ end }}</div>
+{{ else }}
+{{ partial "section-tabs.html" . }}
+{{ $posts := where .RegularPagesRecursive "Title" "ne" "" }}
+<div class="listing-heading"><h2>{{ if eq .Kind "term" }}Tagged articles{{ else }}All articles{{ end }}</h2><span>{{ len $posts }} articles</span></div>
+<div class="post-grid">{{ range (.Paginate $posts.ByDate.Reverse).Pages }}{{ partial "post-card.html" . }}{{ else }}<p>No articles here yet. <a href="{{ "/" | relURL }}">Browse all posts →</a></p>{{ end }}</div>
+{{ partial "site-pagination.html" . }}
+{{ end }}
+{{ end }}

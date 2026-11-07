@@ -1,0 +1,6 @@
+<nav class="section-tabs" aria-label="Browse by category">
+  {{ $page := . }}
+  {{ range slice (dict "name" "All posts" "url" "/" "key" "") (dict "name" "CTFs" "url" "/ctfs/" "key" "ctfs") (dict "name" "Research" "url" "/research/" "key" "research") (dict "name" "Reviews & notes" "url" "/reviews/" "key" "reviews") }}
+  <a href="{{ .url | relURL }}" {{ if or (and $page.IsHome (eq .key "")) (and (not $page.IsHome) (eq $page.Section .key)) }}aria-current="page"{{ end }}>{{ .name }}</a>
+  {{ end }}
+</nav>
