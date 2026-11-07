@@ -1,6 +1,7 @@
 +++
 date = '2026-10-10T12:00:00+01:00'
 draft = false
+aliases = ['/reviews/from-gmsa-to-dmsa-badsuccessor-bettersuccessor/']
 title = 'From gMSA to dMSA: Understanding BadSuccessor and BetterSuccessor'
 description = 'A technical deep dive into Active Directory managed service accounts, dMSA migration, Kerberos authentication, and the BadSuccessor and BetterSuccessor privilege escalation techniques.'
 hideToc = false
