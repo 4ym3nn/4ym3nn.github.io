@@ -1,21 +1,27 @@
 <header class="site-sidebar">
   <div class="brand-row">
-    <a class="brand-link" href="{{ .Site.Home.RelPermalink }}" aria-label="4ym3n — home"><img src="{{ .Site.Params.brand_image }}" alt="" width="52" height="52"><span>4ym3n<span class="brand-caption">Aymen Drid</span></span></a>
+    <a class="brand-link" href="{{ .Site.Home.RelPermalink }}" aria-label="4ym3n — home"><img src="{{ .Site.Params.brand_image }}" alt="" width="72" height="72"><span>4ym3n<span class="brand-caption">Aymen Drid</span></span></a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="site-menu" hidden>Menu <span aria-hidden="true">☰</span></button>
   </div>
   <div id="site-menu" class="site-menu">
-    <p class="sidebar-intro">CTF player. Reverse engineer.<br>Always figuring things out.</p>
+    <p class="sidebar-intro">CTFs, reverse engineering,<br> and Active Directory.</p>
+    {{ $posts := where (where .Site.RegularPages "Type" "in" .Site.Params.front_page_content) "Title" "ne" "" }}
+    <p class="sidebar-label">Explore</p>
     <nav aria-label="Main navigation" class="primary-nav">
       {{ $current := . }}
       {{ range slice (dict "name" "All posts" "url" "/" "section" "home") (dict "name" "CTF writeups" "url" "/ctfs/" "section" "ctfs") (dict "name" "Research" "url" "/research/" "section" "research") (dict "name" "Reviews & notes" "url" "/reviews/" "section" "reviews") (dict "name" "Search" "url" "/search/" "section" "search") }}
       {{ $active := or (and $current.IsHome (eq .section "home")) (eq $current.Section .section) (eq $current.Type .section) }}
-      <a href="{{ .url | relURL }}" {{ if $active }}aria-current="page"{{ end }}><span>{{ .name }}</span>{{ if eq .section "search" }}<span aria-hidden="true">⌕</span>{{ end }}</a>
+      {{ $count := len $posts }}{{ if ne .section "home" }}{{ $count = len (where $posts "Section" .section) }}{{ end }}
+      <a href="{{ .url | relURL }}" aria-label="{{ .name }}{{ if ne .section "search" }}, {{ $count }} articles{{ end }}" {{ if $active }}aria-current="page"{{ end }}><span>{{ .name }}</span>{{ if eq .section "search" }}<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>{{ else }}<span class="nav-count" aria-hidden="true">{{ $count }}</span>{{ end }}</a>
       {{ end }}
     </nav>
-    <div class="sidebar-bottom">
+    <section class="sidebar-recent" aria-labelledby="recent-writing-title">
+      <h2 id="recent-writing-title" class="sidebar-label">Recent writing</h2>
+      <ol>{{ range first 2 $posts.ByDate.Reverse }}<li><a href="{{ .RelPermalink }}" title="{{ .Title }}"><span class="recent-title">{{ .Title }}</span><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time></a></li>{{ end }}</ol>
+    </section>
+    <footer class="sidebar-bottom">
+      <nav class="social-links" aria-label="Find me online"><a href="{{ .Site.Params.github_url }}">GitHub</a><a href="{{ .Site.Params.linkedin_url }}">LinkedIn</a><a href="{{ .Site.Params.email_url }}">Email</a><a href="{{ .Site.Params.x_url }}">X</a><a href="{{ .Site.Params.telegram_url }}">Telegram</a><a href="{{ .Site.Params.discord_url }}">Discord</a></nav>
       <button class="theme-toggle" type="button" aria-label="Switch to light theme"><span aria-hidden="true">◐</span> <span class="theme-label">Light theme</span></button>
-      <nav class="social-links" aria-label="Find me online"><a href="{{ .Site.Params.github_url }}">GitHub ↗</a><a href="{{ .Site.Params.linkedin_url }}">LinkedIn ↗</a><a href="{{ .Site.Params.email_url }}">Email ↗</a><a href="{{ .Site.Params.x_url }}">X ↗</a><a href="{{ .Site.Params.telegram_url }}">Telegram ↗</a><a href="{{ .Site.Params.discord_url }}">Discord ↗</a></nav>
-      <p class="sidebar-note">Reverse engineering · Active Directory · Security</p>
-    </div>
+    </footer>
   </div>
 </header>
