@@ -38,14 +38,15 @@ button, .button-link { cursor: pointer; }
 button, input, select { border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: var(--surface); }
 button { padding: 9px 14px; min-height: 44px; }
 button:hover { background: var(--surface-hover); }
-:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+:is(a[href], button, input, select, textarea, summary, [tabindex="0"]):focus-visible { outline: 2px solid var(--muted); outline-offset: 3px; }
+main:focus { outline: none; }
 [hidden] { display: none !important; }
 h1, h2, h3, h4, h5, h6 { color: var(--heading); font-family: var(--title-font); line-height: 1.3; font-weight: 600; text-wrap: pretty; }
 h1, h2, h3, p { margin-top: 0; }
 img, video, iframe { max-width: 100%; }
 img { height: auto; }
 ::selection { background: var(--accent); color: var(--bg); }
-.skip-link { position: fixed; top: 8px; left: 12px; transform: translateY(-160%); z-index: 100; background: var(--accent); color: var(--bg); padding: 10px 18px; border-radius: 6px; }
+.skip-link { position: fixed; top: 8px; left: 12px; transform: translateY(-160%); z-index: 100; background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 6px; }
 .skip-link:focus { transform: none; }
 .site-sidebar { --surface: #202020; --surface-hover: #2b2b2b; --text: #fff; --muted: #a0a0a0; --line: #3d3d3d; --accent: #3699df; --accent-soft: #2b2b2b; position: fixed; inset: 0 auto 0 0; width: var(--sidebar-width); padding: 28px 24px; background: var(--surface); border-right: 1px solid var(--line); overflow-y: auto; }
 .brand-link { display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text); text-align: center; text-decoration: none; font-family: "Abril Fatface", serif; font-size: 32px; font-weight: 400; letter-spacing: -.6px; line-height: 1.2; }
