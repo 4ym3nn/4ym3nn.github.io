@@ -35,6 +35,34 @@ I lost a lot of time chasing dead ends or missing details during enumeration. Ev
 
 And a big thank you to @kanyo for pushing me to take it. Your motivation helped me make that decision, and I really appreciate it.
 
+## What I'd do differently if I started over
+
+### Get comfortable with enterprise networks
+
+For me, the exam felt pretty similar to the enterprise network skills assessment. Get your hands dirty there so you aren't still trying to understand how that kind of environment is structured during the exam. Getting used to working across multiple networks and figuring out how they connect makes it easier to see where to go next.
+
+I'd also focus heavily on the concepts taught in the course. Make sure you understand every skills assessment, rather than just knowing how to repeat the solution.
+
+### Quality over quantity
+
+I'd rather complete the CPTS path with my full attention and understand every step of an attack than solve 100 machines while only half understanding what I did.
+
+Solving more machines is good, of course. Just don't make getting the flag your only goal. Ask yourself: why does this work here? What would happen if X changed? If something failed and you don't know why, come back to it after finishing the machine and work it out.
+
+Work through the whole path, from footprinting to reporting and the final enterprise network assessment. Take notes as you go, and actually practise what you've learned. Reading about something without trying it yourself makes it much easier to forget.
+
+### Write as you go
+
+The reporting module is easy to underestimate. It teaches you to document your work as you go, rather than waiting until you've finished the exam to start writing everything up.
+
+I'd also make a habit of writing up every practice machine. Getting used to explaining what you did, and why, makes the exam report much easier to put together.
+
+### Find tools that work for you
+
+The `tmux`/`nvim` combo helped me a lot. `tmux` made it easier to split my terminal, log sessions, and move between windows. `nvim` made selecting, copying, and pasting text much more straightforward. Big thanks to [@hxuu](https://vhxuu.xyz/) for introducing me to both.
+
+Find whatever tools feel comfortable for you and get used to them before the exam. Imagine fighting your mouse just to copy a long Base64 string during CPTS. You already have enough problems to deal with; that doesn't need to be another one.
+
 ## The certificate
 
 I earned my HTB Certified Penetration Testing Specialist (CPTS) certification on November 10, 2026.
