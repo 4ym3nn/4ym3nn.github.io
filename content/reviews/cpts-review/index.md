@@ -63,6 +63,14 @@ The `tmux`/`nvim` combo helped me a lot. `tmux` made it easier to split my termi
 
 Find whatever tools feel comfortable for you and get used to them before the exam. Imagine fighting your mouse just to copy a long Base64 string during CPTS. You already have enough problems to deal with; that doesn't need to be another one.
 
+## Resources I used
+
+These are the resources I used alongside the course:
+
+- [NetSecFocus Trophy Room sheet](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview): my main reference for choosing practice machines.
+- [My HTB machine notes](https://github.com/4ym3nn/htb-machine-notes/blob/main/Main.md): a searchable index of machine notes, including user and root paths.
+- [My pentesting cheat sheets](https://github.com/4ym3nn/cheat-papers): references for enumeration, privilege escalation, Active Directory, and reporting.
+
 ## The certificate
 
 I earned my HTB Certified Penetration Testing Specialist (CPTS) certification on November 10, 2026.
