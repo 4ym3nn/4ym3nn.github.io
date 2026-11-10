@@ -13,7 +13,7 @@ I'm finally CPTS certified!
 
 I started preparing in March 2026, around the time of my first [CRTP attempt](/reviews/crtp-review/). I worked on the Active Directory section of the CPTS path, and after my CRTP exam I went back to the path, solving machines alongside it.
 
-I used the NetSecFocus Trophy Room sheet as my main preparation reference. This was how I kept track of the machines I was working through:
+I used the [NetSecFocus Trophy Room sheet](https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview) as my main preparation reference. This was how I kept track of the machines I was working through:
 
 ![My CPTS preparation tracker, based on the NetSecFocus Trophy Room sheet](preparation-tracker.png)
 
