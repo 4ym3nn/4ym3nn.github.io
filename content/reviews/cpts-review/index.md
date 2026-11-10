@@ -25,6 +25,8 @@ I started at 2 p.m. after getting enough sleep. I read the exam letter carefully
 
 I went through several dead ends because I rushed in without doing my full recon. After a few hours, I finally slowed down and remembered to do the same enumeration I normally do on any machine I solve.
 
+At one point, it hit me: I was still struggling with the first flag, which I expected to be the easiest. That made me focus more on enumerating carefully and documenting each attempt, including what worked and what didn't.
+
 Once I did that, flag 1 came pretty easily. Things went smoothly up to flag 5, but flag 6 kept me stuck for a whole day. That was 24 hours of thinking and enumerating before I finally found a lead. From there, the path to flag 9 was straightforward.
 
 Then I got stuck again. Flag 10 took another day, and the path forward had been right in front of me the whole time. I just hadn't seen it. Once I spotted it, getting to flag 11 was easy.
