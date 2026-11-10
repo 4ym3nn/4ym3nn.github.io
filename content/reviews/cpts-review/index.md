@@ -47,6 +47,8 @@ I'd also focus heavily on the concepts taught in the course. Make sure you under
 
 ### Quality over quantity
 
+The machines I solved beforehand were probably what helped me most during the exam. I'd recommend taking it after a good streak of solving machines, while you're still in that rhythm. You have a better idea of what you're doing, and the problems you run into feel like things you can debug. Even when a path turns out to be a dead end, it's easier to figure out why.
+
 I'd rather complete the CPTS path with my full attention and understand every step of an attack than solve 100 machines while only half understanding what I did.
 
 Solving more machines is good, of course. Just don't make getting the flag your only goal. Ask yourself: why does this work here? What would happen if X changed? If something failed and you don't know why, come back to it after finishing the machine and work it out.
